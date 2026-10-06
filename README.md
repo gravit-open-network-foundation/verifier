@@ -52,8 +52,9 @@ docstring for the full rationale):
 ## Layout
 
 ```
-bindings/            7 normative Canonical Verification Binding records (YAML)
-gravit_verifier/     Python package: loader, kernel, CLI
+bindings/            8 normative Canonical Verification Binding records (YAML)
+gravit_verifier/     Python package: loader, kernel, verifier registry + signatures, CLI
+docs/                design documents (signed evidence, root key custody)
 schemas/             JSON Schema for Binding records (draft 2020-12)
 tests/               unit + full-cycle integration tests (pytest)
 examples/            sample artifact.json inputs for the CLI
@@ -70,6 +71,7 @@ examples/            sample artifact.json inputs for the CLI
 | CANON-FRS-005   | constraint | Evidence must carry a Freshness Bound timestamp           |
 | CANON-PRV-006   | constraint | High-impact decisions need strong provenance (context-scoped) |
 | CANON-NSD-007   | constraint | No silent degradation (informative in this stateless kernel) |
+| CANON-SIG-011   | constraint | `Verified Fact` needs signed Records from independent registry operators |
 
 ## Install & test
 
@@ -82,9 +84,14 @@ pytest -v
 ## CLI
 
 ```bash
-gravit-verify examples/artifact_committed.json --bindings-dir bindings --pretty
+gravit-verify examples/artifact_signed.json --bindings-dir bindings --registry tests/golden/registry.json --pretty
 gravit-verify examples/artifact_weak_aggregation.json --bindings-dir bindings --pretty
 ```
+
+Without `--registry`, no artifact can reach `Verified Fact` (CANON-SIG-011);
+the result is capped at `Probabilistic Assessment`. `tests/golden/registry.json`
+contains **test keys only** (derived from public seeds in `tools/make_golden.py`)
+and must never be used outside tests.
 
 Exit code is `0` for `SUCCESS`/`DEGRADED`, `1` for `REJECTED`.
 
@@ -119,6 +126,12 @@ print(decision.final_epistemic_state, decision.status)
 - `CANON-FRS-005` only checks *presence* of a timestamp, not an actual
   Freshness Bound duration — a real duration needs a domain-specific
   policy value.
+
+## v0.4 additions
+
+- `CANON-SIG-011` + `gravit_verifier/registry.py` — Records carry `key_id` and an Ed25519 `signature`; only Records signed by registered, non-revoked keys count toward `Verified Fact`, and keys of one operator count as one source. Design: `docs/sybil-design.md`; registry key custody: `docs/root-key-custody.md`.
+- DecisionRecord gains `excluded_evidence` (record + reason) and `registry_digest`.
+- 33 golden vectors (10 new for signed evidence), reproduced by Python and Rust.
 
 ## v0.3 additions
 

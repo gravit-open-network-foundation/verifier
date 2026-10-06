@@ -1,0 +1,28 @@
+{
+  "artifact_id": "agent-knowledge-signed",
+  "claimed_state": "Verified Fact",
+  "evidence": [
+    {
+      "record_id": "r1",
+      "theta": 0.87,
+      "result": true,
+      "verifier_id": "v1",
+      "timestamp": "2026-09-06T12:00:00Z",
+      "provenance": "agent-A",
+      "integrity_hash": "6f1ed002ab5595859014ebf0951522d9",
+      "key_id": "cca2ba4e22252230",
+      "signature": "VTYBgGi6H10n+pSW8ucHyOK57SRdQJkWLQfmk/IK5GsxqeMvACk5A8tbCxNnkx+7wVD0LNFLOS4WkL/vVZvFDQ=="
+    },
+    {
+      "record_id": "r2",
+      "theta": 0.84,
+      "result": true,
+      "verifier_id": "v2",
+      "timestamp": "2026-09-06T12:00:00Z",
+      "provenance": "agent-B",
+      "integrity_hash": "a3c9e1f07b2d4458c6e9f1a2b3c4d5e6",
+      "key_id": "5360925ba455e21a",
+      "signature": "J6WjeVz4YtSFT9ETopEf/6KHqMS4hZN52ICviXz3LvocqPuh7Dkzd4GfhZtl30RffRL4dqDrjhd34Y3LRtdnBg=="
+    }
+  ]
+}

@@ -43,7 +43,7 @@ traceability:
     assert binding["kind"] == "state_gate"
 
 
-def test_all_bindings_load_and_are_seven():
+def test_all_bindings_load_and_are_eight():
     bindings = load_bindings_from_dir(BINDINGS_DIR)
     ids = {b["requirement_id"] for b in bindings}
     assert ids == {
@@ -54,6 +54,7 @@ def test_all_bindings_load_and_are_seven():
         "CANON-FRS-005",
         "CANON-PRV-006",
         "CANON-NSD-007",
+        "CANON-SIG-011",
     }
 
 
@@ -62,7 +63,8 @@ def test_state_gate_vs_constraint_split():
     gates = {b["requirement_id"] for b in bindings if b["kind"] == "state_gate"}
     constraints = {b["requirement_id"] for b in bindings if b["kind"] == "constraint"}
     assert gates == {"CANON-NAL-001", "CANON-VAL-002", "CANON-VER-003"}
-    assert constraints == {"CANON-IND-004", "CANON-FRS-005", "CANON-PRV-006", "CANON-NSD-007"}
+    assert constraints == {"CANON-IND-004", "CANON-FRS-005", "CANON-PRV-006", "CANON-NSD-007",
+                           "CANON-SIG-011"}
 
 
 @pytest.mark.skipif(jsonschema is None, reason="jsonschema not installed")

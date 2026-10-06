@@ -48,7 +48,9 @@ import json
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
+
+from .registry import VerifierRegistry, screen_evidence
 
 
 # ---------------------------------------------------------------------------
@@ -113,6 +115,8 @@ class EvidenceRecord:
     timestamp: str
     provenance: str
     integrity_hash: str  # expected: SHA3-256
+    key_id: str = ""     # registry key that signed this Record (CANON-SIG-011)
+    signature: str = ""  # base64 Ed25519 signature over registry.signing_message()
 
 
 @dataclass
@@ -138,6 +142,8 @@ class DecisionRecord:
     decision_id: str = field(
         default_factory=lambda: hashlib.sha3_256(str(time.time()).encode()).hexdigest()[:16]
     )
+    excluded_evidence: List[Dict[str, str]] = field(default_factory=list)  # CANON-SIG-011
+    registry_digest: Optional[str] = None  # SHA-256 of the verifier registry used, if any
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -154,6 +160,8 @@ class DecisionRecord:
             "reason": self.reason,
             "c_down": self.c_down,
             "c_up": self.c_up,
+            "excluded_evidence": self.excluded_evidence,
+            "registry_digest": self.registry_digest,
         }
 
     def to_json(self, indent: Optional[int] = 2) -> str:
@@ -223,19 +231,24 @@ class GEVPEvaluator:
 
         if len(independent) < 2:
             return {"ok": False, "metrics": {"independent_records": len(independent)}}
-
-        thetas = [e.theta for e in independent]
-        h = sum(1 for t in thetas if t >= 0.7) / len(thetas)
-        f = sum(1 for t in thetas if t < 0.5) / len(thetas)
-
-        ok = h > 0.7 and f < 0.3
+        ok, h, f = self.convergence(independent)
         return {
             "ok": ok,
             "metrics": {"h": h, "f": f, "independent_records": len(independent)},
         }
 
     @staticmethod
-    def independent_subset(evidence: List[EvidenceRecord]) -> List[EvidenceRecord]:
+    def convergence(representatives: List[EvidenceRecord]) -> Tuple[bool, float, float]:
+        """GEVP §10.3: (h > 0.7 and f < 0.3, h, f) over source representatives."""
+        thetas = [e.theta for e in representatives]
+        h = sum(1 for t in thetas if t >= 0.7) / len(thetas)
+        f = sum(1 for t in thetas if t < 0.5) / len(thetas)
+        return h > 0.7 and f < 0.3, h, f
+
+    @staticmethod
+    def independent_subset(
+        evidence: List[EvidenceRecord], identities: Optional[List[str]] = None
+    ) -> List[EvidenceRecord]:
         """One representative Record per independent source.
 
         CANON-IND-004 requires distinct verifier-id AND distinct provenance
@@ -244,7 +257,12 @@ class GEVPEvaluator:
         components). Each source is represented by its lowest-theta Record,
         so a source cannot outvote itself. The result does not depend on
         the order of `evidence`, except for the order of the returned list.
+
+        `identities` replaces verifier_id as the identity of each Record
+        (CANON-SIG-011 passes the registry operator).
         """
+        if identities is None:
+            identities = [e.verifier_id for e in evidence]
         parent = list(range(len(evidence)))
 
         def find(i: int) -> int:
@@ -255,7 +273,7 @@ class GEVPEvaluator:
 
         first_by_key: Dict[tuple, int] = {}
         for i, e in enumerate(evidence):
-            for key in (("verifier_id", e.verifier_id), ("provenance", e.provenance)):
+            for key in (("identity", identities[i]), ("provenance", e.provenance)):
                 j = first_by_key.setdefault(key, i)
                 parent[find(i)] = find(j)
 
@@ -305,6 +323,7 @@ class ConstraintEvaluator:
         request: VerificationRequest,
         achieved_state: Optional[EpistemicState],
         gate_gevp_metrics: Dict[str, Any],
+        screening: Optional[Tuple[List[Tuple[EvidenceRecord, str]], List[Dict[str, str]]]] = None,
     ) -> Dict[str, Any]:
         rid = binding["requirement_id"]
 
@@ -323,6 +342,9 @@ class ConstraintEvaluator:
             ok = all(e.integrity_hash and e.provenance for e in request.evidence)
             return {"ok": ok, "reason": "" if ok else "high-impact decision lacks strong provenance binding"}
 
+        if rid == "CANON-SIG-011":
+            return self._signed_evidence(achieved_state, screening)
+
         if rid == "CANON-NSD-007":
             # Meta-rule about re-verification over time; not evaluable
             # within a single stateless verify() call. Recorded as
@@ -330,6 +352,42 @@ class ConstraintEvaluator:
             return {"ok": True, "reason": "", "informative": True}
 
         return {"ok": True, "reason": ""}
+
+    @staticmethod
+    def _signed_evidence(
+        achieved_state: Optional[EpistemicState],
+        screening: Optional[Tuple[List[Tuple[EvidenceRecord, str]], List[Dict[str, str]]]],
+    ) -> Dict[str, Any]:
+        """CANON-SIG-011: Verified Fact must converge on signed Records from
+        independent operators. Caps (never steps) the state at Probabilistic
+        Assessment, so it does not stack with CANON-IND-004."""
+        if achieved_state != EpistemicState.VERIFIED_FACT:
+            return {"ok": True, "reason": ""}
+        cap = EpistemicState.PROBABILISTIC_ASSESSMENT
+        if screening is None:
+            return {
+                "ok": False,
+                "cap": cap,
+                "reason": "no verifier registry loaded; Verified Fact requires signed evidence",
+                "metrics": {"registry": False},
+            }
+        admissible, _excluded = screening
+        records = [e for e, _ in admissible]
+        sources = GEVPEvaluator.independent_subset(records, [op for _, op in admissible])
+        metrics: Dict[str, Any] = {
+            "registry": True,
+            "admissible_records": len(records),
+            "independent_sources": len(sources),
+        }
+        ok = False
+        if len(sources) >= 2:
+            ok, metrics["h"], metrics["f"] = GEVPEvaluator.convergence(sources)
+        return {
+            "ok": ok,
+            "cap": cap,
+            "reason": "" if ok else "signed evidence from independent operators does not converge",
+            "metrics": metrics,
+        }
 
 
 # ---------------------------------------------------------------------------
@@ -345,6 +403,8 @@ class DecisionComposer:
         gevp_results: Dict[str, Dict[str, Any]],
         classifications: Dict[str, Optional[EpistemicState]],
         constraint_results: Dict[str, Dict[str, Any]],
+        excluded_evidence: Optional[List[Dict[str, str]]] = None,
+        registry_digest: Optional[str] = None,
     ) -> DecisionRecord:
         ranked_gates = sorted(
             state_gates,
@@ -375,6 +435,13 @@ class DecisionComposer:
             if result.get("informative"):
                 continue
             if not result.get("ok", True) and achieved_state is not None:
+                cap = result.get("cap")
+                if cap is not None:
+                    if _EPISTEMIC_ORDER[achieved_state] > _EPISTEMIC_ORDER[cap]:
+                        demoted = True
+                        reasons.append(f"{rid}: {result.get('reason', 'constraint failed')}")
+                        achieved_state = cap
+                    continue
                 demoted = True
                 reasons.append(f"{rid}: {result.get('reason', 'constraint failed')}")
                 order = _EPISTEMIC_ORDER[achieved_state]
@@ -415,6 +482,8 @@ class DecisionComposer:
             reason="; ".join(reasons) if reasons else "All applicable Bindings satisfied",
             c_down=c_down,
             c_up=c_up,
+            excluded_evidence=excluded_evidence or [],
+            registry_digest=registry_digest,
         )
 
     @staticmethod
@@ -448,7 +517,8 @@ class DecisionComposer:
 # ---------------------------------------------------------------------------
 
 class VerifierKernel:
-    def __init__(self) -> None:
+    def __init__(self, verifier_registry: Optional[VerifierRegistry] = None) -> None:
+        self.verifier_registry = verifier_registry
         self.registry = BindingRegistry()
         self.resolver = ObligationResolver(self.registry)
         self.gevp = GEVPEvaluator()
@@ -459,8 +529,14 @@ class VerifierKernel:
     def load_binding(self, binding: Dict[str, Any]) -> None:
         self.registry.load(binding)
 
+    def load_verifier_registry(self, registry: VerifierRegistry) -> None:
+        self.verifier_registry = registry
+
     def verify(self, request: VerificationRequest) -> DecisionRecord:
         bindings = self.resolver.resolve(request)
+        screening = None
+        if self.verifier_registry is not None:
+            screening = screen_evidence(self.verifier_registry, request.artifact_id, request.evidence)
         state_gates = [b for b in bindings if b.get("kind", "state_gate") == BindingKind.STATE_GATE.value]
         constraints = [b for b in bindings if b.get("kind") == BindingKind.CONSTRAINT.value]
 
@@ -489,10 +565,12 @@ class VerifierKernel:
         constraint_results: Dict[str, Dict[str, Any]] = {}
         for c in constraints:
             rid = c["requirement_id"]
-            result = self.constraints_eval.evaluate(c, request, tentative, gevp_results)
+            result = self.constraints_eval.evaluate(c, request, tentative, gevp_results, screening)
             constraint_results[rid] = result
-            gevp_results[rid] = {"metrics": {"constraint_ok": result.get("ok")}}
+            gevp_results[rid] = {"metrics": {"constraint_ok": result.get("ok"), **result.get("metrics", {})}}
 
         return self.composer.compose(
-            state_gates, constraints, request, gevp_results, classifications, constraint_results
+            state_gates, constraints, request, gevp_results, classifications, constraint_results,
+            excluded_evidence=screening[1] if screening else [],
+            registry_digest=self.verifier_registry.digest if self.verifier_registry else None,
         )

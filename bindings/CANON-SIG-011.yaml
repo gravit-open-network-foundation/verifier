@@ -1,0 +1,48 @@
+requirement_id: "CANON-SIG-011"
+title: "Evidence must be signed by a registered key"
+version: "1.0"
+status: "normative"
+kind: "constraint"
+
+canonical_reference:
+  - "Gravit Canon v1.1"
+  - "VEDS-00 §4.6.2"
+  - "docs/sybil-design.md"
+
+policy_obligation:
+  description: >
+    A Verified Fact must converge on Records that are signed by keys listed
+    in the verifier registry, not revoked, and whose signatures verify.
+    Records of keys with the same operator, or with the same provenance
+    root, count as one source. Records that fail these checks are not
+    counted and are listed with a reason; they never reject the artifact.
+    Without a registry, the state is capped at Probabilistic Assessment.
+  allowed_epistemic_states: []
+  additional_constraints:
+    - "Registry required for Verified Fact"
+    - "Independence counted per registry operator"
+
+verification_condition:
+  required_verification_state: "COMMITTED"
+  required_evidence:
+    - "Ed25519 signature by a registered, non-revoked key"
+    - "artifact_id bound into the signed message"
+  other_conditions:
+    - "At least 2 independent operators after exclusion"
+
+decision_outcome:
+  success: "no independent effect beyond confirming CANON-NAL-001"
+  failure_states:
+    - "DEGRADED"
+
+traceability:
+  must_link_to_evidence: true
+  must_link_to_canon: true
+  audit_level: "full"
+
+notes: >
+  Caps the state at Probabilistic Assessment instead of stepping it down,
+  so a Record set that already failed CANON-IND-004 is not demoted twice.
+  Protects against self-declared identities; does not protect against
+  collusion of registered operators or a dishonest registry (see
+  docs/sybil-design.md §7). IDs 008-010 are reserved by other drafts.

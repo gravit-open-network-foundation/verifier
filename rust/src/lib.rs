@@ -1,12 +1,15 @@
 //! Rust port of `gravit_verifier/kernel.py` (Python is the reference).
 //!
 //! STATUS: `cargo test` reproduces all vectors in
-//! `../tests/golden/vectors.json` (23/23 checked 2026-10-06, rustc 1.99.0); it
+//! `../tests/golden/vectors.json` (33/33 checked 2026-10-06, rustc 1.99.0); it
 //! conforms only while that keeps passing. Known intentional divergence: an unknown
 //! `required_verification_state` sorts last here (Python raises ValueError).
 
+use base64::{engine::general_purpose::STANDARD as B64, Engine as _};
+use ed25519_dalek::{Signature, Verifier, VerifyingKey};
 use serde_json::{json, Map, Value};
-use std::collections::HashMap;
+use sha2::{Digest, Sha256};
+use std::collections::{HashMap, HashSet};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Epistemic {
@@ -63,10 +66,15 @@ impl Epistemic {
 pub struct Evidence {
     pub record_id: String,
     pub theta: f64,
+    /// false if `theta` was not a JSON number (Python: MalformedRecord).
+    pub theta_is_number: bool,
+    pub result: Value,
     pub verifier_id: String,
     pub timestamp: String,
     pub provenance: String,
     pub integrity_hash: String,
+    pub key_id: String,
+    pub signature: String,
 }
 
 impl Evidence {
@@ -75,10 +83,14 @@ impl Evidence {
         Evidence {
             record_id: s("record_id"),
             theta: v["theta"].as_f64().unwrap_or(0.0),
+            theta_is_number: v["theta"].is_number(),
+            result: v["result"].clone(),
             verifier_id: s("verifier_id"),
             timestamp: s("timestamp"),
             provenance: s("provenance"),
             integrity_hash: s("integrity_hash"),
+            key_id: s("key_id"),
+            signature: s("signature"),
         }
     }
 }
@@ -101,11 +113,156 @@ fn rid(b: &Value) -> String {
     b["requirement_id"].as_str().unwrap_or("").to_string()
 }
 
+// ---------------------------------------------------------------------------
+// Verifier registry and signed evidence (CANON-SIG-011); mirrors registry.py
+// ---------------------------------------------------------------------------
+
+struct RegisteredKey {
+    public_key: [u8; 32],
+    operator: String,
+    revoked: bool,
+}
+
+pub struct Registry {
+    keys: HashMap<String, RegisteredKey>,
+    /// SHA-256 hex of the registry file bytes.
+    pub digest: String,
+}
+
+fn sha256_hex(data: &[u8]) -> String {
+    Sha256::digest(data).iter().map(|b| format!("{:02x}", b)).collect()
+}
+
+/// Standard base64 with padding; None unless `s` is its canonical encoding.
+fn b64decode_strict(s: &str) -> Option<Vec<u8>> {
+    let raw = B64.decode(s).ok()?;
+    if B64.encode(&raw) == s { Some(raw) } else { None }
+}
+
+impl Registry {
+    pub fn from_bytes(data: &[u8]) -> Result<Registry, String> {
+        let doc: Value = serde_json::from_slice(data).map_err(|e| format!("registry is not valid JSON: {}", e))?;
+        if doc["registry_version"].as_i64() != Some(1) {
+            return Err("registry_version must be 1".into());
+        }
+        let entries = doc["verifiers"].as_array().ok_or("'verifiers' must be a list")?;
+        let mut keys = HashMap::new();
+        let mut seen_public: HashSet<[u8; 32]> = HashSet::new();
+        for (i, v) in entries.iter().enumerate() {
+            let pk: [u8; 32] = v["public_key"]
+                .as_str()
+                .and_then(b64decode_strict)
+                .and_then(|raw| raw.try_into().ok())
+                .ok_or(format!("verifiers[{}].public_key must be base64 of 32 bytes", i))?;
+            let kid = sha256_hex(&pk)[..16].to_string();
+            if v["key_id"].as_str() != Some(kid.as_str()) {
+                return Err(format!("verifiers[{}].key_id does not match its public_key", i));
+            }
+            let operator = v["operator"].as_str().filter(|s| !s.is_empty())
+                .ok_or(format!("verifiers[{}].operator must be a non-empty string", i))?;
+            let revoked = match &v["revoked"] {
+                Value::Null => false,
+                Value::Bool(b) => *b,
+                _ => return Err(format!("verifiers[{}].revoked must be true or false", i)),
+            };
+            if keys.contains_key(&kid) || !seen_public.insert(pk) {
+                return Err(format!("verifiers[{}] duplicates an earlier key", i));
+            }
+            keys.insert(kid, RegisteredKey { public_key: pk, operator: operator.to_string(), revoked });
+        }
+        Ok(Registry { keys, digest: sha256_hex(data) })
+    }
+}
+
+/// The exact bytes a verifier signs; None if the Record is malformed.
+pub fn signing_message(artifact_id: &str, e: &Evidence) -> Option<Vec<u8>> {
+    let text = [artifact_id, &e.record_id, &e.timestamp, &e.provenance, &e.integrity_hash];
+    if text.iter().any(|s| s.contains('\n') || s.contains('\r')) {
+        return None;
+    }
+    if !e.theta_is_number || !e.theta.is_finite() {
+        return None;
+    }
+    let theta = format!("{:.6}", e.theta);
+    if theta.parse::<f64>().ok()? != e.theta {
+        return None;
+    }
+    let result = match &e.result {
+        Value::Bool(true) => "true",
+        Value::Bool(false) => "false",
+        Value::Null => "null",
+        _ => return None,
+    };
+    let lines = [
+        "gravit-evidence-v1", artifact_id, &e.record_id, &theta, result,
+        &e.timestamp, &e.provenance, &e.integrity_hash,
+    ];
+    Some(lines.join("\n").into_bytes())
+}
+
+fn exclusion_reason(registry: &Registry, artifact_id: &str, e: &Evidence) -> Option<&'static str> {
+    if e.key_id.is_empty() || e.signature.is_empty() {
+        return Some("unsigned");
+    }
+    let key = match registry.keys.get(&e.key_id) {
+        None => return Some("unknown_key"),
+        Some(k) => k,
+    };
+    if key.revoked {
+        return Some("revoked_key");
+    }
+    let message = match signing_message(artifact_id, e) {
+        None => return Some("malformed"),
+        Some(m) => m,
+    };
+    let sig: [u8; 64] = match b64decode_strict(&e.signature).and_then(|raw| raw.try_into().ok()) {
+        None => return Some("bad_signature"),
+        Some(s) => s,
+    };
+    // Like Python, a key that is not a valid curve point loads fine but
+    // never verifies.
+    let ok = VerifyingKey::from_bytes(&key.public_key)
+        .map(|vk| vk.verify(&message, &Signature::from_bytes(&sig)).is_ok())
+        .unwrap_or(false);
+    if ok { None } else { Some("bad_signature") }
+}
+
+struct Screening<'a> {
+    admissible: Vec<(&'a Evidence, &'a str)>,
+    excluded: Vec<Value>,
+}
+
+fn screen<'a>(registry: &'a Registry, artifact_id: &str, evidence: &'a [Evidence]) -> Screening<'a> {
+    let mut s = Screening { admissible: Vec::new(), excluded: Vec::new() };
+    for e in evidence {
+        match exclusion_reason(registry, artifact_id, e) {
+            None => s.admissible.push((e, registry.keys[&e.key_id].operator.as_str())),
+            Some(reason) => s.excluded.push(json!({ "record_id": e.record_id, "reason": reason })),
+        }
+    }
+    s
+}
+
+/// GEVP §10.3 over source representatives: (h > 0.7 && f < 0.3, h, f).
+fn convergence(reps: &[&Evidence]) -> (bool, f64, f64) {
+    let n = reps.len() as f64;
+    let h = reps.iter().filter(|e| e.theta >= 0.7).count() as f64 / n;
+    let f = reps.iter().filter(|e| e.theta < 0.5).count() as f64 / n;
+    (h > 0.7 && f < 0.3, h, f)
+}
+
+fn independent_by_verifier(evidence: &[Evidence]) -> Vec<&Evidence> {
+    let refs: Vec<&Evidence> = evidence.iter().collect();
+    let ids: Vec<&str> = evidence.iter().map(|e| e.verifier_id.as_str()).collect();
+    independent_subset(&refs, &ids)
+}
+
 /// One representative Record per independent source (CANON-IND-004).
-/// Records sharing a verifier_id or a provenance, directly or through a chain,
-/// form one source; each source is represented by its lowest-theta Record.
+/// Records sharing an identity (verifier_id, or the registry operator for
+/// CANON-SIG-011) or a provenance, directly or through a chain, form one
+/// source; each source is represented by its lowest-theta Record.
 /// Mirrors `GEVPEvaluator.independent_subset` in kernel.py.
-fn independent_subset(evidence: &[Evidence]) -> Vec<&Evidence> {
+fn independent_subset<'a>(evidence: &[&'a Evidence], identities: &[&str]) -> Vec<&'a Evidence> {
     fn find(parent: &mut [usize], mut i: usize) -> usize {
         while parent[i] != i {
             parent[i] = parent[parent[i]];
@@ -116,7 +273,7 @@ fn independent_subset(evidence: &[Evidence]) -> Vec<&Evidence> {
     let mut parent: Vec<usize> = (0..evidence.len()).collect();
     let mut first_by_key: HashMap<(&str, &str), usize> = HashMap::new();
     for (i, e) in evidence.iter().enumerate() {
-        for key in [("verifier_id", e.verifier_id.as_str()), ("provenance", e.provenance.as_str())] {
+        for key in [("identity", identities[i]), ("provenance", e.provenance.as_str())] {
             let j = *first_by_key.entry(key).or_insert(i);
             let (ri, rj) = (find(&mut parent, i), find(&mut parent, j));
             parent[ri] = rj;
@@ -134,7 +291,7 @@ fn independent_subset(evidence: &[Evidence]) -> Vec<&Evidence> {
     }
     let mut idx: Vec<usize> = rep.into_values().collect();
     idx.sort_unstable();
-    idx.into_iter().map(|i| &evidence[i]).collect()
+    idx.into_iter().map(|i| evidence[i]).collect()
 }
 
 /// GEVP evaluator: returns (ok, metrics).
@@ -144,14 +301,11 @@ fn gevp_evaluate(binding: &Value, evidence: &[Evidence]) -> (bool, Value) {
         .unwrap_or("");
     match required {
         "COMMITTED" => {
-            let ind = independent_subset(evidence);
+            let ind = independent_by_verifier(evidence);
             if ind.len() < 2 {
                 return (false, json!({ "independent_records": ind.len() }));
             }
-            let n = ind.len() as f64;
-            let h = ind.iter().filter(|e| e.theta >= 0.7).count() as f64 / n;
-            let f = ind.iter().filter(|e| e.theta < 0.5).count() as f64 / n;
-            let ok = h > 0.7 && f < 0.3;
+            let (ok, h, f) = convergence(&ind);
             (ok, json!({ "h": h, "f": f, "independent_records": ind.len() }))
         }
         "VERIFIED" | "VALIDATED" => (
@@ -187,6 +341,58 @@ struct ConstraintResult {
     ok: bool,
     reason: String,
     informative: bool,
+    /// Cap the state here instead of stepping one rung down (CANON-SIG-011).
+    cap: Option<Epistemic>,
+    metrics: Map<String, Value>,
+}
+
+impl ConstraintResult {
+    fn check(ok: bool, reason: &str) -> ConstraintResult {
+        ConstraintResult {
+            ok,
+            reason: if ok { String::new() } else { reason.into() },
+            informative: false,
+            cap: None,
+            metrics: Map::new(),
+        }
+    }
+}
+
+/// CANON-SIG-011; mirrors ConstraintEvaluator._signed_evidence.
+fn signed_evidence(tentative: Option<Epistemic>, screening: Option<&Screening>) -> ConstraintResult {
+    if tentative != Some(Epistemic::Fact) {
+        return ConstraintResult::check(true, "");
+    }
+    let mut metrics = Map::new();
+    let s = match screening {
+        None => {
+            metrics.insert("registry".into(), json!(false));
+            return ConstraintResult {
+                cap: Some(Epistemic::Probabilistic),
+                metrics,
+                ..ConstraintResult::check(false, "no verifier registry loaded; Verified Fact requires signed evidence")
+            };
+        }
+        Some(s) => s,
+    };
+    let records: Vec<&Evidence> = s.admissible.iter().map(|(e, _)| *e).collect();
+    let operators: Vec<&str> = s.admissible.iter().map(|(_, op)| *op).collect();
+    let sources = independent_subset(&records, &operators);
+    metrics.insert("registry".into(), json!(true));
+    metrics.insert("admissible_records".into(), json!(records.len()));
+    metrics.insert("independent_sources".into(), json!(sources.len()));
+    let mut ok = false;
+    if sources.len() >= 2 {
+        let (conv, h, f) = convergence(&sources);
+        ok = conv;
+        metrics.insert("h".into(), json!(h));
+        metrics.insert("f".into(), json!(f));
+    }
+    ConstraintResult {
+        cap: Some(Epistemic::Probabilistic),
+        metrics,
+        ..ConstraintResult::check(ok, "signed evidence from independent operators does not converge")
+    }
 }
 
 fn constraint_evaluate(
@@ -194,28 +400,17 @@ fn constraint_evaluate(
     evidence: &[Evidence],
     high_impact: bool,
     tentative: Option<Epistemic>,
+    screening: Option<&Screening>,
 ) -> ConstraintResult {
-    let pass = ConstraintResult { ok: true, reason: String::new(), informative: false };
+    let pass = ConstraintResult::check(true, "");
     match id {
         "CANON-IND-004" => {
-            let ok = if tentative == Some(Epistemic::Fact) {
-                independent_subset(evidence).len() >= 2
-            } else {
-                true
-            };
-            ConstraintResult {
-                ok,
-                reason: if ok { String::new() } else { "records not independently produced".into() },
-                informative: false,
-            }
+            let ok = tentative != Some(Epistemic::Fact) || independent_by_verifier(evidence).len() >= 2;
+            ConstraintResult::check(ok, "records not independently produced")
         }
         "CANON-FRS-005" => {
             let ok = evidence.iter().all(|e| !e.timestamp.is_empty());
-            ConstraintResult {
-                ok,
-                reason: if ok { String::new() } else { "evidence missing Freshness Bound timestamp".into() },
-                informative: false,
-            }
+            ConstraintResult::check(ok, "evidence missing Freshness Bound timestamp")
         }
         "CANON-PRV-006" => {
             if !high_impact {
@@ -224,13 +419,10 @@ fn constraint_evaluate(
             let ok = evidence
                 .iter()
                 .all(|e| !e.integrity_hash.is_empty() && !e.provenance.is_empty());
-            ConstraintResult {
-                ok,
-                reason: if ok { String::new() } else { "high-impact decision lacks strong provenance binding".into() },
-                informative: false,
-            }
+            ConstraintResult::check(ok, "high-impact decision lacks strong provenance binding")
         }
-        "CANON-NSD-007" => ConstraintResult { ok: true, reason: String::new(), informative: true },
+        "CANON-SIG-011" => signed_evidence(tentative, screening),
+        "CANON-NSD-007" => ConstraintResult { informative: true, ..pass },
         _ => pass,
     }
 }
@@ -239,10 +431,13 @@ fn constraint_evaluate(
 /// Returns the DecisionRecord as JSON WITHOUT `decision_id` (non-deterministic in Python).
 pub fn verify(
     bindings: &[Value],
+    artifact_id: &str,
     claimed: Option<Epistemic>,
     evidence: &[Evidence],
     high_impact: bool,
+    registry: Option<&Registry>,
 ) -> Value {
+    let screening = registry.map(|r| screen(r, artifact_id, evidence));
     let normative: Vec<&Value> = bindings
         .iter()
         .filter(|b| b["status"].as_str() == Some("normative"))
@@ -281,8 +476,10 @@ pub fn verify(
     let mut constraint_results: Vec<(String, ConstraintResult)> = Vec::new();
     for c in &constraints {
         let id = rid(c);
-        let r = constraint_evaluate(&id, evidence, high_impact, tentative);
-        gevp_metrics.push((id.clone(), json!({ "constraint_ok": r.ok })));
+        let r = constraint_evaluate(&id, evidence, high_impact, tentative, screening.as_ref());
+        let mut m = r.metrics.clone();
+        m.insert("constraint_ok".into(), json!(r.ok));
+        gevp_metrics.push((id.clone(), Value::Object(m)));
         constraint_results.push((id, r));
     }
 
@@ -296,6 +493,14 @@ pub fn verify(
             continue;
         }
         if !r.ok && achieved.is_some() {
+            if let Some(cap) = r.cap {
+                if achieved.map_or(false, |a| a.order() > cap.order()) {
+                    demoted = true;
+                    reasons.push(format!("{}: {}", id, r.reason));
+                    achieved = Some(cap);
+                }
+                continue;
+            }
             demoted = true;
             reasons.push(format!("{}: {}", id, r.reason));
             achieved = achieved.and_then(|s| s.demoted());
@@ -373,5 +578,7 @@ pub fn verify(
         "reason": reason,
         "c_down": achieved.is_some() && status != "REJECTED",
         "c_up": winning.is_some(),
+        "excluded_evidence": screening.map(|s| s.excluded).unwrap_or_default(),
+        "registry_digest": registry.map(|r| r.digest.clone()),
     })
 }

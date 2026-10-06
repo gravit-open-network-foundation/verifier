@@ -3,7 +3,8 @@
 gravit-verify — CLI for Canonical Verification Binding evaluation.
 
 Usage:
-    gravit-verify artifact.json [--bindings-dir ./bindings] [--output decision.json] [--pretty]
+    gravit-verify artifact.json [--bindings-dir ./bindings] [--registry verifiers.json]
+                  [--output decision.json] [--pretty]
 """
 
 from __future__ import annotations
@@ -14,6 +15,7 @@ import sys
 from pathlib import Path
 
 from .loader import load_bindings_from_dir
+from .registry import RegistryError, VerifierRegistry
 from .kernel import (
     VerifierKernel,
     VerificationRequest,
@@ -35,6 +37,8 @@ def load_artifact(path: Path) -> VerificationRequest:
             timestamp=e["timestamp"],
             provenance=e["provenance"],
             integrity_hash=e["integrity_hash"],
+            key_id=e.get("key_id", ""),
+            signature=e.get("signature", ""),
         )
         for e in data.get("evidence", [])
     ]
@@ -54,6 +58,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Gravit Canonical Verifier")
     parser.add_argument("artifact", type=Path, help="Path to artifact.json")
     parser.add_argument("--bindings-dir", type=Path, default=Path("bindings"))
+    parser.add_argument("--registry", type=Path,
+                        help="Verifier registry JSON; required for Verified Fact (CANON-SIG-011)")
     parser.add_argument("--output", "-o", type=Path, help="Write DecisionRecord to file")
     parser.add_argument("--pretty", action="store_true", help="Pretty-print JSON")
     args = parser.parse_args()
@@ -67,6 +73,12 @@ def main() -> None:
         sys.exit(2)
 
     kernel = VerifierKernel()
+    if args.registry:
+        try:
+            kernel.load_verifier_registry(VerifierRegistry.from_file(args.registry))
+        except (OSError, RegistryError) as e:
+            print(f"Error: cannot use verifier registry {args.registry}: {e}", file=sys.stderr)
+            sys.exit(2)
     for binding in load_bindings_from_dir(args.bindings_dir):
         kernel.load_binding(binding)
 

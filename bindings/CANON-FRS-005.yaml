@@ -1,0 +1,38 @@
+requirement_id: "CANON-FRS-005"
+title: "Freshness Bound must be satisfied for any elevated state"
+version: "1.0"
+status: "normative"
+kind: "constraint"
+
+canonical_reference:
+  - "VEDS-00 §4.2"
+  - "GEVP-07 §9.3"
+
+policy_obligation:
+  description: >
+    Any epistemic state above RAW requires each supporting Evidence Record
+    to carry a timestamp within the applicable Freshness Bound. This
+    Binding only demotes an already-achieved state when evidence is stale
+    or missing a timestamp; it never grants a state on its own.
+  allowed_epistemic_states: []
+
+verification_condition:
+  required_verification_state: "VALIDATED"
+  required_evidence:
+    - "timestamp within Freshness Bound"
+
+decision_outcome:
+  success: "no independent effect; caps state achieved by a state_gate"
+  failure_states:
+    - "REJECTED"
+    - "DEGRADED"
+
+traceability:
+  must_link_to_evidence: true
+  must_link_to_canon: true
+  audit_level: "full"
+
+notes: >
+  Reference implementation checks only for timestamp presence; a
+  production Verifier Kernel should compare against a domain-specific
+  Freshness Bound duration.

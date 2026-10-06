@@ -1,0 +1,19 @@
+[project]
+name = "gravit-verifier"
+version = "0.3.1"
+description = "Gravit Canonical Verification Binding + Verifier Kernel (reference implementation)"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+dependencies = [
+    "pyyaml>=6.0",
+]
+
+[project.scripts]
+gravit-verify = "gravit_verifier.cli:main"
+
+[build-system]
+requires = ["setuptools>=77.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["gravit_verifier*"]

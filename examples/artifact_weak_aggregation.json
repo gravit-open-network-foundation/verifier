@@ -1,0 +1,9 @@
+{
+  "artifact_id": "agent-knowledge-weak",
+  "claimed_state": "Verified Fact",
+  "evidence": [
+    { "record_id": "r1", "theta": 0.61, "result": true, "verifier_id": "v-01", "timestamp": "2026-09-06T12:00:00Z", "provenance": "agent-A", "integrity_hash": "h1" },
+    { "record_id": "r2", "theta": 0.58, "result": true, "verifier_id": "v-02", "timestamp": "2026-09-06T12:00:30Z", "provenance": "agent-B", "integrity_hash": "h2" },
+    { "record_id": "r3", "theta": 0.55, "result": true, "verifier_id": "v-03", "timestamp": "2026-09-06T12:01:00Z", "provenance": "agent-C", "integrity_hash": "h3" }
+  ]
+}

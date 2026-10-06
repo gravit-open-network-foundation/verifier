@@ -1,0 +1,38 @@
+requirement_id: "CANON-PRV-006"
+title: "High-impact decisions require strong provenance"
+version: "1.0"
+status: "normative"
+kind: "constraint"
+
+canonical_reference:
+  - "VEDS-00 §4.3"
+  - "GEVP-07 §8.2"
+
+policy_obligation:
+  description: >
+    For high-impact decisions (safety, critical infrastructure), provenance
+    must be cryptographically bound and resolvable. Applies only when
+    VerificationRequest.context["high_impact"] is true; otherwise this
+    Binding is a no-op. It can only demote an already-achieved state.
+  allowed_epistemic_states: []
+
+verification_condition:
+  required_verification_state: "VERIFIED"
+  required_evidence:
+    - "cryptographic provenance binding"
+    - "resolvable origin"
+
+decision_outcome:
+  success: "no independent effect; caps state achieved by a state_gate"
+  failure_states:
+    - "REJECTED"
+    - "DEGRADED"
+
+traceability:
+  must_link_to_evidence: true
+  must_link_to_canon: true
+  audit_level: "full"
+
+notes: >
+  Applicability is context-scoped (context.high_impact), not universal —
+  ordinary low-impact artifacts are not held to this stricter bar.

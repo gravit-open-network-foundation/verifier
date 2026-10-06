@@ -1,0 +1,38 @@
+requirement_id: "CANON-NSD-007"
+title: "Silent degradation of epistemic state is forbidden"
+version: "1.0"
+status: "normative"
+kind: "constraint"
+
+canonical_reference:
+  - "Gravit Canon v1.1"
+  - "VEDS-00 §5.1"
+
+policy_obligation:
+  description: >
+    If evidence no longer satisfies the conditions of a previously assigned
+    epistemic state, the system must explicitly transition the artifact to
+    DEGRADED or REJECTED rather than silently retaining the old state. This
+    is a process invariant about re-verification over time, not a
+    single-request check.
+  allowed_epistemic_states: []
+
+verification_condition:
+  required_verification_state: "VALIDATED"
+
+decision_outcome:
+  success: "DEGRADED or REJECTED when conditions later fail"
+  failure_states:
+    - "PENDING"
+
+traceability:
+  must_link_to_evidence: true
+  must_link_to_canon: true
+  audit_level: "full"
+
+notes: >
+  This reference Verifier Kernel is stateless per call and therefore
+  reports this Binding as informative only (see ConstraintEvaluator). A
+  stateful deployment must track prior DecisionRecords per artifact_id and
+  actively re-run verify() on a schedule or on evidence expiry, emitting an
+  explicit DEGRADED/REJECTED transition rather than doing nothing.

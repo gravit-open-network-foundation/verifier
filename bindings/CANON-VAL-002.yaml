@@ -1,0 +1,57 @@
+requirement_id: "CANON-VAL-002"
+title: "VALIDATED Artifact may be classified at most as Speculative Claim"
+version: "1.0"
+status: "normative"
+kind: "state_gate"
+
+canonical_reference:
+  - "Gravit Canon v1.1"
+  - "VEDS-00 §4.1.1"
+  - "VEDS-00 §4.2"
+  - "GEVP-07 §10.1"
+
+policy_obligation:
+  description: >
+    An artifact that has only passed admissibility checks (provenance,
+    integrity, freshness, interpretability) but has not received independent
+    confirmation of accuracy may be classified no higher than
+    Speculative Claim.
+  allowed_epistemic_states:
+    - "Speculative Claim"
+  forbidden_epistemic_states:
+    - "Probabilistic Assessment"
+    - "Verified Fact"
+  additional_constraints:
+    - "Admissibility is not Truth"
+    - "No elevation from VALIDATED without additional independent Records"
+
+verification_condition:
+  required_verification_state: "VALIDATED"
+  transition_from: "RAW"
+  required_evidence:
+    - "Provenance resolves to identifiable origin"
+    - "SHA3-256 integrity check"
+    - "Freshness Bound satisfied"
+    - "Schema / interpretability check"
+  other_conditions:
+    - "Forbidden transition: VALIDATED -> VERIFIED or COMMITTED without additional Records"
+
+decision_outcome:
+  success: "Speculative Claim"
+  failure_states:
+    - "REJECTED"
+    - "PENDING"
+  decision_record_fields:
+    - "requirement_id"
+    - "final_epistemic_state"
+    - "admissibility_checks"
+    - "evidence_ids"
+    - "canon_trace"
+
+traceability:
+  must_link_to_evidence: true
+  must_link_to_canon: true
+  audit_level: "full"
+
+notes: >
+  Admissibility is not Truth. Critical barrier against epistemic elevation.

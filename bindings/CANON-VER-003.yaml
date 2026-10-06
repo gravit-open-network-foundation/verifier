@@ -1,0 +1,53 @@
+requirement_id: "CANON-VER-003"
+title: "Single Record yields at most Probabilistic Assessment"
+version: "1.0"
+status: "normative"
+kind: "state_gate"
+
+canonical_reference:
+  - "Gravit Canon v1.1"
+  - "VEDS-00 §4.1.1"
+  - "GEVP-07 §10.2"
+
+policy_obligation:
+  description: >
+    A single Record, even with high theta, can justify at most a
+    Probabilistic Assessment. A Verified Fact from a single Record
+    is forbidden.
+  allowed_epistemic_states:
+    - "Probabilistic Assessment"
+  forbidden_epistemic_states:
+    - "Verified Fact"
+  additional_constraints:
+    - "Single Record does not imply Verified Fact"
+
+verification_condition:
+  required_verification_state: "VERIFIED"
+  required_evidence:
+    - "theta"
+    - "result"
+    - "verifier-id"
+    - "timestamp"
+  other_conditions:
+    - "recommended_theta >= 0.73 for high-impact decisions"
+
+decision_outcome:
+  success: "Probabilistic Assessment"
+  failure_states:
+    - "REJECTED"
+    - "DEGRADED"
+    - "PENDING"
+  decision_record_fields:
+    - "requirement_id"
+    - "final_epistemic_state"
+    - "theta"
+    - "evidence_ids"
+    - "canon_trace"
+
+traceability:
+  must_link_to_evidence: true
+  must_link_to_canon: true
+  audit_level: "full"
+
+notes: >
+  A single Record is never sufficient for Verified Fact.

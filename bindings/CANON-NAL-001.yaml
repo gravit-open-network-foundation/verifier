@@ -1,0 +1,66 @@
+requirement_id: "CANON-NAL-001"
+title: "No Aggregation Laundering — Verified Fact only via COMMITTED Convergence"
+version: "1.0"
+status: "normative"
+kind: "state_gate"
+
+canonical_reference:
+  - "Gravit Canon v1.1"
+  - "VEDS-00 §4.1.2 (No Aggregation Laundering)"
+  - "GEVP-07 §10.3"
+  - "GEVP-07 §10.4"
+
+policy_obligation:
+  description: >
+    Aggregation of any number of RAW, VALIDATED, or Speculative Claim items
+    does not by itself produce a Verified Fact. Elevation to Verified Fact
+    is permitted only when independent verification evidence satisfies the
+    COMMITTED conditions.
+  allowed_epistemic_states:
+    - "Verified Fact"
+  forbidden_epistemic_states:
+    - "Speculative Claim"
+    - "Probabilistic Assessment"
+    - "VALIDATED"
+    - "RAW"
+  additional_constraints:
+    - "No Aggregation Laundering"
+    - "Aggregate(V1...Vn) does not imply VerifiedFact without independent Convergence"
+
+verification_condition:
+  required_verification_state: "COMMITTED"
+  required_evidence:
+    - "multiple independent Records"
+    - "each Record contains theta and result"
+    - "cryptographic integrity"
+    - "provenance binding"
+  convergence_condition:
+    h: "> 0.7"
+    f: "< 0.3"
+    independent_records: ">= 2 (per VEDS §4.6.2 criteria)"
+  other_conditions:
+    - "Independence of Records must be verifiable"
+
+decision_outcome:
+  success: "Verified Fact"
+  failure_states:
+    - "REJECTED"
+    - "DEGRADED"
+    - "PENDING"
+  decision_record_fields:
+    - "requirement_id"
+    - "final_epistemic_state"
+    - "convergence_metrics"
+    - "evidence_ids"
+    - "canon_trace"
+
+traceability:
+  must_link_to_evidence: true
+  must_link_to_canon: true
+  audit_level: "full"
+
+notes: >
+  Direct implementation of the invariant Aggregate(V1...Vn) does not imply
+  VerifiedFact absent independent verification evidence satisfying COMMITTED.
+  Critical barrier against epistemic elevation in decentralized multi-agent
+  environments.

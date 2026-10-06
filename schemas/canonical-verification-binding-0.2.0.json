@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gravit.example.org/schemas/canonical-verification-binding-0.2.0.json",
+  "title": "Canonical Verification Binding Record",
+  "type": "object",
+  "required": [
+    "requirement_id", "title", "version", "status", "kind",
+    "canonical_reference", "policy_obligation",
+    "verification_condition", "decision_outcome", "traceability"
+  ],
+  "properties": {
+    "requirement_id": {
+      "type": "string",
+      "pattern": "^CANON-[A-Z]{2,6}-\\d{3}$"
+    },
+    "title": { "type": "string", "minLength": 10 },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+(\\.\\d+)?$" },
+    "status": {
+      "type": "string",
+      "enum": ["normative", "informative", "experimental"]
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["state_gate", "constraint", "informative"],
+      "description": "state_gate: licenses one epistemic state on the RAW<VALIDATED<VERIFIED<COMMITTED ladder. constraint: can only demote a state already granted by a state_gate. informative: recorded for audit, never affects the decision."
+    },
+    "canonical_reference": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "policy_obligation": {
+      "type": "object",
+      "required": ["description", "allowed_epistemic_states"],
+      "properties": {
+        "description": { "type": "string" },
+        "allowed_epistemic_states": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["RAW", "VALIDATED", "Speculative Claim", "Probabilistic Assessment", "Verified Fact"]
+          }
+        },
+        "forbidden_epistemic_states": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "additional_constraints": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "verification_condition": {
+      "type": "object",
+      "required": ["required_verification_state"],
+      "properties": {
+        "required_verification_state": {
+          "type": "string",
+          "enum": ["RAW", "VALIDATED", "VERIFIED", "COMMITTED"]
+        },
+        "transition_from": { "type": "string" },
+        "required_evidence": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "convergence_condition": {
+          "type": "object",
+          "properties": {
+            "h": {},
+            "f": {},
+            "independent_records": {}
+          },
+          "additionalProperties": false
+        },
+        "other_conditions": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "decision_outcome": {
+      "type": "object",
+      "required": ["success", "failure_states"],
+      "properties": {
+        "success": { "type": "string" },
+        "failure_states": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["REJECTED", "DEGRADED", "PENDING"]
+          }
+        },
+        "decision_record_fields": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "traceability": {
+      "type": "object",
+      "required": ["must_link_to_evidence", "must_link_to_canon", "audit_level"],
+      "properties": {
+        "must_link_to_evidence": { "type": "boolean" },
+        "must_link_to_canon": { "type": "boolean" },
+        "audit_level": {
+          "type": "string",
+          "enum": ["full", "standard", "minimal"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "notes": { "type": "string" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,24 @@
+{
+  "artifact_id": "agent-knowledge-42",
+  "claimed_state": "Verified Fact",
+  "evidence": [
+    {
+      "record_id": "r1",
+      "theta": 0.87,
+      "result": true,
+      "verifier_id": "v-01",
+      "timestamp": "2026-09-06T12:00:00Z",
+      "provenance": "agent-A",
+      "integrity_hash": "6f1ed002ab5595859014ebf0951522d9"
+    },
+    {
+      "record_id": "r2",
+      "theta": 0.84,
+      "result": true,
+      "verifier_id": "v-02",
+      "timestamp": "2026-09-06T12:00:30Z",
+      "provenance": "agent-B",
+      "integrity_hash": "def456a1b2c3"
+    }
+  ]
+}

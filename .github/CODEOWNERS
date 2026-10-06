@@ -1,0 +1,5 @@
+# Every change needs review from a maintainer other than its author
+# (registry/POLICY.md §2). Enforced once branch protection requires
+# code-owner review on main.
+*           @gravit-open-network-foundation/maintainers
+/registry/  @gravit-open-network-foundation/maintainers

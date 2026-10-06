@@ -1,6 +1,6 @@
 [package]
 name = "gravit-verifier-rs"
-version = "0.4.0"
+version = "0.5.0"
 edition = "2021"
 description = "Rust port of the Gravit verifier kernel. Must reproduce every Python golden vector (tests/golden) — enforced by `cargo test`."
 license = "Apache-2.0"
@@ -10,3 +10,4 @@ serde_json = "1"
 ed25519-dalek = "2"
 sha2 = "0.10"
 base64 = "0.22"
+sha3 = "0.10"

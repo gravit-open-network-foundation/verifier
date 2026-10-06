@@ -91,8 +91,14 @@ announced in the release notes.
 
 ## 8. Open points for the Foundation
 
-1. Confirm 3-of-5, or choose another threshold.
-2. Name the five holders.
-3. Choose the hardware (must support Ed25519 signing without exporting the
+Decided on 2026-10-06: threshold **3 of 5**; the five holders are named in
+`registry/ROOT_KEYS.md`.
+
+Still open:
+
+1. Confirm that the holders satisfy §3 (organisations, jurisdictions,
+   separation from registry maintainers).
+2. Choose the hardware (must support Ed25519 signing without exporting the
    key).
-4. Decide where encrypted backups are stored.
+3. Decide where encrypted backups are stored.
+4. Schedule the key generation ceremony (§4).

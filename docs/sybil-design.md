@@ -197,7 +197,7 @@ Whether to sign the registry itself — yes, in two steps:
 - **0.4.0:** no registry signature. Every DecisionRecord carries
   `registry_digest`, so it is always provable which registry a decision
   used, and the git history shows who approved that registry.
-- **0.5.0:** the registry gets detached Ed25519 signatures
+- **0.5.0 (implemented, test root keys only):** the registry gets detached Ed25519 signatures
   (`registry/verifiers.json.sig`) from Foundation **root keys** kept
   offline — 3 of 5 holders, see `root-key-custody.md`. The kernel accepts a
   registry only if enough signatures verify against root public keys pinned

@@ -45,7 +45,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import time
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
@@ -139,15 +138,27 @@ class DecisionRecord:
     reason: str
     c_down: bool
     c_up: bool
-    decision_id: str = field(
-        default_factory=lambda: hashlib.sha3_256(str(time.time()).encode()).hexdigest()[:16]
-    )
+    artifact_id: str = ""
+    # Content address: first 16 hex chars of SHA3-256 over canonical_json()
+    # of every other field. Same inputs -> same id, on any machine.
+    decision_id: str = ""
     excluded_evidence: List[Dict[str, str]] = field(default_factory=list)  # CANON-SIG-011
     registry_digest: Optional[str] = None  # SHA-256 of the verifier registry used, if any
+    trust_root_digest: Optional[str] = None  # SHA-256 of the trust root that accepted it
+
+    def __post_init__(self) -> None:
+        if not self.decision_id:
+            self.decision_id = self.content_id()
+
+    def content_id(self) -> str:
+        body = self.to_dict()
+        body.pop("decision_id")
+        return hashlib.sha3_256(canonical_json(body).encode("utf-8")).hexdigest()[:16]
 
     def to_dict(self) -> Dict[str, Any]:
         return {
             "decision_id": self.decision_id,
+            "artifact_id": self.artifact_id,
             "requirement_ids": self.requirement_ids,
             "final_epistemic_state": (
                 self.final_epistemic_state.value if self.final_epistemic_state else None
@@ -162,10 +173,69 @@ class DecisionRecord:
             "c_up": self.c_up,
             "excluded_evidence": self.excluded_evidence,
             "registry_digest": self.registry_digest,
+            "trust_root_digest": self.trust_root_digest,
         }
 
     def to_json(self, indent: Optional[int] = 2) -> str:
         return json.dumps(self.to_dict(), indent=indent, ensure_ascii=False)
+
+
+def canonical_json(value: Any) -> str:
+    """Sorted keys, no whitespace, UTF-8 kept as is. The Rust port produces
+    the same bytes (serde_json, sorted map); see CONFORMANCE.md for limits."""
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+
+
+# ---------------------------------------------------------------------------
+# Freshness Bound (CANON-FRS-005)
+# ---------------------------------------------------------------------------
+
+def parse_utc_timestamp(ts: Any) -> Optional[int]:
+    """Seconds since 1970-01-01 for exactly 'YYYY-MM-DDTHH:MM:SSZ', else None.
+    Deliberately strict and hand-rolled so the Rust port matches exactly."""
+    if not isinstance(ts, str) or len(ts) != 20:
+        return None
+    if (ts[4], ts[7], ts[10], ts[13], ts[16], ts[19]) != ("-", "-", "T", ":", ":", "Z"):
+        return None
+    digits = ts[0:4] + ts[5:7] + ts[8:10] + ts[11:13] + ts[14:16] + ts[17:19]
+    if any(c not in "0123456789" for c in digits):
+        return None
+    y, mo, d = int(ts[0:4]), int(ts[5:7]), int(ts[8:10])
+    h, mi, s = int(ts[11:13]), int(ts[14:16]), int(ts[17:19])
+    leap = y % 4 == 0 and (y % 100 != 0 or y % 400 == 0)
+    month_days = [31, 29 if leap else 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    if not (1 <= mo <= 12 and 1 <= d <= month_days[mo - 1] and h <= 23 and mi <= 59 and s <= 59):
+        return None
+    # days_from_civil (H. Hinnant); y >= 0 here, so // and Rust's / agree.
+    yy = y - 1 if mo <= 2 else y
+    era = (yy if yy >= 0 else yy - 399) // 400
+    yoe = yy - era * 400
+    doy = (153 * (mo - 3 if mo > 2 else mo + 9) + 2) // 5 + d - 1
+    doe = yoe * 365 + yoe // 4 - yoe // 100 + doy
+    days = era * 146097 + doe - 719468
+    return days * 86400 + h * 3600 + mi * 60 + s
+
+
+def freshness_check(evidence: List["EvidenceRecord"], context: Dict[str, Any]) -> Dict[str, Any]:
+    """Without a policy in `context`, only presence of a timestamp is checked.
+    With `evaluation_time` and/or `freshness_max_age_seconds`, both must be
+    valid and every Record must satisfy 0 <= evaluation_time - timestamp <= max."""
+    if "evaluation_time" not in context and "freshness_max_age_seconds" not in context:
+        ok = all(bool(e.timestamp) for e in evidence)
+        return {"ok": ok, "reason": "" if ok else "evidence missing Freshness Bound timestamp"}
+    now = parse_utc_timestamp(context.get("evaluation_time"))
+    max_age = context.get("freshness_max_age_seconds")
+    if now is None or isinstance(max_age, bool) or not isinstance(max_age, int) or max_age < 0:
+        return {"ok": False, "reason": "invalid Freshness Bound policy in context"}
+    for e in evidence:
+        t = parse_utc_timestamp(e.timestamp)
+        if t is None:
+            return {"ok": False, "reason": "evidence timestamp missing or not YYYY-MM-DDTHH:MM:SSZ"}
+        if t > now:
+            return {"ok": False, "reason": "evidence timestamp after evaluation_time"}
+        if now - t > max_age:
+            return {"ok": False, "reason": "evidence older than Freshness Bound"}
+    return {"ok": True, "reason": ""}
 
 
 # ---------------------------------------------------------------------------
@@ -333,8 +403,7 @@ class ConstraintEvaluator:
             return {"ok": ok, "reason": "" if ok else "records not independently produced"}
 
         if rid == "CANON-FRS-005":
-            ok = all(bool(e.timestamp) for e in request.evidence)
-            return {"ok": ok, "reason": "" if ok else "evidence missing Freshness Bound timestamp"}
+            return freshness_check(request.evidence, request.context)
 
         if rid == "CANON-PRV-006":
             if not request.context.get("high_impact"):
@@ -405,6 +474,7 @@ class DecisionComposer:
         constraint_results: Dict[str, Dict[str, Any]],
         excluded_evidence: Optional[List[Dict[str, str]]] = None,
         registry_digest: Optional[str] = None,
+        trust_root_digest: Optional[str] = None,
     ) -> DecisionRecord:
         ranked_gates = sorted(
             state_gates,
@@ -472,6 +542,7 @@ class DecisionComposer:
         metrics = {rid: gevp_results[rid].get("metrics", {}) for rid in gevp_results}
 
         return DecisionRecord(
+            artifact_id=request.artifact_id,
             requirement_ids=[b["requirement_id"] for b in all_bindings],
             final_epistemic_state=achieved_state,
             status=status,
@@ -484,6 +555,7 @@ class DecisionComposer:
             c_up=c_up,
             excluded_evidence=excluded_evidence or [],
             registry_digest=registry_digest,
+            trust_root_digest=trust_root_digest,
         )
 
     @staticmethod
@@ -573,4 +645,5 @@ class VerifierKernel:
             state_gates, constraints, request, gevp_results, classifications, constraint_results,
             excluded_evidence=screening[1] if screening else [],
             registry_digest=self.verifier_registry.digest if self.verifier_registry else None,
+            trust_root_digest=self.verifier_registry.trust_root_digest if self.verifier_registry else None,
         )

@@ -84,16 +84,24 @@ pytest -v
 ## CLI
 
 ```bash
-gravit-verify examples/artifact_signed.json --bindings-dir bindings --registry tests/golden/registry.json --pretty
+gravit-verify examples/artifact_signed.json --bindings-dir bindings \
+    --registry tests/golden/registry.json --trust-root tests/golden/trust_root.json --pretty
 gravit-verify examples/artifact_weak_aggregation.json --bindings-dir bindings --pretty
 ```
 
 Without `--registry`, no artifact can reach `Verified Fact` (CANON-SIG-011);
-the result is capped at `Probabilistic Assessment`. `tests/golden/registry.json`
-contains **test keys only** (derived from public seeds in `tools/make_golden.py`)
-and must never be used outside tests.
+the result is capped at `Probabilistic Assessment`. The registry is only
+loaded if enough root keys from `--trust-root` signed it (`<registry>.sig`,
+3 of 5 for the test files). `tests/golden/registry.json`, its `.sig` and
+`tests/golden/trust_root.json` contain **test keys only** (derived from
+public seeds in `tools/make_golden.py`) and must never be used outside tests.
 
-Exit code is `0` for `SUCCESS`/`DEGRADED`, `1` for `REJECTED`.
+Exit code: `0` = `SUCCESS`, `3` = `DEGRADED` (claim downgraded), `1` = `REJECTED`, `2` = usage or input error.
+
+Freshness (CANON-FRS-005): put `"evaluation_time": "YYYY-MM-DDTHH:MM:SSZ"` and
+`"freshness_max_age_seconds": N` in the artifact's `context` to require every
+timestamp to be at most N seconds old at that time. Without them only a
+non-empty timestamp is required.
 
 ## Library usage
 
@@ -123,9 +131,17 @@ print(decision.final_epistemic_state, decision.status)
   stateless per call and only records it as informative. A production
   deployment needs a scheduler that re-runs `verify()` per `artifact_id`
   and emits an explicit transition when evidence expires.
-- `CANON-FRS-005` only checks *presence* of a timestamp, not an actual
-  Freshness Bound duration — a real duration needs a domain-specific
-  policy value.
+- `CANON-FRS-005` checks a real Freshness Bound only when the caller puts
+  `evaluation_time` and `freshness_max_age_seconds` in the context; the
+  right maximum age is domain-specific, so there is no built-in default.
+
+## v0.5 additions
+
+- The verifier registry must be signed by at least `threshold` root keys of a pinned trust root (`TrustRoot`, `--trust-root`); the trust root itself must require more than half of its keys. Procedure: `docs/root-key-custody.md`; holders: `registry/ROOT_KEYS.md`.
+- DecisionRecord gains `trust_root_digest` and `artifact_id`; `decision_id` is now a content hash (same inputs → same id), not time-based.
+- Freshness Bound policy for CANON-FRS-005 via `context.evaluation_time` + `context.freshness_max_age_seconds`.
+- CLI exit code `3` for `DEGRADED` (was `0`).
+- 40 golden vectors (7 new for freshness).
 
 ## v0.4 additions
 

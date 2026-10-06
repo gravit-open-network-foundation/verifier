@@ -1,6 +1,6 @@
 [project]
 name = "gravit-verifier"
-version = "0.4.0"
+version = "0.5.0"
 description = "Gravit Canonical Verification Binding + Verifier Kernel (reference implementation)"
 requires-python = ">=3.10"
 license = "Apache-2.0"

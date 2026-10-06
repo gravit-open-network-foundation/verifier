@@ -1,7 +1,7 @@
 //! Rust port of `gravit_verifier/kernel.py` (Python is the reference).
 //!
 //! STATUS: `cargo test` reproduces all vectors in
-//! `../tests/golden/vectors.json` (33/33 checked 2026-10-06, rustc 1.99.0); it
+//! `../tests/golden/vectors.json` (40/40 checked 2026-10-06, rustc 1.99.0, v0.5.0); it
 //! conforms only while that keeps passing. Known intentional divergence: an unknown
 //! `required_verification_state` sorts last here (Python raises ValueError).
 
@@ -9,6 +9,7 @@ use base64::{engine::general_purpose::STANDARD as B64, Engine as _};
 use ed25519_dalek::{Signature, Verifier, VerifyingKey};
 use serde_json::{json, Map, Value};
 use sha2::{Digest, Sha256};
+use sha3::Sha3_256;
 use std::collections::{HashMap, HashSet};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -127,6 +128,118 @@ pub struct Registry {
     keys: HashMap<String, RegisteredKey>,
     /// SHA-256 hex of the registry file bytes.
     pub digest: String,
+    /// SHA-256 hex of the trust root that accepted this registry.
+    pub trust_root_digest: String,
+    /// Root key_ids whose signatures verified, sorted.
+    pub signers: Vec<String>,
+}
+
+/// Pinned root public keys and how many must sign a registry; mirrors
+/// `TrustRoot` in registry.py.
+pub struct TrustRoot {
+    keys: HashMap<String, [u8; 32]>,
+    threshold: usize,
+    pub digest: String,
+}
+
+/// Validated `[{key_id, public_key, ...}]`: canonical base64 of 32 bytes,
+/// key_id derived from the key, no duplicates. Mirrors `_public_key_entries`.
+fn public_key_entries<'a>(entries: &'a Value, what: &str) -> Result<Vec<(String, [u8; 32], &'a Value)>, String> {
+    let list = entries.as_array().ok_or(format!("'{}' must be a list", what))?;
+    let mut out = Vec::new();
+    let mut seen_ids: HashSet<String> = HashSet::new();
+    let mut seen_public: HashSet<[u8; 32]> = HashSet::new();
+    for (i, v) in list.iter().enumerate() {
+        if !v.is_object() {
+            return Err(format!("{}[{}] must be an object", what, i));
+        }
+        let pk: [u8; 32] = v["public_key"]
+            .as_str()
+            .and_then(b64decode_strict)
+            .and_then(|raw| raw.try_into().ok())
+            .ok_or(format!("{}[{}].public_key must be base64 of 32 bytes", what, i))?;
+        let kid = sha256_hex(&pk)[..16].to_string();
+        if v["key_id"].as_str() != Some(kid.as_str()) {
+            return Err(format!("{}[{}].key_id does not match its public_key", what, i));
+        }
+        if !seen_ids.insert(kid.clone()) || !seen_public.insert(pk) {
+            return Err(format!("{}[{}] duplicates an earlier key", what, i));
+        }
+        out.push((kid, pk, v));
+    }
+    Ok(out)
+}
+
+/// Like Python, a key that is not a valid curve point never verifies.
+fn verify_ed25519(public_key: &[u8; 32], signature: &[u8; 64], message: &[u8]) -> bool {
+    VerifyingKey::from_bytes(public_key)
+        .map(|vk| vk.verify(message, &Signature::from_bytes(signature)).is_ok())
+        .unwrap_or(false)
+}
+
+fn parse_json(data: &[u8], what: &str) -> Result<Value, String> {
+    serde_json::from_slice(data).map_err(|e| format!("{} is not valid JSON: {}", what, e))
+}
+
+impl TrustRoot {
+    pub fn from_bytes(data: &[u8]) -> Result<TrustRoot, String> {
+        let doc = parse_json(data, "trust root")?;
+        if !doc.is_object() || doc["trust_root_version"].as_u64() != Some(1) {
+            return Err("trust_root_version must be 1".into());
+        }
+        let entries = public_key_entries(&doc["root_keys"], "root_keys")?;
+        let threshold = doc["threshold"].as_u64().filter(|t| *t >= 1)
+            .ok_or("threshold must be a positive integer")? as usize;
+        if threshold > entries.len() {
+            return Err("threshold is larger than the number of root keys".into());
+        }
+        if 2 * threshold <= entries.len() {
+            return Err("threshold must be more than half of the root keys".into());
+        }
+        let keys = entries.into_iter().map(|(kid, pk, _)| (kid, pk)).collect();
+        Ok(TrustRoot { keys, threshold, digest: sha256_hex(data) })
+    }
+}
+
+/// What a root key holder signs: a domain tag plus the exact file bytes.
+pub fn registry_signing_message(registry_bytes: &[u8]) -> Vec<u8> {
+    let mut m = b"gravit-registry-v1\n".to_vec();
+    m.extend_from_slice(registry_bytes);
+    m
+}
+
+/// Mirrors `verify_registry_signatures` in registry.py.
+pub fn verify_registry_signatures(data: &[u8], signatures: &str, root: &TrustRoot) -> Result<Vec<String>, String> {
+    let message = registry_signing_message(data);
+    let mut signers: HashSet<String> = HashSet::new();
+    for (n, raw) in signatures.split('\n').enumerate() {
+        let line = raw.trim_matches(|c| c == ' ' || c == '\t' || c == '\r');
+        if line.is_empty() || line.starts_with('#') {
+            continue;
+        }
+        let parts: Vec<&str> = line.split(' ').collect();
+        if parts.len() != 2 || parts[0].is_empty() || parts[1].is_empty() {
+            return Err(format!("signature line {} must be '<key_id> <signature>'", n + 1));
+        }
+        let sig: [u8; 64] = b64decode_strict(parts[1])
+            .and_then(|raw| raw.try_into().ok())
+            .ok_or(format!("signature line {} is not base64 of 64 bytes", n + 1))?;
+        if let Some(pk) = root.keys.get(parts[0]) {
+            if verify_ed25519(pk, &sig, &message) {
+                signers.insert(parts[0].to_string());
+            }
+        }
+    }
+    if signers.len() < root.threshold {
+        return Err(format!(
+            "registry has {} valid root signature(s), {} required",
+            signers.len(),
+            root.threshold
+        ));
+    }
+    let mut out: Vec<String> = signers.into_iter().collect();
+    out.sort();
+    Ok(out)
 }
 
 fn sha256_hex(data: &[u8]) -> String {
@@ -140,37 +253,25 @@ fn b64decode_strict(s: &str) -> Option<Vec<u8>> {
 }
 
 impl Registry {
-    pub fn from_bytes(data: &[u8]) -> Result<Registry, String> {
-        let doc: Value = serde_json::from_slice(data).map_err(|e| format!("registry is not valid JSON: {}", e))?;
-        if doc["registry_version"].as_i64() != Some(1) {
+    /// Accept the registry only if enough root keys signed these exact bytes.
+    pub fn from_bytes(data: &[u8], signatures: &str, root: &TrustRoot) -> Result<Registry, String> {
+        let signers = verify_registry_signatures(data, signatures, root)?;
+        let doc = parse_json(data, "registry")?;
+        if !doc.is_object() || doc["registry_version"].as_u64() != Some(1) {
             return Err("registry_version must be 1".into());
         }
-        let entries = doc["verifiers"].as_array().ok_or("'verifiers' must be a list")?;
         let mut keys = HashMap::new();
-        let mut seen_public: HashSet<[u8; 32]> = HashSet::new();
-        for (i, v) in entries.iter().enumerate() {
-            let pk: [u8; 32] = v["public_key"]
-                .as_str()
-                .and_then(b64decode_strict)
-                .and_then(|raw| raw.try_into().ok())
-                .ok_or(format!("verifiers[{}].public_key must be base64 of 32 bytes", i))?;
-            let kid = sha256_hex(&pk)[..16].to_string();
-            if v["key_id"].as_str() != Some(kid.as_str()) {
-                return Err(format!("verifiers[{}].key_id does not match its public_key", i));
-            }
+        for (i, (kid, pk, v)) in public_key_entries(&doc["verifiers"], "verifiers")?.into_iter().enumerate() {
             let operator = v["operator"].as_str().filter(|s| !s.is_empty())
                 .ok_or(format!("verifiers[{}].operator must be a non-empty string", i))?;
-            let revoked = match &v["revoked"] {
-                Value::Null => false,
-                Value::Bool(b) => *b,
-                _ => return Err(format!("verifiers[{}].revoked must be true or false", i)),
+            let revoked = match v.get("revoked") {
+                None => false,
+                Some(Value::Bool(b)) => *b,
+                Some(_) => return Err(format!("verifiers[{}].revoked must be true or false", i)),
             };
-            if keys.contains_key(&kid) || !seen_public.insert(pk) {
-                return Err(format!("verifiers[{}] duplicates an earlier key", i));
-            }
             keys.insert(kid, RegisteredKey { public_key: pk, operator: operator.to_string(), revoked });
         }
-        Ok(Registry { keys, digest: sha256_hex(data) })
+        Ok(Registry { keys, digest: sha256_hex(data), trust_root_digest: root.digest.clone(), signers })
     }
 }
 
@@ -219,12 +320,7 @@ fn exclusion_reason(registry: &Registry, artifact_id: &str, e: &Evidence) -> Opt
         None => return Some("bad_signature"),
         Some(s) => s,
     };
-    // Like Python, a key that is not a valid curve point loads fine but
-    // never verifies.
-    let ok = VerifyingKey::from_bytes(&key.public_key)
-        .map(|vk| vk.verify(&message, &Signature::from_bytes(&sig)).is_ok())
-        .unwrap_or(false);
-    if ok { None } else { Some("bad_signature") }
+    if verify_ed25519(&key.public_key, &sig, &message) { None } else { Some("bad_signature") }
 }
 
 struct Screening<'a> {
@@ -395,10 +491,61 @@ fn signed_evidence(tentative: Option<Epistemic>, screening: Option<&Screening>) 
     }
 }
 
+/// Seconds since 1970-01-01 for exactly 'YYYY-MM-DDTHH:MM:SSZ', else None.
+/// Mirrors `parse_utc_timestamp` in kernel.py.
+pub fn parse_utc_timestamp(ts: &str) -> Option<i64> {
+    let b = ts.as_bytes();
+    if b.len() != 20 || [b[4], b[7], b[10], b[13], b[16], b[19]] != *b"--T::Z" {
+        return None;
+    }
+    let num = |r: std::ops::Range<usize>| -> Option<i64> {
+        b[r.clone()].iter().all(u8::is_ascii_digit).then(|| ts[r].parse().ok())?
+    };
+    let (y, mo, d) = (num(0..4)?, num(5..7)?, num(8..10)?);
+    let (h, mi, s) = (num(11..13)?, num(14..16)?, num(17..19)?);
+    let leap = y % 4 == 0 && (y % 100 != 0 || y % 400 == 0);
+    let month_days = [31, if leap { 29 } else { 28 }, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    if !(1..=12).contains(&mo) || d < 1 || d > month_days[(mo - 1) as usize] || h > 23 || mi > 59 || s > 59 {
+        return None;
+    }
+    // days_from_civil (H. Hinnant); y >= 0, so integer division matches Python's //.
+    let yy = if mo <= 2 { y - 1 } else { y };
+    let era = if yy >= 0 { yy } else { yy - 399 } / 400;
+    let yoe = yy - era * 400;
+    let doy = (153 * (if mo > 2 { mo - 3 } else { mo + 9 }) + 2) / 5 + d - 1;
+    let doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
+    Some((era * 146097 + doe - 719468) * 86400 + h * 3600 + mi * 60 + s)
+}
+
+/// CANON-FRS-005; mirrors `freshness_check` in kernel.py.
+fn freshness_check(evidence: &[Evidence], context: &Value) -> ConstraintResult {
+    let has = |k: &str| context.get(k).is_some();
+    if !has("evaluation_time") && !has("freshness_max_age_seconds") {
+        let ok = evidence.iter().all(|e| !e.timestamp.is_empty());
+        return ConstraintResult::check(ok, "evidence missing Freshness Bound timestamp");
+    }
+    let now = context["evaluation_time"].as_str().and_then(parse_utc_timestamp);
+    let max_age = context["freshness_max_age_seconds"].as_u64();
+    let (now, max_age) = match (now, max_age) {
+        (Some(n), Some(m)) => (n, m as i64),
+        _ => return ConstraintResult::check(false, "invalid Freshness Bound policy in context"),
+    };
+    for e in evidence {
+        let reason = match parse_utc_timestamp(&e.timestamp) {
+            None => "evidence timestamp missing or not YYYY-MM-DDTHH:MM:SSZ",
+            Some(t) if t > now => "evidence timestamp after evaluation_time",
+            Some(t) if now - t > max_age => "evidence older than Freshness Bound",
+            Some(_) => continue,
+        };
+        return ConstraintResult::check(false, reason);
+    }
+    ConstraintResult::check(true, "")
+}
+
 fn constraint_evaluate(
     id: &str,
     evidence: &[Evidence],
-    high_impact: bool,
+    context: &Value,
     tentative: Option<Epistemic>,
     screening: Option<&Screening>,
 ) -> ConstraintResult {
@@ -408,12 +555,9 @@ fn constraint_evaluate(
             let ok = tentative != Some(Epistemic::Fact) || independent_by_verifier(evidence).len() >= 2;
             ConstraintResult::check(ok, "records not independently produced")
         }
-        "CANON-FRS-005" => {
-            let ok = evidence.iter().all(|e| !e.timestamp.is_empty());
-            ConstraintResult::check(ok, "evidence missing Freshness Bound timestamp")
-        }
+        "CANON-FRS-005" => freshness_check(evidence, context),
         "CANON-PRV-006" => {
-            if !high_impact {
+            if !context["high_impact"].as_bool().unwrap_or(false) {
                 return pass;
             }
             let ok = evidence
@@ -428,13 +572,13 @@ fn constraint_evaluate(
 }
 
 /// Full verify pipeline. `bindings` is the array from tests/golden/bindings.json.
-/// Returns the DecisionRecord as JSON WITHOUT `decision_id` (non-deterministic in Python).
+/// Returns the DecisionRecord as JSON, including the content-addressed `decision_id`.
 pub fn verify(
     bindings: &[Value],
     artifact_id: &str,
     claimed: Option<Epistemic>,
     evidence: &[Evidence],
-    high_impact: bool,
+    context: &Value,
     registry: Option<&Registry>,
 ) -> Value {
     let screening = registry.map(|r| screen(r, artifact_id, evidence));
@@ -476,7 +620,7 @@ pub fn verify(
     let mut constraint_results: Vec<(String, ConstraintResult)> = Vec::new();
     for c in &constraints {
         let id = rid(c);
-        let r = constraint_evaluate(&id, evidence, high_impact, tentative, screening.as_ref());
+        let r = constraint_evaluate(&id, evidence, context, tentative, screening.as_ref());
         let mut m = r.metrics.clone();
         m.insert("constraint_ok".into(), json!(r.ok));
         gevp_metrics.push((id.clone(), Value::Object(m)));
@@ -567,7 +711,8 @@ pub fn verify(
     let evidence_ids: Vec<String> = evidence.iter().map(|e| e.record_id.clone()).collect();
     let final_state: Option<&str> = achieved.map(|s| s.name());
 
-    json!({
+    let mut record = json!({
+        "artifact_id": artifact_id,
         "requirement_ids": requirement_ids,
         "final_epistemic_state": final_state,
         "status": status,
@@ -580,5 +725,16 @@ pub fn verify(
         "c_up": winning.is_some(),
         "excluded_evidence": screening.map(|s| s.excluded).unwrap_or_default(),
         "registry_digest": registry.map(|r| r.digest.clone()),
-    })
+        "trust_root_digest": registry.map(|r| r.trust_root_digest.clone()),
+    });
+    let id = decision_id(&record);
+    record["decision_id"] = json!(id);
+    record
+}
+
+/// First 16 hex chars of SHA3-256 over the canonical JSON of the record
+/// (sorted keys, no whitespace). Mirrors `DecisionRecord.content_id`.
+fn decision_id(record_without_id: &Value) -> String {
+    let canonical = serde_json::to_string(record_without_id).expect("JSON value serializes");
+    Sha3_256::digest(canonical.as_bytes()).iter().take(8).map(|b| format!("{:02x}", b)).collect()
 }

@@ -1,9 +1,11 @@
 """Generate language-neutral golden vectors from the Python reference kernel.
 
 Output: tests/golden/vectors.json  (inputs + expected DecisionRecord, minus the
-non-deterministic decision_id), tests/golden/bindings.json (the YAML
+content-addressed decision_id), tests/golden/bindings.json (the YAML
 bindings as JSON, so a port needs only a JSON parser), tests/golden/registry.json
-(a verifier registry of TEST keys) and examples/artifact_signed.json.
+(a verifier registry of TEST keys) with its root signatures registry.json.sig,
+tests/golden/trust_root.json (5 TEST root keys, threshold 3) and
+examples/artifact_signed.json.
 Any port (Rust, etc.) must reproduce `expected` exactly for every case.
 
 Test keys are derived from fixed public seeds below. They are not secret and
@@ -17,7 +19,9 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from gravit_verifier.kernel import VerifierKernel, VerificationRequest, EvidenceRecord, EpistemicState
 from gravit_verifier.loader import load_bindings_from_dir
-from gravit_verifier.registry import VerifierRegistry, key_id_for, signing_message
+from gravit_verifier.registry import (
+    TrustRoot, VerifierRegistry, key_id_for, registry_signing_message, signing_message,
+)
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 
@@ -69,6 +73,21 @@ def finish_record(artifact_id, rec):
 
 DUMMY_SIG = base64.b64encode(bytes(64)).decode()
 
+# --- test trust root: 5 root keys, threshold 3; roots 1, 3, 5 sign ----------
+ROOTS = {f"root-{n}": test_key(f"root-{n}") for n in range(1, 6)}
+ROOT_SIGNERS = ["root-1", "root-3", "root-5"]
+
+def trust_root_bytes():
+    entries = [dict(key_id=key_id_for(raw_public(sk)), public_key=base64.b64encode(raw_public(sk)).decode())
+               for sk in ROOTS.values()]
+    doc = dict(trust_root_version=1, threshold=3, root_keys=entries)
+    return (json.dumps(doc, indent=1, sort_keys=True) + "\n").encode("utf-8")
+
+def registry_signatures(reg_bytes):
+    msg = registry_signing_message(reg_bytes)
+    return "".join(f"{key_id_for(raw_public(ROOTS[n]))} {base64.b64encode(ROOTS[n].sign(msg)).decode()}\n"
+                   for n in ROOT_SIGNERS)
+
 CASES = [
  ("committed_two_strong", "Verified Fact", {}, [ev(1,.88,"v1","A"), ev(2,.85,"v2","B")]),
  ("weak_aggregation_three", "Verified Fact", {}, [ev(1,.61,"v1","A"), ev(2,.58,"v2","B"), ev(3,.55,"v3","C")]),
@@ -117,6 +136,24 @@ SIG_CASES = [
  ("one_bad_record_others_converge", "Verified Fact", {},
     [ev(1,.9,"v1","A"), ev(2,.9,"v2","B"), ev(3,.9,"v3","C",tamper={"provenance":"Z"})], True),
 ]
+# CANON-FRS-005 with a Freshness Bound policy in the context (v0.5.0)
+FRESH = {"evaluation_time": "2026-09-06T13:00:00Z", "freshness_max_age_seconds": 3600}
+FRESH_CASES = [
+ ("fresh_age_equals_bound_passes", "Verified Fact", FRESH, [ev(1,.9,"v1","A"), ev(2,.9,"v2","B")], True),
+ ("stale_by_one_second_demotes", "Verified Fact", FRESH,
+    [ev(1,.9,"v1","A",ts="2026-09-06T11:59:59Z"), ev(2,.9,"v2","B")], True),
+ ("future_timestamp_demotes", "Verified Fact", FRESH,
+    [ev(1,.9,"v1","A",ts="2026-09-06T13:00:01Z"), ev(2,.9,"v2","B")], True),
+ ("timestamp_wrong_format_demotes", "Verified Fact", FRESH,
+    [ev(1,.9,"v1","A",ts="2026-09-06 12:00:00Z"), ev(2,.9,"v2","B")], True),
+ ("timestamp_impossible_date_demotes", "Verified Fact", FRESH,
+    [ev(1,.9,"v1","A",ts="2026-02-29T12:00:00Z"), ev(2,.9,"v2","B")], True),
+ ("leap_day_across_month_passes", "Verified Fact",
+    {"evaluation_time": "2028-03-01T11:00:00Z", "freshness_max_age_seconds": 86400},
+    [ev(1,.9,"v1","A",ts="2028-02-29T12:00:00Z"), ev(2,.9,"v2","B",ts="2028-03-01T10:00:00Z")], True),
+ ("freshness_policy_incomplete_demotes", "Verified Fact", {"evaluation_time": "2026-09-06T13:00:00Z"},
+    [ev(1,.9,"v1","A"), ev(2,.9,"v2","B")], True),
+]
 
 def build_kernel(registry=None):
     k = VerifierKernel(registry)
@@ -126,11 +163,15 @@ def build_kernel(registry=None):
 
 def main():
     out = ROOT / "tests" / "golden"
-    reg_bytes = registry_bytes()
+    reg_bytes, root_bytes = registry_bytes(), trust_root_bytes()
+    reg_sigs = registry_signatures(reg_bytes)
     (out / "registry.json").write_bytes(reg_bytes)
-    kernels = {True: build_kernel(VerifierRegistry.from_bytes(reg_bytes)), False: build_kernel()}
+    (out / "registry.json.sig").write_text(reg_sigs, encoding="utf-8")
+    (out / "trust_root.json").write_bytes(root_bytes)
+    registry = VerifierRegistry.from_bytes(reg_bytes, reg_sigs, TrustRoot.from_bytes(root_bytes))
+    kernels = {True: build_kernel(registry), False: build_kernel()}
     vectors = []
-    for name, claim, ctx, evidence, use_registry in [(*c, True) for c in CASES] + SIG_CASES:
+    for name, claim, ctx, evidence, use_registry in [(*c, True) for c in CASES] + SIG_CASES + FRESH_CASES:
         evidence = [finish_record(name, dict(e)) for e in evidence]
         req = VerificationRequest(
             artifact_id=name,
@@ -138,9 +179,9 @@ def main():
             evidence=[EvidenceRecord(**e) for e in evidence],
             context=ctx)
         k = kernels[use_registry]
-        d = k.verify(req).to_dict(); d.pop("decision_id")
-        # determinism check: second run must be identical
-        d2 = k.verify(req).to_dict(); d2.pop("decision_id")
+        d = k.verify(req).to_dict()
+        # determinism check: second run must be identical, decision_id included
+        d2 = k.verify(req).to_dict()
         assert d == d2, f"non-deterministic: {name}"
         vectors.append(dict(name=name, claimed_state=claim, context=ctx, use_registry=use_registry,
                             evidence=evidence, expected=d))

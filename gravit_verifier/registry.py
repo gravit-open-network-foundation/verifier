@@ -4,6 +4,9 @@ Verifier registry and signed evidence (CANON-SIG-011).
 See docs/sybil-design.md. A Record counts toward Verified Fact only if it is
 signed by a key listed in the registry, the key is not revoked, and the
 signature verifies over the exact message produced by `signing_message()`.
+
+Since v0.5.0 the registry itself is only accepted if at least `threshold`
+root keys of a pinned TrustRoot have signed it (docs/root-key-custody.md).
 """
 
 from __future__ import annotations
@@ -20,6 +23,7 @@ from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 
 SIGNING_DOMAIN = "gravit-evidence-v1"
+REGISTRY_SIGNING_DOMAIN = b"gravit-registry-v1\n"
 
 
 class RegistryError(ValueError):
@@ -54,49 +58,146 @@ def b64decode_strict(s: Any) -> Optional[bytes]:
     return raw if base64.b64encode(raw).decode("ascii") == s else None
 
 
-class VerifierRegistry:
-    def __init__(self, keys: Dict[str, RegisteredKey], digest: str) -> None:
+def _is_exact_int(value: Any, expected: int) -> bool:
+    """JSON integer equal to `expected`; rejects 1.0 and true (Python treats both as 1)."""
+    return isinstance(value, int) and not isinstance(value, bool) and value == expected
+
+
+def _public_key_entries(entries: Any, what: str) -> List[Tuple[str, bytes, Dict[str, Any]]]:
+    """Validate a list of {key_id, public_key, ...}: canonical base64 of 32
+    bytes, key_id derived from the key, no duplicates."""
+    if not isinstance(entries, list):
+        raise RegistryError(f"'{what}' must be a list")
+    out: List[Tuple[str, bytes, Dict[str, Any]]] = []
+    seen_ids: set = set()
+    seen_public: set = set()
+    for i, v in enumerate(entries):
+        if not isinstance(v, dict):
+            raise RegistryError(f"{what}[{i}] must be an object")
+        pk = b64decode_strict(v.get("public_key"))
+        if pk is None or len(pk) != 32:
+            raise RegistryError(f"{what}[{i}].public_key must be base64 of 32 bytes")
+        kid = v.get("key_id")
+        if kid != key_id_for(pk):
+            raise RegistryError(f"{what}[{i}].key_id does not match its public_key")
+        if kid in seen_ids or pk in seen_public:
+            raise RegistryError(f"{what}[{i}] duplicates an earlier key")
+        seen_ids.add(kid)
+        seen_public.add(pk)
+        out.append((kid, pk, v))
+    return out
+
+
+def _verify(public_key: bytes, signature: bytes, message: bytes) -> bool:
+    try:
+        Ed25519PublicKey.from_public_bytes(public_key).verify(signature, message)
+        return True
+    except (InvalidSignature, ValueError):
+        return False
+
+
+class TrustRoot:
+    """Pinned root public keys and the number of them that must sign a
+    registry. Comes from deployment configuration, never from the registry."""
+
+    def __init__(self, keys: Dict[str, bytes], threshold: int, digest: str) -> None:
         self.keys = keys
-        self.digest = digest  # SHA-256 hex of the registry file bytes
+        self.threshold = threshold
+        self.digest = digest  # SHA-256 hex of the trust root file bytes
 
     @classmethod
-    def from_bytes(cls, data: bytes) -> "VerifierRegistry":
+    def from_bytes(cls, data: bytes) -> "TrustRoot":
+        try:
+            doc = json.loads(data.decode("utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as e:
+            raise RegistryError(f"trust root is not valid JSON: {e}") from e
+        if not isinstance(doc, dict) or not _is_exact_int(doc.get("trust_root_version"), 1):
+            raise RegistryError("trust_root_version must be 1")
+        entries = _public_key_entries(doc.get("root_keys"), "root_keys")
+        threshold = doc.get("threshold")
+        if isinstance(threshold, bool) or not isinstance(threshold, int) or threshold < 1:
+            raise RegistryError("threshold must be a positive integer")
+        if threshold > len(entries):
+            raise RegistryError("threshold is larger than the number of root keys")
+        if 2 * threshold <= len(entries):
+            raise RegistryError("threshold must be more than half of the root keys")
+        return cls({kid: pk for kid, pk, _ in entries}, threshold, hashlib.sha256(data).hexdigest())
+
+    @classmethod
+    def from_file(cls, path: str | Path) -> "TrustRoot":
+        return cls.from_bytes(Path(path).read_bytes())
+
+
+def registry_signing_message(registry_bytes: bytes) -> bytes:
+    """What a root key holder signs: a domain tag plus the exact file bytes."""
+    return REGISTRY_SIGNING_DOMAIN + registry_bytes
+
+
+def verify_registry_signatures(data: bytes, signatures: str, root: TrustRoot) -> List[str]:
+    """Check the detached signature file (one `<root key_id> <base64 signature>`
+    per line; blank lines and lines starting with '#' are ignored). Returns the
+    sorted key_ids of distinct root keys with a valid signature; raises
+    RegistryError if they are fewer than root.threshold. Lines from keys not
+    in the trust root, or with a wrong signature, are not counted."""
+    message = registry_signing_message(data)
+    signers: set = set()
+    for n, raw in enumerate(signatures.split("\n"), 1):
+        line = raw.strip(" \t\r")
+        if not line or line.startswith("#"):
+            continue
+        parts = line.split(" ")
+        if len(parts) != 2 or not parts[0] or not parts[1]:
+            raise RegistryError(f"signature line {n} must be '<key_id> <signature>'")
+        kid, sig_text = parts
+        sig = b64decode_strict(sig_text)
+        if sig is None or len(sig) != 64:
+            raise RegistryError(f"signature line {n} is not base64 of 64 bytes")
+        if kid in root.keys and _verify(root.keys[kid], sig, message):
+            signers.add(kid)
+    if len(signers) < root.threshold:
+        raise RegistryError(
+            f"registry has {len(signers)} valid root signature(s), {root.threshold} required"
+        )
+    return sorted(signers)
+
+
+class VerifierRegistry:
+    def __init__(
+        self, keys: Dict[str, RegisteredKey], digest: str, trust_root_digest: str, signers: List[str]
+    ) -> None:
+        self.keys = keys
+        self.digest = digest  # SHA-256 hex of the registry file bytes
+        self.trust_root_digest = trust_root_digest
+        self.signers = signers  # root key_ids whose signatures verified
+
+    @classmethod
+    def from_bytes(cls, data: bytes, signatures: str, trust_root: TrustRoot) -> "VerifierRegistry":
+        """Accept the registry only if enough root keys signed these exact bytes."""
+        signers = verify_registry_signatures(data, signatures, trust_root)
         try:
             doc = json.loads(data.decode("utf-8"))
         except (UnicodeDecodeError, json.JSONDecodeError) as e:
             raise RegistryError(f"registry is not valid JSON: {e}") from e
-        if not isinstance(doc, dict) or doc.get("registry_version") != 1:
+        if not isinstance(doc, dict) or not _is_exact_int(doc.get("registry_version"), 1):
             raise RegistryError("registry_version must be 1")
-        entries = doc.get("verifiers")
-        if not isinstance(entries, list):
-            raise RegistryError("'verifiers' must be a list")
 
         keys: Dict[str, RegisteredKey] = {}
-        seen_public: set = set()
-        for i, v in enumerate(entries):
-            if not isinstance(v, dict):
-                raise RegistryError(f"verifiers[{i}] must be an object")
-            pk = b64decode_strict(v.get("public_key"))
-            if pk is None or len(pk) != 32:
-                raise RegistryError(f"verifiers[{i}].public_key must be base64 of 32 bytes")
-            kid = v.get("key_id")
-            if kid != key_id_for(pk):
-                raise RegistryError(f"verifiers[{i}].key_id does not match its public_key")
+        for i, (kid, pk, v) in enumerate(_public_key_entries(doc.get("verifiers"), "verifiers")):
             operator = v.get("operator")
             if not isinstance(operator, str) or not operator:
                 raise RegistryError(f"verifiers[{i}].operator must be a non-empty string")
             revoked = v.get("revoked", False)
             if not isinstance(revoked, bool):
                 raise RegistryError(f"verifiers[{i}].revoked must be true or false")
-            if kid in keys or pk in seen_public:
-                raise RegistryError(f"verifiers[{i}] duplicates an earlier key")
-            seen_public.add(pk)
             keys[kid] = RegisteredKey(kid, pk, operator, revoked)
-        return cls(keys, hashlib.sha256(data).hexdigest())
+        return cls(keys, hashlib.sha256(data).hexdigest(), trust_root.digest, signers)
 
     @classmethod
-    def from_file(cls, path: str | Path) -> "VerifierRegistry":
-        return cls.from_bytes(Path(path).read_bytes())
+    def from_file(cls, path: str | Path, trust_root: TrustRoot) -> "VerifierRegistry":
+        """Reads `path` and its detached signatures from `path` + '.sig'."""
+        path = Path(path)
+        sig_path = path.with_name(path.name + ".sig")
+        return cls.from_bytes(path.read_bytes(), sig_path.read_text(encoding="utf-8"), trust_root)
 
 
 def signing_message(artifact_id: str, record: Any) -> bytes:
@@ -172,8 +273,6 @@ def _exclusion_reason(registry: VerifierRegistry, artifact_id: str, e: Any) -> O
     signature = b64decode_strict(e.signature)
     if signature is None or len(signature) != 64:
         return "bad_signature"
-    try:
-        Ed25519PublicKey.from_public_bytes(key.public_key).verify(signature, message)
-    except InvalidSignature:
+    if not _verify(key.public_key, signature, message):
         return "bad_signature"
     return None

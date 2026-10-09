@@ -45,6 +45,10 @@ changes code.
 
 ## 4. Key generation (one-time ceremony)
 
+Before the ceremony, run the dry run in `ceremony-dry-run.md` with one
+device; `tools/ceremony.py` checks proofs (step 3) and prints the entries
+for `trust_root.json` and `ROOT_KEYS.md` (step 4).
+
 1. Each holder generates their key **on their own device**, preferably a
    hardware security key that supports Ed25519 and does not allow export of
    the private key. Fallback: an air-gapped computer that never connects to

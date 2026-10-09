@@ -1,5 +1,6 @@
 # Every change needs review from a maintainer other than its author
-# (registry/POLICY.md §2). Enforced once branch protection requires
-# code-owner review on main.
+# (registry/POLICY.md §2). Enforced by the "main protection" ruleset
+# (require_code_owner_review). Second accounts are in team `contributors`
+# (Triage) and are deliberately not code owners.
 *           @gravit-open-network-foundation/maintainers
 /registry/  @gravit-open-network-foundation/maintainers

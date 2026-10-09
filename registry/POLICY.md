@@ -1,9 +1,10 @@
 # Verifier registry policy
 
-Status: **draft for Foundation approval.** Until this policy is approved and
-at least one operator has been admitted under it, the only registry in use
-is the test registry in `tests/golden/registry.json`, and no document may
-claim Sybil resistance (see `docs/sybil-design.md` §10).
+Status: **approved by the Gravit Open Network Foundation on 2026-10-06.**
+Until at least one operator has been admitted under it and the real root
+keys exist (`ROOT_KEYS.md`), the only registry in use is the test registry
+in `tests/golden/registry.json`, and no document may claim Sybil resistance
+(see `docs/sybil-design.md` §10).
 
 ## 1. Scope
 
@@ -15,12 +16,28 @@ what `CANON-SIG-011` uses to decide which signed Records count toward
 ## 2. Roles
 
 - **Registry operator:** the Gravit Open Network Foundation. It maintains
-  the file in this repository.
-- **Maintainers:** people with merge rights on this repository, designated by
-  the Foundation.
+  the file in this repository, owned by the GitHub organisation
+  `gravit-open-network-foundation` (GitHub Enterprise).
+- **Organisation owners:** the shared Foundation account `@GravitOpenNetwork`
+  and the President of the Foundation. Owners can change repository
+  rules; every such change is visible in the organisation audit log.
+- **Maintainers:** team `@gravit-open-network-foundation/maintainers`, role
+  *Maintain* on this repository, the only code owners. Its members are
+  designated by the Foundation.
   Every registry change involves **two different maintainers**: one opens
   the pull request, the other approves it (GitHub does not count an
   author's approval of their own pull request).
+- **One person, one maintainer account.** Only the accounts above are code
+  owners. Further accounts of the same people are in team
+  `@gravit-open-network-foundation/contributors` with role *Triage*: they
+  can manage issues and pull requests but cannot push or merge.
+  They also cannot open pull requests from branches of this repository, so
+  "approving your own pull request from a second account" is largely
+  prevented technically. The rule still applies to any other route (for
+  example a fork): **a maintainer must never approve a pull request opened
+  from another account of their own.**
+- The shared account `@GravitOpenNetwork` is not a code owner; its
+  approval does not satisfy the review requirement.
 - **Root key holders:** the five holders listed by role in `ROOT_KEYS.md`. From v0.5.0 a
   registry is only valid when at least three of them have signed it.
 - **Operators:** organisations that run verifiers and submit Records.
@@ -84,11 +101,16 @@ the key stays revoked during the appeal.
 
 ## 7. Open points before approval
 
-1. Both maintainers must be added as collaborators with write access.
-2. Branch protection for `main` (1 required approval from a code owner, no
-   direct pushes, CI must pass). `GravitOpenNetwork` is a personal account,
-   not an organisation: this needs either GitHub Pro on that account, or
-   converting it into an organisation on GitHub Team.
+1. Done 2026-10-06: repository moved to the organisation; teams
+   `maintainers` (Maintain) and `contributors` (Triage) created; members
+   invited.
+2. Done 2026-10-06: ruleset "main protection" on the default branch — pull
+   request with 1 approval from a code owner, approval after the last push,
+   stale approvals dismissed, CI checks `python (3.10/3.11/3.12)` and `rust`
+   required, no force push, no deletion, **no bypass for anyone**.
 3. Where non-public admission evidence is stored.
-4. With two maintainers, one of them unavailable blocks all changes. A third
-   maintainer is advisable.
+4. Some maintainers are also root key holders. This is allowed (no holder is
+   the *only* person able to merge), but for registry changes a reviewer who
+   is not a key holder should be preferred.
+5. Require two-factor authentication for the organisation once every
+   member has enabled it.

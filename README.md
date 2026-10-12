@@ -135,6 +135,16 @@ print(decision.final_epistemic_state, decision.status)
   `evaluation_time` and `freshness_max_age_seconds` in the context; the
   right maximum age is domain-specific, so there is no built-in default.
 
+## Decision explanations (unreleased)
+
+`gravit-verify artifact.json … --explain` outputs the decision together with an explanation: whether
+the claim was **evaluated** or **not evaluable** (e.g. no registry), the **revision** of every rule
+applied, and what **independence** rests on — registry and trust-root digests, the grouping rule,
+the operators involved and, for each, the evidence behind its registry entry or an explicit
+"assumed, not evidenced". Two valid signatures are not proof of two independent organisations.
+The kernel's decisions and golden vectors are unchanged. Details and a worked example:
+[docs/decision-explanation.md](docs/decision-explanation.md), `examples/explained/`.
+
 ## v0.5 additions
 
 - The verifier registry must be signed by at least `threshold` root keys of a pinned trust root (`TrustRoot`, `--trust-root`); the trust root itself must require more than half of its keys. Procedure: `docs/root-key-custody.md`; holders: `registry/ROOT_KEYS.md`.

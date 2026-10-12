@@ -40,6 +40,10 @@ class RegisteredKey:
     public_key: bytes
     operator: str
     revoked: bool
+    # Optional references to the evidence behind this operator assignment (e.g. the signed
+    # independence statement under registry/POLICY.md section 3). Informative only: the kernel's
+    # decisions do not depend on it; gravit_verifier.explain reports it.
+    independence_evidence: Tuple[Dict[str, str], ...] = ()
 
 
 def key_id_for(public_key: bytes) -> str:
@@ -86,6 +90,26 @@ def _public_key_entries(entries: Any, what: str) -> List[Tuple[str, bytes, Dict[
         seen_public.add(pk)
         out.append((kid, pk, v))
     return out
+
+
+def _independence_evidence(value: Any, i: int) -> Tuple[Dict[str, str], ...]:
+    """Optional list of {"type", "sha256", "ref"?} entries; sha256 is the digest of the evidence document."""
+    if value is None:
+        return ()
+    if not isinstance(value, list):
+        raise RegistryError(f"verifiers[{i}].independence_evidence must be a list")
+    out = []
+    for j, e in enumerate(value):
+        if not isinstance(e, dict) or not isinstance(e.get("type"), str) or not e["type"]:
+            raise RegistryError(f"verifiers[{i}].independence_evidence[{j}] needs a non-empty 'type'")
+        digest = e.get("sha256")
+        if not isinstance(digest, str) or len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest):
+            raise RegistryError(f"verifiers[{i}].independence_evidence[{j}].sha256 must be 64 lowercase hex characters")
+        ref = e.get("ref", "")
+        if not isinstance(ref, str):
+            raise RegistryError(f"verifiers[{i}].independence_evidence[{j}].ref must be a string")
+        out.append({"type": e["type"], "sha256": digest, "ref": ref})
+    return tuple(out)
 
 
 def _verify(public_key: bytes, signature: bytes, message: bytes) -> bool:
@@ -189,7 +213,7 @@ class VerifierRegistry:
             revoked = v.get("revoked", False)
             if not isinstance(revoked, bool):
                 raise RegistryError(f"verifiers[{i}].revoked must be true or false")
-            keys[kid] = RegisteredKey(kid, pk, operator, revoked)
+            keys[kid] = RegisteredKey(kid, pk, operator, revoked, _independence_evidence(v.get("independence_evidence"), i))
         return cls(keys, hashlib.sha256(data).hexdigest(), trust_root.digest, signers)
 
     @classmethod

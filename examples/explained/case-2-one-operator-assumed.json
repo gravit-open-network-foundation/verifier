@@ -1,0 +1,340 @@
+{
+ "decision": {
+  "artifact_id": "case-2-one-operator-assumed",
+  "c_down": true,
+  "c_up": true,
+  "canon_trace": [
+   "Gravit Canon v1.1",
+   "Gravit Canon v1.1",
+   "Gravit Canon v1.1",
+   "VEDS-00 §4.2",
+   "Gravit Canon v1.1",
+   "Gravit Canon v1.1",
+   "VEDS-00 §4.3",
+   "Gravit Canon v1.1"
+  ],
+  "convergence_metrics": {
+   "CANON-FRS-005": {
+    "constraint_ok": true
+   },
+   "CANON-IND-004": {
+    "constraint_ok": true
+   },
+   "CANON-NAL-001": {
+    "f": 0.0,
+    "h": 1.0,
+    "independent_records": 2
+   },
+   "CANON-NSD-007": {
+    "constraint_ok": true
+   },
+   "CANON-PRV-006": {
+    "constraint_ok": true
+   },
+   "CANON-SIG-011": {
+    "admissible_records": 2,
+    "constraint_ok": true,
+    "f": 0.0,
+    "h": 1.0,
+    "independent_sources": 2,
+    "registry": true
+   },
+   "CANON-VAL-002": {
+    "record_count": 2
+   },
+   "CANON-VER-003": {
+    "record_count": 2
+   }
+  },
+  "decision_id": "4305ed6b8185cf90",
+  "evidence_ids": [
+   "r1",
+   "r2"
+  ],
+  "excluded_evidence": [],
+  "final_epistemic_state": "Verified Fact",
+  "reason": "All applicable Bindings satisfied",
+  "registry_digest": "1764f3b97d3f89447dbe73585b89736d47d5b6efa2af98cef161648917bd2c20",
+  "requirement_ids": [
+   "CANON-NAL-001",
+   "CANON-VAL-002",
+   "CANON-VER-003",
+   "CANON-FRS-005",
+   "CANON-IND-004",
+   "CANON-NSD-007",
+   "CANON-PRV-006",
+   "CANON-SIG-011"
+  ],
+  "reverse_trace": [
+   {
+    "achieved_state": "Verified Fact",
+    "binding_id": "CANON-NAL-001",
+    "canon_reference": "Gravit Canon v1.1",
+    "evidence_id": "r1",
+    "is_winning_gate": "True",
+    "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+   },
+   {
+    "achieved_state": "Verified Fact",
+    "binding_id": "CANON-NAL-001",
+    "canon_reference": "Gravit Canon v1.1",
+    "evidence_id": "r2",
+    "is_winning_gate": "True",
+    "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+   },
+   {
+    "achieved_state": "Speculative Claim",
+    "binding_id": "CANON-VAL-002",
+    "canon_reference": "Gravit Canon v1.1",
+    "evidence_id": "r1",
+    "is_winning_gate": "False",
+    "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+   },
+   {
+    "achieved_state": "Speculative Claim",
+    "binding_id": "CANON-VAL-002",
+    "canon_reference": "Gravit Canon v1.1",
+    "evidence_id": "r2",
+    "is_winning_gate": "False",
+    "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+   },
+   {
+    "achieved_state": "Probabilistic Assessment",
+    "binding_id": "CANON-VER-003",
+    "canon_reference": "Gravit Canon v1.1",
+    "evidence_id": "r1",
+    "is_winning_gate": "False",
+    "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+   },
+   {
+    "achieved_state": "Probabilistic Assessment",
+    "binding_id": "CANON-VER-003",
+    "canon_reference": "Gravit Canon v1.1",
+    "evidence_id": "r2",
+    "is_winning_gate": "False",
+    "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+   },
+   {
+    "achieved_state": "None",
+    "binding_id": "CANON-FRS-005",
+    "canon_reference": "VEDS-00 §4.2",
+    "evidence_id": "r1",
+    "is_winning_gate": "False",
+    "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+   },
+   {
+    "achieved_state": "None",
+    "binding_id": "CANON-FRS-005",
+    "canon_reference": "VEDS-00 §4.2",
+    "evidence_id": "r2",
+    "is_winning_gate": "False",
+    "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+   },
+   {
+    "achieved_state": "None",
+    "binding_id": "CANON-IND-004",
+    "canon_reference": "Gravit Canon v1.1",
+    "evidence_id": "r1",
+    "is_winning_gate": "False",
+    "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+   },
+   {
+    "achieved_state": "None",
+    "binding_id": "CANON-IND-004",
+    "canon_reference": "Gravit Canon v1.1",
+    "evidence_id": "r2",
+    "is_winning_gate": "False",
+    "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+   },
+   {
+    "achieved_state": "None",
+    "binding_id": "CANON-NSD-007",
+    "canon_reference": "Gravit Canon v1.1",
+    "evidence_id": "r1",
+    "is_winning_gate": "False",
+    "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+   },
+   {
+    "achieved_state": "None",
+    "binding_id": "CANON-NSD-007",
+    "canon_reference": "Gravit Canon v1.1",
+    "evidence_id": "r2",
+    "is_winning_gate": "False",
+    "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+   },
+   {
+    "achieved_state": "None",
+    "binding_id": "CANON-PRV-006",
+    "canon_reference": "VEDS-00 §4.3",
+    "evidence_id": "r1",
+    "is_winning_gate": "False",
+    "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+   },
+   {
+    "achieved_state": "None",
+    "binding_id": "CANON-PRV-006",
+    "canon_reference": "VEDS-00 §4.3",
+    "evidence_id": "r2",
+    "is_winning_gate": "False",
+    "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+   },
+   {
+    "achieved_state": "None",
+    "binding_id": "CANON-SIG-011",
+    "canon_reference": "Gravit Canon v1.1",
+    "evidence_id": "r1",
+    "is_winning_gate": "False",
+    "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+   },
+   {
+    "achieved_state": "None",
+    "binding_id": "CANON-SIG-011",
+    "canon_reference": "Gravit Canon v1.1",
+    "evidence_id": "r2",
+    "is_winning_gate": "False",
+    "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+   }
+  ],
+  "status": "SUCCESS",
+  "trust_root_digest": "bbd2204a414c8a9d52daefca436549fe2c1ecdfafc12cdfa68818c451b3a21a2"
+ },
+ "explanation": {
+  "artifact_id": "case-2-one-operator-assumed",
+  "decision_id": "4305ed6b8185cf90",
+  "evaluation": {
+   "reasons": [],
+   "result": "evaluated"
+  },
+  "evidence": {
+   "excluded": [],
+   "referenced": [
+    "r1",
+    "r2"
+   ]
+  },
+  "explanation_id": "779a53f7b4364afe",
+  "explanation_version": "1",
+  "independence": {
+   "claim_evaluated": "the admissible records come from 2 distinct registered operator(s): Example Operator A AG, Example Operator C GmbH",
+   "conclusion": "independence of Example Operator C GmbH is assumed from the registry, not evidenced; evidence is referenced for Example Operator A AG",
+   "grouping_rule": "Records count towards independence only if admissible (signed by a registered, non-revoked key over this artifact). All keys of one registry operator count as one source (CANON-SIG-011), and at most one record counts per (verifier identity, provenance) (CANON-IND-004).",
+   "limits": "The verifier registry is trusted input. Signature checks and grouping by operator cannot detect misrepresented common control or collusion between registered operators; that requires the evidence referenced below, evaluated outside the signature check (docs/sybil-design.md).",
+   "operators": [
+    {
+     "evidence": [
+      {
+       "ref": "statements/example-operator-a-ag.txt",
+       "sha256": "e9c895401910627749046802ede824aa4cdc721549452f8113b68726f0edcec7",
+       "type": "independence-statement"
+      }
+     ],
+     "keys": [
+      "7335c832dba01029"
+     ],
+     "operator": "Example Operator A AG",
+     "records": [
+      "r1"
+     ],
+     "status": "evidenced"
+    },
+    {
+     "evidence": [],
+     "keys": [
+      "41a5ed06116ca130"
+     ],
+     "operator": "Example Operator C GmbH",
+     "records": [
+      "r2"
+     ],
+     "status": "assumed, not evidenced"
+    }
+   ],
+   "registry_digest": "1764f3b97d3f89447dbe73585b89736d47d5b6efa2af98cef161648917bd2c20",
+   "trust_root_digest": "bbd2204a414c8a9d52daefca436549fe2c1ecdfafc12cdfa68818c451b3a21a2"
+  },
+  "outcome": {
+   "claimed_state": "Verified Fact",
+   "final_epistemic_state": "Verified Fact",
+   "reason": "All applicable Bindings satisfied",
+   "status": "SUCCESS"
+  },
+  "rules_applied": [
+   {
+    "kind": "state_gate",
+    "requirement_id": "CANON-NAL-001",
+    "revision": "1.0",
+    "title": "No Aggregation Laundering — Verified Fact only via COMMITTED Convergence"
+   },
+   {
+    "kind": "state_gate",
+    "requirement_id": "CANON-VAL-002",
+    "revision": "1.0",
+    "title": "VALIDATED Artifact may be classified at most as Speculative Claim"
+   },
+   {
+    "kind": "state_gate",
+    "requirement_id": "CANON-VER-003",
+    "revision": "1.0",
+    "title": "Single Record yields at most Probabilistic Assessment"
+   },
+   {
+    "kind": "constraint",
+    "requirement_id": "CANON-FRS-005",
+    "revision": "1.0",
+    "title": "Freshness Bound must be satisfied for any elevated state"
+   },
+   {
+    "kind": "constraint",
+    "requirement_id": "CANON-IND-004",
+    "revision": "1.0",
+    "title": "Records must be independently produced"
+   },
+   {
+    "kind": "constraint",
+    "requirement_id": "CANON-NSD-007",
+    "revision": "1.0",
+    "title": "Silent degradation of epistemic state is forbidden"
+   },
+   {
+    "kind": "constraint",
+    "requirement_id": "CANON-PRV-006",
+    "revision": "1.0",
+    "title": "High-impact decisions require strong provenance"
+   },
+   {
+    "kind": "constraint",
+    "requirement_id": "CANON-SIG-011",
+    "revision": "1.0",
+    "title": "Evidence must be signed by a registered key"
+   }
+  ]
+ },
+ "request": {
+  "artifact_id": "case-2-one-operator-assumed",
+  "claimed_state": "Verified Fact",
+  "evidence": [
+   {
+    "integrity_hash": "sha3-256-of-the-claim",
+    "key_id": "7335c832dba01029",
+    "provenance": "Example Operator A AG",
+    "record_id": "r1",
+    "result": true,
+    "signature": "ONzwOjbrJNaV4GyOnLf/QAIOALTsZAW06g1o0KOPUsZYFA3YzyGHSCOBpOJxpTxLl4eUgjGnFxvlT5p5bsf9Cw==",
+    "theta": 0.9,
+    "timestamp": "2026-10-12T12:00:00Z",
+    "verifier_id": "a1"
+   },
+   {
+    "integrity_hash": "sha3-256-of-the-claim",
+    "key_id": "41a5ed06116ca130",
+    "provenance": "Example Operator C GmbH",
+    "record_id": "r2",
+    "result": true,
+    "signature": "1GitWAz7a5nu1TwnD3CdfyX0UfRd0gpEaIthYfvu3KZKjsYJGHyh65VJ9S1HCNMIBOm1SCLObo320Mx7nIkCAQ==",
+    "theta": 0.88,
+    "timestamp": "2026-10-12T12:00:00Z",
+    "verifier_id": "c1"
+   }
+  ]
+ }
+}

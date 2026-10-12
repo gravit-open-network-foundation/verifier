@@ -67,6 +67,8 @@ def main() -> None:
                         help="Pinned root keys that must have signed the registry; required with --registry")
     parser.add_argument("--output", "-o", type=Path, help="Write DecisionRecord to file")
     parser.add_argument("--pretty", action="store_true", help="Pretty-print JSON")
+    parser.add_argument("--explain", action="store_true",
+                        help="Output {decision, explanation}: evaluation completeness, rule revisions, independence basis")
     args = parser.parse_args()
 
     if not args.artifact.exists():
@@ -94,7 +96,12 @@ def main() -> None:
     request = load_artifact(args.artifact)
     decision = kernel.verify(request)
 
-    output = decision.to_json(indent=2 if args.pretty else None)
+    if args.explain:
+        from .explain import explain
+        doc = {"decision": decision.to_dict(), "explanation": explain(request, decision, kernel)}
+        output = json.dumps(doc, indent=2 if args.pretty else None, sort_keys=True, ensure_ascii=False)
+    else:
+        output = decision.to_json(indent=2 if args.pretty else None)
 
     if args.output:
         args.output.write_text(output, encoding="utf-8")

@@ -1,0 +1,3 @@
+TEST FIXTURE - illustrative independence statement
+Operator: Example Operator B Ltd
+We declare that we are not under common control with any other operator listed in the registry (ownership, management, or shared signing infrastructure).

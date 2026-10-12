@@ -1,0 +1,50 @@
+{
+ "registry_version": 1,
+ "verifiers": [
+  {
+   "independence_evidence": [
+    {
+     "ref": "statements/example-operator-a-ag.txt",
+     "sha256": "e9c895401910627749046802ede824aa4cdc721549452f8113b68726f0edcec7",
+     "type": "independence-statement"
+    }
+   ],
+   "key_id": "7335c832dba01029",
+   "operator": "Example Operator A AG",
+   "public_key": "F5vb/EjyVrZHZe/qXLpWJMoRIzFxGK1xThQVw9dE3ss=",
+   "revoked": false
+  },
+  {
+   "independence_evidence": [
+    {
+     "ref": "statements/example-operator-a-ag.txt",
+     "sha256": "e9c895401910627749046802ede824aa4cdc721549452f8113b68726f0edcec7",
+     "type": "independence-statement"
+    }
+   ],
+   "key_id": "0cb3e33b165a92a8",
+   "operator": "Example Operator A AG",
+   "public_key": "quGo0zJAYDmEXWPU5RX9srFGiBt/CD1yQYcdhl6bth8=",
+   "revoked": false
+  },
+  {
+   "independence_evidence": [
+    {
+     "ref": "statements/example-operator-b-ltd.txt",
+     "sha256": "67cb0074185533c535792d5e40156b6dab695aa8dfd567a96109b6f21106bf90",
+     "type": "independence-statement"
+    }
+   ],
+   "key_id": "cd23380a3f5618ae",
+   "operator": "Example Operator B Ltd",
+   "public_key": "P8/bmowWEPzN0MapOKHy7hL0LgVliGPZU9JxVk+P+LU=",
+   "revoked": false
+  },
+  {
+   "key_id": "41a5ed06116ca130",
+   "operator": "Example Operator C GmbH",
+   "public_key": "jbtGo9ubpn/2SW2gnCTJbEALNcaxWwCn8Cu7XGGfcJA=",
+   "revoked": false
+  }
+ ]
+}

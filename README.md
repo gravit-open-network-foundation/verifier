@@ -147,7 +147,7 @@ The kernel's decisions and golden vectors are unchanged. Details and a worked ex
 
 ## v0.6 additions
 
-- **Fix: the signed `result` is now applied** (`CANON-RES-012`). Up to v0.5.0 the kernel ignored it, so records signed with `result=false` or `null` counted towards a *Verified Fact*. Now `true` = supports, `false` = contradicts (blocks *Verified Fact*), `null` = no verdict (not support); the decision keeps the ids of contradicting and verdict-less records. Reported by an external reviewer with a reproduction. Details: [docs/signed-result.md](docs/signed-result.md).
+- **Fix: the signed `result` is now applied** (`CANON-RES-012`). Up to v0.5.0 the kernel ignored it, so records signed with `result=false` or `null` counted towards a *Verified Fact*. Now `true` = supports, `false` = contradicts (blocks *Verified Fact*), `null` = no verdict (not support); the decision keeps the ids of contradicting and verdict-less records. Reported and reproduced by Iman Schrock (EMILIA Protocol). Details: [docs/signed-result.md](docs/signed-result.md).
 - 47 golden vectors (7 new for the signed result). The outcomes and reasons of the 40 earlier vectors are unchanged; their `decision_id`s change because the decision now lists one more rule.
 
 ## v0.5 additions

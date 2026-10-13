@@ -46,7 +46,7 @@ traceability:
 notes: >
   Up to v0.5.0 the kernel ignored `result`: records reporting false or null
   counted towards a Verified Fact exactly like records reporting true.
-  Reported by Iman Schrock (12 Oct 2026) with a reproduction against the SAFR
+  Reported by an external reviewer (12 Oct 2026) with a reproduction against the SAFR
   adapter. Caps instead of stepping down, like CANON-SIG-011, so the two do
   not stack. Only admissible records count when a registry is loaded, so an
   unsigned or unregistered "false" cannot block a decision.

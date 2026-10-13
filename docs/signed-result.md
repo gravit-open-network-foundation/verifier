@@ -29,7 +29,7 @@ It was a defect: records signed with `result=false` or `null` counted towards a 
 Fact* exactly like `true`, with identical decision ids. The earlier text is kept in the
 history of `CONFORMANCE.md`; the v0.5.0 tag is unchanged.
 
-Reported on 12 October 2026 by Iman Schrock, with a reproduction against the SAFR v1.1
+Reported on 12 October 2026 by an external reviewer (to be named with their consent), with a reproduction against the SAFR v1.1
 reference adapter (`gravit-safr-adapter` at `75bd115`, verifier at `3fc7004`, public test keys,
 no payment executed):
 

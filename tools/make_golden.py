@@ -28,11 +28,11 @@ from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 TS = "2026-09-06T12:00:00Z"
 AUTO = object()  # sign with the key named like the verifier_id
 
-def ev(i, theta, v, p, h="h", ts=TS, key=AUTO, sign_for=None, tamper=None, sig=None):
+def ev(i, theta, v, p, h="h", ts=TS, key=AUTO, sign_for=None, tamper=None, sig=None, result=True):
     """key: key name, AUTO (= v) or None (unsigned). sign_for: artifact_id to
     sign for (default: the case name). tamper: fields changed AFTER signing.
     sig: literal signature instead of a real one."""
-    rec = dict(record_id=f"r{i}", theta=theta, result=True, verifier_id=v,
+    rec = dict(record_id=f"r{i}", theta=theta, result=result, verifier_id=v,
                timestamp=ts, provenance=p, integrity_hash=h)
     rec["_sign"] = dict(key=v if key is AUTO else key, sign_for=sign_for, tamper=tamper or {}, sig=sig)
     return rec
@@ -155,6 +155,20 @@ FRESH_CASES = [
     [ev(1,.9,"v1","A"), ev(2,.9,"v2","B")], True),
 ]
 
+# CANON-RES-012: the signed result is the producer's verdict (v0.6.0)
+RES_CASES = [
+ ("result_false_contradicts", "Verified Fact", {}, [ev(1,.9,"v1","A"), ev(2,.9,"v2","B",result=False)], True),
+ ("result_null_is_no_support", "Verified Fact", {}, [ev(1,.9,"v1","A",result=None), ev(2,.9,"v2","B",result=None)], True),
+ ("result_one_true_one_null", "Verified Fact", {}, [ev(1,.9,"v1","A"), ev(2,.9,"v2","B",result=None)], True),
+ ("result_false_outvoted_still_blocks", "Verified Fact", {},
+    [ev(1,.9,"v1","A"), ev(2,.9,"v2","B"), ev(3,.9,"v3","C"), ev(4,.9,"v4","D",result=False)], True),
+ ("result_false_unsigned_not_counted", "Verified Fact", {},
+    [ev(1,.9,"v1","A"), ev(2,.9,"v2","B"), ev(3,.9,"v3","C",key=None,result=False)], True),
+ ("result_false_no_registry", "Verified Fact", {}, [ev(1,.9,"v1","A"), ev(2,.9,"v2","B",result=False)], False),
+ ("result_false_modest_claim", "Probabilistic Assessment", {},
+    [ev(1,.9,"v1","A"), ev(2,.9,"v2","B",result=False)], True),
+]
+
 def build_kernel(registry=None):
     k = VerifierKernel(registry)
     for b in load_bindings_from_dir(ROOT / "bindings"):
@@ -171,7 +185,7 @@ def main():
     registry = VerifierRegistry.from_bytes(reg_bytes, reg_sigs, TrustRoot.from_bytes(root_bytes))
     kernels = {True: build_kernel(registry), False: build_kernel()}
     vectors = []
-    for name, claim, ctx, evidence, use_registry in [(*c, True) for c in CASES] + SIG_CASES + FRESH_CASES:
+    for name, claim, ctx, evidence, use_registry in [(*c, True) for c in CASES] + SIG_CASES + FRESH_CASES + RES_CASES:
         evidence = [finish_record(name, dict(e)) for e in evidence]
         req = VerificationRequest(
             artifact_id=name,

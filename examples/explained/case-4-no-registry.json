@@ -11,6 +11,7 @@
    "Gravit Canon v1.1",
    "Gravit Canon v1.1",
    "VEDS-00 §4.3",
+   "Gravit Canon v1.1",
    "Gravit Canon v1.1"
   ],
   "convergence_metrics": {
@@ -31,6 +32,12 @@
    "CANON-PRV-006": {
     "constraint_ok": true
    },
+   "CANON-RES-012": {
+    "constraint_ok": true,
+    "contradicting_records": [],
+    "no_verdict_records": [],
+    "supporting_sources": 2
+   },
    "CANON-SIG-011": {
     "constraint_ok": false,
     "registry": false
@@ -42,7 +49,7 @@
     "record_count": 2
    }
   },
-  "decision_id": "36d7243161730d24",
+  "decision_id": "37ce3b146c5dcd7b",
   "evidence_ids": [
    "r1",
    "r2"
@@ -59,6 +66,7 @@
    "CANON-IND-004",
    "CANON-NSD-007",
    "CANON-PRV-006",
+   "CANON-RES-012",
    "CANON-SIG-011"
   ],
   "reverse_trace": [
@@ -176,6 +184,22 @@
    },
    {
     "achieved_state": "None",
+    "binding_id": "CANON-RES-012",
+    "canon_reference": "Gravit Canon v1.1",
+    "evidence_id": "r1",
+    "is_winning_gate": "False",
+    "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+   },
+   {
+    "achieved_state": "None",
+    "binding_id": "CANON-RES-012",
+    "canon_reference": "Gravit Canon v1.1",
+    "evidence_id": "r2",
+    "is_winning_gate": "False",
+    "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+   },
+   {
+    "achieved_state": "None",
     "binding_id": "CANON-SIG-011",
     "canon_reference": "Gravit Canon v1.1",
     "evidence_id": "r1",
@@ -196,7 +220,7 @@
  },
  "explanation": {
   "artifact_id": "case-4-no-registry",
-  "decision_id": "36d7243161730d24",
+  "decision_id": "37ce3b146c5dcd7b",
   "evaluation": {
    "reasons": [
     "no verifier registry loaded: independent signed evidence (CANON-SIG-011) cannot be evaluated"
@@ -210,7 +234,7 @@
     "r2"
    ]
   },
-  "explanation_id": "c46bf729b351d391",
+  "explanation_id": "9ce21a1dca060ff5",
   "explanation_version": "1",
   "independence": {
    "claim_evaluated": null,
@@ -269,6 +293,12 @@
     "requirement_id": "CANON-PRV-006",
     "revision": "1.0",
     "title": "High-impact decisions require strong provenance"
+   },
+   {
+    "kind": "constraint",
+    "requirement_id": "CANON-RES-012",
+    "revision": "1.0",
+    "title": "The signed result must support the claim"
    },
    {
     "kind": "constraint",

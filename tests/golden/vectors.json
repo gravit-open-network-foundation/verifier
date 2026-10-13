@@ -38,6 +38,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -58,6 +59,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "admissible_records": 2,
      "constraint_ok": true,
@@ -73,7 +80,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "317dda4a8830ba33",
+   "decision_id": "c6f3529c82ef4d9a",
    "evidence_ids": [
     "r1",
     "r2"
@@ -90,6 +97,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -204,6 +212,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -278,6 +302,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -298,6 +323,9 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true
+    },
     "CANON-SIG-011": {
      "constraint_ok": true
     },
@@ -308,7 +336,7 @@
      "record_count": 3
     }
    },
-   "decision_id": "bf9bf9159ea54d6a",
+   "decision_id": "346fa90236ad8af9",
    "evidence_ids": [
     "r1",
     "r2",
@@ -326,6 +354,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -496,6 +525,30 @@
      "evidence_id": "r3",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -556,6 +609,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -574,6 +628,9 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true
+    },
     "CANON-SIG-011": {
      "constraint_ok": true
     },
@@ -584,7 +641,7 @@
      "record_count": 1
     }
    },
-   "decision_id": "328e9fdbf96da072",
+   "decision_id": "2e34a16b501f414a",
    "evidence_ids": [
     "r1"
    ],
@@ -600,6 +657,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -661,6 +719,14 @@
     },
     {
      "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
      "binding_id": "CANON-SIG-011",
      "canon_reference": "Gravit Canon v1.1",
      "evidence_id": "r1",
@@ -690,6 +756,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -708,6 +775,9 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true
+    },
     "CANON-SIG-011": {
      "constraint_ok": true
     },
@@ -718,7 +788,7 @@
      "record_count": 0
     }
    },
-   "decision_id": "415769975137ae09",
+   "decision_id": "38429e3ca7367ff8",
    "evidence_ids": [],
    "excluded_evidence": [],
    "final_epistemic_state": null,
@@ -732,6 +802,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [],
@@ -757,6 +828,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -775,6 +847,9 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true
+    },
     "CANON-SIG-011": {
      "constraint_ok": true
     },
@@ -785,7 +860,7 @@
      "record_count": 0
     }
    },
-   "decision_id": "1b1214459962f85e",
+   "decision_id": "9edf3cacb15c018f",
    "evidence_ids": [],
    "excluded_evidence": [],
    "final_epistemic_state": null,
@@ -799,6 +874,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [],
@@ -847,6 +923,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -867,6 +944,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "admissible_records": 2,
      "constraint_ok": true,
@@ -882,7 +965,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "8349312e060ffeae",
+   "decision_id": "545bf4a53da94a8a",
    "evidence_ids": [
     "r1",
     "r2"
@@ -899,6 +982,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -1013,6 +1097,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -1076,6 +1176,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -1096,6 +1197,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "admissible_records": 2,
      "constraint_ok": true,
@@ -1111,7 +1218,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "1a8e8fcb10764e3d",
+   "decision_id": "42820c283d846806",
    "evidence_ids": [
     "r1",
     "r2"
@@ -1128,6 +1235,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -1242,6 +1350,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -1305,6 +1429,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -1323,6 +1448,9 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true
+    },
     "CANON-SIG-011": {
      "constraint_ok": true
     },
@@ -1333,7 +1461,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "35ee4297b3a1c45e",
+   "decision_id": "f108b139ef297f97",
    "evidence_ids": [
     "r1",
     "r2"
@@ -1350,6 +1478,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -1464,6 +1593,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -1527,6 +1672,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -1545,6 +1691,9 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true
+    },
     "CANON-SIG-011": {
      "constraint_ok": true
     },
@@ -1555,7 +1704,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "cb794cf2a4f7a50b",
+   "decision_id": "b15c22d3edac2a5c",
    "evidence_ids": [
     "r1",
     "r2"
@@ -1572,6 +1721,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -1686,6 +1836,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -1749,6 +1915,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -1767,6 +1934,9 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true
+    },
     "CANON-SIG-011": {
      "constraint_ok": true
     },
@@ -1777,7 +1947,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "41f62f5991cb03e8",
+   "decision_id": "9526150086a0d023",
    "evidence_ids": [
     "r1",
     "r2"
@@ -1794,6 +1964,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -1908,6 +2079,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -1993,6 +2180,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -2011,6 +2199,9 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true
+    },
     "CANON-SIG-011": {
      "constraint_ok": true
     },
@@ -2021,7 +2212,7 @@
      "record_count": 4
     }
    },
-   "decision_id": "de95748ddbea0a33",
+   "decision_id": "02d3074e37f4a27c",
    "evidence_ids": [
     "r1",
     "r2",
@@ -2040,6 +2231,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -2266,6 +2458,38 @@
      "evidence_id": "r4",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r4",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -2356,6 +2580,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -2376,6 +2601,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "admissible_records": 3,
      "constraint_ok": true,
@@ -2391,7 +2622,7 @@
      "record_count": 3
     }
    },
-   "decision_id": "d715ff091ab8ace5",
+   "decision_id": "921a12a5046f32af",
    "evidence_ids": [
     "r1",
     "r2",
@@ -2409,6 +2640,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -2579,6 +2811,30 @@
      "evidence_id": "r3",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -2672,6 +2928,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -2692,6 +2949,9 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true
+    },
     "CANON-SIG-011": {
      "constraint_ok": true
     },
@@ -2702,7 +2962,7 @@
      "record_count": 4
     }
    },
-   "decision_id": "0d68f936610d4c8c",
+   "decision_id": "6185b6bfa0e60bbe",
    "evidence_ids": [
     "r1",
     "r2",
@@ -2721,6 +2981,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -2947,6 +3208,38 @@
      "evidence_id": "r4",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r4",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -3048,6 +3341,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -3068,6 +3362,9 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true
+    },
     "CANON-SIG-011": {
      "constraint_ok": true
     },
@@ -3078,7 +3375,7 @@
      "record_count": 4
     }
    },
-   "decision_id": "a66c8464116839c0",
+   "decision_id": "6a36e07315e12c46",
    "evidence_ids": [
     "r4",
     "r3",
@@ -3097,6 +3394,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -3323,6 +3621,38 @@
      "evidence_id": "r1",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r4",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -3424,6 +3754,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -3444,6 +3775,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 4
+    },
     "CANON-SIG-011": {
      "admissible_records": 4,
      "constraint_ok": true,
@@ -3459,7 +3796,7 @@
      "record_count": 4
     }
    },
-   "decision_id": "ef262ff85c64abb2",
+   "decision_id": "1b77e7d541e22130",
    "evidence_ids": [
     "r1",
     "r2",
@@ -3478,6 +3815,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -3704,6 +4042,38 @@
      "evidence_id": "r4",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r4",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -3871,6 +4241,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -3891,6 +4262,9 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true
+    },
     "CANON-SIG-011": {
      "constraint_ok": true
     },
@@ -3901,7 +4275,7 @@
      "record_count": 10
     }
    },
-   "decision_id": "4b2a1f7c2a815829",
+   "decision_id": "7f17a652baf18930",
    "evidence_ids": [
     "r1",
     "r2",
@@ -3926,6 +4300,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -4488,6 +4863,86 @@
      "evidence_id": "r10",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r4",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r5",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r6",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r7",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r8",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r9",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r10",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -4703,6 +5158,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -4723,6 +5179,9 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true
+    },
     "CANON-SIG-011": {
      "constraint_ok": true
     },
@@ -4733,7 +5192,7 @@
      "record_count": 10
     }
    },
-   "decision_id": "a71f6bf7632467f0",
+   "decision_id": "0ecb66a85ab17749",
    "evidence_ids": [
     "r1",
     "r2",
@@ -4758,6 +5217,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -5320,6 +5780,86 @@
      "evidence_id": "r10",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r4",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r5",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r6",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r7",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r8",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r9",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r10",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -5447,6 +5987,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -5467,6 +6008,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "admissible_records": 2,
      "constraint_ok": true,
@@ -5482,7 +6029,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "2f8e889df83a6f3b",
+   "decision_id": "e3344545b92fc11f",
    "evidence_ids": [
     "r1",
     "r2"
@@ -5499,6 +6046,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -5613,6 +6161,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -5676,6 +6240,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -5696,6 +6261,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "admissible_records": 2,
      "constraint_ok": true,
@@ -5711,7 +6282,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "3d9b3b6f80b6ea68",
+   "decision_id": "9a7ca314b1c49484",
    "evidence_ids": [
     "r1",
     "r2"
@@ -5728,6 +6299,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -5842,6 +6414,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -5907,6 +6495,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -5927,6 +6516,12 @@
     "CANON-PRV-006": {
      "constraint_ok": false
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "admissible_records": 2,
      "constraint_ok": true,
@@ -5942,7 +6537,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "f0776e3b7fd6cfbf",
+   "decision_id": "6068da48a5a8e8d7",
    "evidence_ids": [
     "r1",
     "r2"
@@ -5959,6 +6554,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -6073,6 +6669,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -6138,6 +6750,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -6158,6 +6771,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "admissible_records": 2,
      "constraint_ok": true,
@@ -6173,7 +6792,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "6e0a9d1c6b92d50e",
+   "decision_id": "65ed477e2fdb1fad",
    "evidence_ids": [
     "r1",
     "r2"
@@ -6190,6 +6809,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -6304,6 +6924,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -6367,6 +7003,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -6387,6 +7024,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "admissible_records": 2,
      "constraint_ok": true,
@@ -6402,7 +7045,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "fabd4f4037e62b92",
+   "decision_id": "ec005fd25d4d24d6",
    "evidence_ids": [
     "r1",
     "r2"
@@ -6419,6 +7062,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -6533,6 +7177,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -6596,6 +7256,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -6616,6 +7277,9 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true
+    },
     "CANON-SIG-011": {
      "constraint_ok": true
     },
@@ -6626,7 +7290,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "d0014670fa05afca",
+   "decision_id": "f8e60d77ece2a044",
    "evidence_ids": [
     "r1",
     "r2"
@@ -6643,6 +7307,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -6757,6 +7422,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -6820,6 +7501,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -6840,6 +7522,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "constraint_ok": false,
      "registry": false
@@ -6851,7 +7539,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "3e5af57e1e8cae23",
+   "decision_id": "cb3ac2ab3f039a38",
    "evidence_ids": [
     "r1",
     "r2"
@@ -6868,6 +7556,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -6982,6 +7671,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -7045,6 +7750,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -7065,6 +7771,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "constraint_ok": false,
      "registry": false
@@ -7076,7 +7788,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "eb80448d253816d5",
+   "decision_id": "90d46450eafc503b",
    "evidence_ids": [
     "r1",
     "r2"
@@ -7093,6 +7805,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -7207,6 +7920,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -7268,6 +7997,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -7288,6 +8018,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 1
+    },
     "CANON-SIG-011": {
      "admissible_records": 1,
      "constraint_ok": false,
@@ -7301,7 +8037,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "0c8748004f052986",
+   "decision_id": "4520b5cda944317b",
    "evidence_ids": [
     "r1",
     "r2"
@@ -7323,6 +8059,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -7437,6 +8174,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -7500,6 +8253,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -7520,6 +8274,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 1
+    },
     "CANON-SIG-011": {
      "admissible_records": 1,
      "constraint_ok": false,
@@ -7533,7 +8293,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "e30174f7b6329069",
+   "decision_id": "08d935ecb164e3bd",
    "evidence_ids": [
     "r1",
     "r2"
@@ -7555,6 +8315,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -7669,6 +8430,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -7732,6 +8509,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -7752,6 +8530,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 1
+    },
     "CANON-SIG-011": {
      "admissible_records": 1,
      "constraint_ok": false,
@@ -7765,7 +8549,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "353901b040ff93bd",
+   "decision_id": "a26d64d995bee09a",
    "evidence_ids": [
     "r1",
     "r2"
@@ -7787,6 +8571,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -7901,6 +8686,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -7964,6 +8765,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -7984,6 +8786,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 1
+    },
     "CANON-SIG-011": {
      "admissible_records": 1,
      "constraint_ok": false,
@@ -7997,7 +8805,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "12e1b23d3e4aec28",
+   "decision_id": "45035c92881587a0",
    "evidence_ids": [
     "r1",
     "r2"
@@ -8019,6 +8827,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -8133,6 +8942,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -8196,6 +9021,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -8216,6 +9042,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 1
+    },
     "CANON-SIG-011": {
      "admissible_records": 1,
      "constraint_ok": false,
@@ -8229,7 +9061,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "a34ae9d101f795ba",
+   "decision_id": "f0936ee30ffc84ca",
    "evidence_ids": [
     "r1",
     "r2"
@@ -8251,6 +9083,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -8365,6 +9198,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -8428,6 +9277,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -8448,6 +9298,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 1
+    },
     "CANON-SIG-011": {
      "admissible_records": 1,
      "constraint_ok": false,
@@ -8461,7 +9317,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "9b67e7614a2f4c07",
+   "decision_id": "b57f3bf363240cb2",
    "evidence_ids": [
     "r1",
     "r2"
@@ -8483,6 +9339,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -8597,6 +9454,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -8660,6 +9533,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -8680,6 +9554,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 1
+    },
     "CANON-SIG-011": {
      "admissible_records": 2,
      "constraint_ok": false,
@@ -8693,7 +9573,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "f8f8666566c6084a",
+   "decision_id": "401d10671a14c4cb",
    "evidence_ids": [
     "r1",
     "r2"
@@ -8710,6 +9590,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -8824,6 +9705,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -8898,6 +9795,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -8918,6 +9816,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "admissible_records": 2,
      "constraint_ok": true,
@@ -8933,7 +9837,7 @@
      "record_count": 3
     }
    },
-   "decision_id": "ed86f60d9ba4cd60",
+   "decision_id": "43749091627b7f37",
    "evidence_ids": [
     "r1",
     "r2",
@@ -8956,6 +9860,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -9126,6 +10031,30 @@
      "evidence_id": "r3",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -9200,6 +10129,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -9220,6 +10150,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "admissible_records": 2,
      "constraint_ok": true,
@@ -9235,7 +10171,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "7d5ca8229884e997",
+   "decision_id": "3554f8c664e2b1cc",
    "evidence_ids": [
     "r1",
     "r2"
@@ -9252,6 +10188,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -9366,6 +10303,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -9432,6 +10385,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -9452,6 +10406,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "admissible_records": 2,
      "constraint_ok": true,
@@ -9467,7 +10427,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "35950a284a71ff0d",
+   "decision_id": "b13590f9c2289fd7",
    "evidence_ids": [
     "r1",
     "r2"
@@ -9484,6 +10444,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -9598,6 +10559,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -9664,6 +10641,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -9684,6 +10662,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "admissible_records": 2,
      "constraint_ok": true,
@@ -9699,7 +10683,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "c8e3d680aec29dae",
+   "decision_id": "93d64fba15a660e1",
    "evidence_ids": [
     "r1",
     "r2"
@@ -9716,6 +10700,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -9830,6 +10815,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -9896,6 +10897,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -9916,6 +10918,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "admissible_records": 2,
      "constraint_ok": true,
@@ -9931,7 +10939,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "25859386ab5b71bc",
+   "decision_id": "fd2c7d0a0f96843e",
    "evidence_ids": [
     "r1",
     "r2"
@@ -9948,6 +10956,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -10062,6 +11071,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -10128,6 +11153,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -10148,6 +11174,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "admissible_records": 2,
      "constraint_ok": true,
@@ -10163,7 +11195,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "eae3a80adbc08e95",
+   "decision_id": "f7987cbcb4e7f436",
    "evidence_ids": [
     "r1",
     "r2"
@@ -10180,6 +11212,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -10294,6 +11327,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -10360,6 +11409,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -10380,6 +11430,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "admissible_records": 2,
      "constraint_ok": true,
@@ -10395,7 +11451,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "ee9a500d5d429081",
+   "decision_id": "87009c8f9a0339ae",
    "evidence_ids": [
     "r1",
     "r2"
@@ -10412,6 +11468,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -10526,6 +11583,22 @@
      "evidence_id": "r2",
      "is_winning_gate": "False",
      "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
     },
     {
      "achieved_state": "None",
@@ -10591,6 +11664,7 @@
     "Gravit Canon v1.1",
     "Gravit Canon v1.1",
     "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
     "Gravit Canon v1.1"
    ],
    "convergence_metrics": {
@@ -10611,6 +11685,12 @@
     "CANON-PRV-006": {
      "constraint_ok": true
     },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
     "CANON-SIG-011": {
      "admissible_records": 2,
      "constraint_ok": true,
@@ -10626,7 +11706,7 @@
      "record_count": 2
     }
    },
-   "decision_id": "e84c066d7dd27af3",
+   "decision_id": "0c7de61402d55904",
    "evidence_ids": [
     "r1",
     "r2"
@@ -10643,6 +11723,7 @@
     "CANON-IND-004",
     "CANON-NSD-007",
     "CANON-PRV-006",
+    "CANON-RES-012",
     "CANON-SIG-011"
    ],
    "reverse_trace": [
@@ -10760,6 +11841,22 @@
     },
     {
      "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
      "binding_id": "CANON-SIG-011",
      "canon_reference": "Gravit Canon v1.1",
      "evidence_id": "r1",
@@ -10779,6 +11876,2041 @@
    "trust_root_digest": "38bf337eadc5e565c32f26da16ce368fb1f88ada4758cd90ea529d53d14a3c3c"
   },
   "name": "freshness_policy_incomplete_demotes",
+  "use_registry": true
+ },
+ {
+  "claimed_state": "Verified Fact",
+  "context": {},
+  "evidence": [
+   {
+    "integrity_hash": "h",
+    "key_id": "cca2ba4e22252230",
+    "provenance": "A",
+    "record_id": "r1",
+    "result": true,
+    "signature": "vYDf6I3Bhp5phC4hx8urt+rdROBmXzA24h4S94EhEPSR8G7A99/IEk/34SFH4SVanQaI31a8Gr0SRvSrhvW/Ag==",
+    "theta": 0.9,
+    "timestamp": "2026-09-06T12:00:00Z",
+    "verifier_id": "v1"
+   },
+   {
+    "integrity_hash": "h",
+    "key_id": "5360925ba455e21a",
+    "provenance": "B",
+    "record_id": "r2",
+    "result": false,
+    "signature": "0lA6WTMdrCbC2CBiqeX6JnZIlRo7MQIRz+CfEab6n1R0NxLTwy9vYPkQZKuYqd20suuv7H723XE1i6YXh55KAw==",
+    "theta": 0.9,
+    "timestamp": "2026-09-06T12:00:00Z",
+    "verifier_id": "v2"
+   }
+  ],
+  "expected": {
+   "artifact_id": "result_false_contradicts",
+   "c_down": true,
+   "c_up": true,
+   "canon_trace": [
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "VEDS-00 §4.2",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1"
+   ],
+   "convergence_metrics": {
+    "CANON-FRS-005": {
+     "constraint_ok": true
+    },
+    "CANON-IND-004": {
+     "constraint_ok": true
+    },
+    "CANON-NAL-001": {
+     "f": 0.0,
+     "h": 1.0,
+     "independent_records": 2
+    },
+    "CANON-NSD-007": {
+     "constraint_ok": true
+    },
+    "CANON-PRV-006": {
+     "constraint_ok": true
+    },
+    "CANON-RES-012": {
+     "constraint_ok": false,
+     "contradicting_records": [
+      "r2"
+     ],
+     "no_verdict_records": [],
+     "supporting_sources": 1
+    },
+    "CANON-SIG-011": {
+     "admissible_records": 2,
+     "constraint_ok": true,
+     "f": 0.0,
+     "h": 1.0,
+     "independent_sources": 2,
+     "registry": true
+    },
+    "CANON-VAL-002": {
+     "record_count": 2
+    },
+    "CANON-VER-003": {
+     "record_count": 2
+    }
+   },
+   "decision_id": "6c18d9dc2eb2e717",
+   "evidence_ids": [
+    "r1",
+    "r2"
+   ],
+   "excluded_evidence": [],
+   "final_epistemic_state": "Probabilistic Assessment",
+   "reason": "CANON-RES-012: 1 record(s) report result=false: the claim is contradicted; claimed 'Verified Fact' not justified by evidence; capped at 'Probabilistic Assessment'",
+   "registry_digest": "65579301a6f35f5ca8d20c0b5a538934d3c48860e545a3355f571748fbb5d40c",
+   "requirement_ids": [
+    "CANON-NAL-001",
+    "CANON-VAL-002",
+    "CANON-VER-003",
+    "CANON-FRS-005",
+    "CANON-IND-004",
+    "CANON-NSD-007",
+    "CANON-PRV-006",
+    "CANON-RES-012",
+    "CANON-SIG-011"
+   ],
+   "reverse_trace": [
+    {
+     "achieved_state": "Verified Fact",
+     "binding_id": "CANON-NAL-001",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "True",
+     "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+    },
+    {
+     "achieved_state": "Verified Fact",
+     "binding_id": "CANON-NAL-001",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "True",
+     "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+    },
+    {
+     "achieved_state": "Speculative Claim",
+     "binding_id": "CANON-VAL-002",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+    },
+    {
+     "achieved_state": "Speculative Claim",
+     "binding_id": "CANON-VAL-002",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+    },
+    {
+     "achieved_state": "Probabilistic Assessment",
+     "binding_id": "CANON-VER-003",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+    },
+    {
+     "achieved_state": "Probabilistic Assessment",
+     "binding_id": "CANON-VER-003",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-FRS-005",
+     "canon_reference": "VEDS-00 §4.2",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-FRS-005",
+     "canon_reference": "VEDS-00 §4.2",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-IND-004",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-IND-004",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-NSD-007",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-NSD-007",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-PRV-006",
+     "canon_reference": "VEDS-00 §4.3",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-PRV-006",
+     "canon_reference": "VEDS-00 §4.3",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-SIG-011",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-SIG-011",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+    }
+   ],
+   "status": "DEGRADED",
+   "trust_root_digest": "38bf337eadc5e565c32f26da16ce368fb1f88ada4758cd90ea529d53d14a3c3c"
+  },
+  "name": "result_false_contradicts",
+  "use_registry": true
+ },
+ {
+  "claimed_state": "Verified Fact",
+  "context": {},
+  "evidence": [
+   {
+    "integrity_hash": "h",
+    "key_id": "cca2ba4e22252230",
+    "provenance": "A",
+    "record_id": "r1",
+    "result": null,
+    "signature": "rWypVBIA8wfRvnpqAN/OM8PhsTXoWruHAUBEDnC0eHWbQ3cJv1WbppuQebSGWkOenms3MtAnkZkdnraPM3pABg==",
+    "theta": 0.9,
+    "timestamp": "2026-09-06T12:00:00Z",
+    "verifier_id": "v1"
+   },
+   {
+    "integrity_hash": "h",
+    "key_id": "5360925ba455e21a",
+    "provenance": "B",
+    "record_id": "r2",
+    "result": null,
+    "signature": "cD8flUISWNAlBaJelN3rTA2YoIkvB9vICbmzlyb+uvduUbHEc0MR/velDRW4/jcRMCmdJ6ABLufjzutWXbxVCA==",
+    "theta": 0.9,
+    "timestamp": "2026-09-06T12:00:00Z",
+    "verifier_id": "v2"
+   }
+  ],
+  "expected": {
+   "artifact_id": "result_null_is_no_support",
+   "c_down": true,
+   "c_up": true,
+   "canon_trace": [
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "VEDS-00 §4.2",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1"
+   ],
+   "convergence_metrics": {
+    "CANON-FRS-005": {
+     "constraint_ok": true
+    },
+    "CANON-IND-004": {
+     "constraint_ok": true
+    },
+    "CANON-NAL-001": {
+     "f": 0.0,
+     "h": 1.0,
+     "independent_records": 2
+    },
+    "CANON-NSD-007": {
+     "constraint_ok": true
+    },
+    "CANON-PRV-006": {
+     "constraint_ok": true
+    },
+    "CANON-RES-012": {
+     "constraint_ok": false,
+     "contradicting_records": [],
+     "no_verdict_records": [
+      "r1",
+      "r2"
+     ],
+     "supporting_sources": 0
+    },
+    "CANON-SIG-011": {
+     "admissible_records": 2,
+     "constraint_ok": true,
+     "f": 0.0,
+     "h": 1.0,
+     "independent_sources": 2,
+     "registry": true
+    },
+    "CANON-VAL-002": {
+     "record_count": 2
+    },
+    "CANON-VER-003": {
+     "record_count": 2
+    }
+   },
+   "decision_id": "838c962150837506",
+   "evidence_ids": [
+    "r1",
+    "r2"
+   ],
+   "excluded_evidence": [],
+   "final_epistemic_state": "Probabilistic Assessment",
+   "reason": "CANON-RES-012: only 0 independent source(s) report result=true (2 record(s) report no verdict); claimed 'Verified Fact' not justified by evidence; capped at 'Probabilistic Assessment'",
+   "registry_digest": "65579301a6f35f5ca8d20c0b5a538934d3c48860e545a3355f571748fbb5d40c",
+   "requirement_ids": [
+    "CANON-NAL-001",
+    "CANON-VAL-002",
+    "CANON-VER-003",
+    "CANON-FRS-005",
+    "CANON-IND-004",
+    "CANON-NSD-007",
+    "CANON-PRV-006",
+    "CANON-RES-012",
+    "CANON-SIG-011"
+   ],
+   "reverse_trace": [
+    {
+     "achieved_state": "Verified Fact",
+     "binding_id": "CANON-NAL-001",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "True",
+     "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+    },
+    {
+     "achieved_state": "Verified Fact",
+     "binding_id": "CANON-NAL-001",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "True",
+     "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+    },
+    {
+     "achieved_state": "Speculative Claim",
+     "binding_id": "CANON-VAL-002",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+    },
+    {
+     "achieved_state": "Speculative Claim",
+     "binding_id": "CANON-VAL-002",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+    },
+    {
+     "achieved_state": "Probabilistic Assessment",
+     "binding_id": "CANON-VER-003",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+    },
+    {
+     "achieved_state": "Probabilistic Assessment",
+     "binding_id": "CANON-VER-003",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-FRS-005",
+     "canon_reference": "VEDS-00 §4.2",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-FRS-005",
+     "canon_reference": "VEDS-00 §4.2",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-IND-004",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-IND-004",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-NSD-007",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-NSD-007",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-PRV-006",
+     "canon_reference": "VEDS-00 §4.3",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-PRV-006",
+     "canon_reference": "VEDS-00 §4.3",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-SIG-011",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-SIG-011",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+    }
+   ],
+   "status": "DEGRADED",
+   "trust_root_digest": "38bf337eadc5e565c32f26da16ce368fb1f88ada4758cd90ea529d53d14a3c3c"
+  },
+  "name": "result_null_is_no_support",
+  "use_registry": true
+ },
+ {
+  "claimed_state": "Verified Fact",
+  "context": {},
+  "evidence": [
+   {
+    "integrity_hash": "h",
+    "key_id": "cca2ba4e22252230",
+    "provenance": "A",
+    "record_id": "r1",
+    "result": true,
+    "signature": "1rNFDLHQt3nQ8DLmhSS4MMGNBAkWvXjGj8/ZLMX2Brp1TUjN61f2TSNIyJ4mNPo3Uf5FjCzmwjkYZHk9GBA7Cg==",
+    "theta": 0.9,
+    "timestamp": "2026-09-06T12:00:00Z",
+    "verifier_id": "v1"
+   },
+   {
+    "integrity_hash": "h",
+    "key_id": "5360925ba455e21a",
+    "provenance": "B",
+    "record_id": "r2",
+    "result": null,
+    "signature": "qIT/PaE24uOlA4glGCqAwY7NmpMSspvh3B6FzPtNljhXng5cjpVhmy0mSdFu5S34Ep5iyPbytSj1WYANxHzNBw==",
+    "theta": 0.9,
+    "timestamp": "2026-09-06T12:00:00Z",
+    "verifier_id": "v2"
+   }
+  ],
+  "expected": {
+   "artifact_id": "result_one_true_one_null",
+   "c_down": true,
+   "c_up": true,
+   "canon_trace": [
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "VEDS-00 §4.2",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1"
+   ],
+   "convergence_metrics": {
+    "CANON-FRS-005": {
+     "constraint_ok": true
+    },
+    "CANON-IND-004": {
+     "constraint_ok": true
+    },
+    "CANON-NAL-001": {
+     "f": 0.0,
+     "h": 1.0,
+     "independent_records": 2
+    },
+    "CANON-NSD-007": {
+     "constraint_ok": true
+    },
+    "CANON-PRV-006": {
+     "constraint_ok": true
+    },
+    "CANON-RES-012": {
+     "constraint_ok": false,
+     "contradicting_records": [],
+     "no_verdict_records": [
+      "r2"
+     ],
+     "supporting_sources": 1
+    },
+    "CANON-SIG-011": {
+     "admissible_records": 2,
+     "constraint_ok": true,
+     "f": 0.0,
+     "h": 1.0,
+     "independent_sources": 2,
+     "registry": true
+    },
+    "CANON-VAL-002": {
+     "record_count": 2
+    },
+    "CANON-VER-003": {
+     "record_count": 2
+    }
+   },
+   "decision_id": "031b74d542eb62db",
+   "evidence_ids": [
+    "r1",
+    "r2"
+   ],
+   "excluded_evidence": [],
+   "final_epistemic_state": "Probabilistic Assessment",
+   "reason": "CANON-RES-012: only 1 independent source(s) report result=true (1 record(s) report no verdict); claimed 'Verified Fact' not justified by evidence; capped at 'Probabilistic Assessment'",
+   "registry_digest": "65579301a6f35f5ca8d20c0b5a538934d3c48860e545a3355f571748fbb5d40c",
+   "requirement_ids": [
+    "CANON-NAL-001",
+    "CANON-VAL-002",
+    "CANON-VER-003",
+    "CANON-FRS-005",
+    "CANON-IND-004",
+    "CANON-NSD-007",
+    "CANON-PRV-006",
+    "CANON-RES-012",
+    "CANON-SIG-011"
+   ],
+   "reverse_trace": [
+    {
+     "achieved_state": "Verified Fact",
+     "binding_id": "CANON-NAL-001",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "True",
+     "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+    },
+    {
+     "achieved_state": "Verified Fact",
+     "binding_id": "CANON-NAL-001",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "True",
+     "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+    },
+    {
+     "achieved_state": "Speculative Claim",
+     "binding_id": "CANON-VAL-002",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+    },
+    {
+     "achieved_state": "Speculative Claim",
+     "binding_id": "CANON-VAL-002",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+    },
+    {
+     "achieved_state": "Probabilistic Assessment",
+     "binding_id": "CANON-VER-003",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+    },
+    {
+     "achieved_state": "Probabilistic Assessment",
+     "binding_id": "CANON-VER-003",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-FRS-005",
+     "canon_reference": "VEDS-00 §4.2",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-FRS-005",
+     "canon_reference": "VEDS-00 §4.2",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-IND-004",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-IND-004",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-NSD-007",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-NSD-007",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-PRV-006",
+     "canon_reference": "VEDS-00 §4.3",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-PRV-006",
+     "canon_reference": "VEDS-00 §4.3",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-SIG-011",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-SIG-011",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+    }
+   ],
+   "status": "DEGRADED",
+   "trust_root_digest": "38bf337eadc5e565c32f26da16ce368fb1f88ada4758cd90ea529d53d14a3c3c"
+  },
+  "name": "result_one_true_one_null",
+  "use_registry": true
+ },
+ {
+  "claimed_state": "Verified Fact",
+  "context": {},
+  "evidence": [
+   {
+    "integrity_hash": "h",
+    "key_id": "cca2ba4e22252230",
+    "provenance": "A",
+    "record_id": "r1",
+    "result": true,
+    "signature": "nv3/dfQFIr3RDA9ExpWopxzaIKpAa1z4B0/QDUpqd2pCzmmCnbbZFFs2JCQubCHYhcPz07zlNd6+CedrvT8rAw==",
+    "theta": 0.9,
+    "timestamp": "2026-09-06T12:00:00Z",
+    "verifier_id": "v1"
+   },
+   {
+    "integrity_hash": "h",
+    "key_id": "5360925ba455e21a",
+    "provenance": "B",
+    "record_id": "r2",
+    "result": true,
+    "signature": "ROK/AVQPDvV1RLxAZWWpEAol9h9pYpUMnOEZwQo/3Vki8eZo/VHQ6f7nxZCJgRlHhwiDF2oMwvxDImu+Ry55DA==",
+    "theta": 0.9,
+    "timestamp": "2026-09-06T12:00:00Z",
+    "verifier_id": "v2"
+   },
+   {
+    "integrity_hash": "h",
+    "key_id": "92f387aa787d0512",
+    "provenance": "C",
+    "record_id": "r3",
+    "result": true,
+    "signature": "FaE4ofthhIquLCvlGMYt+j5AeeouTUEp2tJFLHmA8aIFK9IksLK7lYx6TGC5YiPXE6DSDRcYefOsN+w1L7BXCA==",
+    "theta": 0.9,
+    "timestamp": "2026-09-06T12:00:00Z",
+    "verifier_id": "v3"
+   },
+   {
+    "integrity_hash": "h",
+    "key_id": "2e2d784ee45c4a4a",
+    "provenance": "D",
+    "record_id": "r4",
+    "result": false,
+    "signature": "BO346vbWTuV0DTmuKQzHqGI7xfK0Q0Ls1kRzMA8e/C9hJBJ7tCBpPwlTfajcb7/ic3ukPUEH0g0Vicv/9737Bw==",
+    "theta": 0.9,
+    "timestamp": "2026-09-06T12:00:00Z",
+    "verifier_id": "v4"
+   }
+  ],
+  "expected": {
+   "artifact_id": "result_false_outvoted_still_blocks",
+   "c_down": true,
+   "c_up": true,
+   "canon_trace": [
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "VEDS-00 §4.2",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1"
+   ],
+   "convergence_metrics": {
+    "CANON-FRS-005": {
+     "constraint_ok": true
+    },
+    "CANON-IND-004": {
+     "constraint_ok": true
+    },
+    "CANON-NAL-001": {
+     "f": 0.0,
+     "h": 1.0,
+     "independent_records": 4
+    },
+    "CANON-NSD-007": {
+     "constraint_ok": true
+    },
+    "CANON-PRV-006": {
+     "constraint_ok": true
+    },
+    "CANON-RES-012": {
+     "constraint_ok": false,
+     "contradicting_records": [
+      "r4"
+     ],
+     "no_verdict_records": [],
+     "supporting_sources": 3
+    },
+    "CANON-SIG-011": {
+     "admissible_records": 4,
+     "constraint_ok": true,
+     "f": 0.0,
+     "h": 1.0,
+     "independent_sources": 4,
+     "registry": true
+    },
+    "CANON-VAL-002": {
+     "record_count": 4
+    },
+    "CANON-VER-003": {
+     "record_count": 4
+    }
+   },
+   "decision_id": "933bd507d3ebaa4a",
+   "evidence_ids": [
+    "r1",
+    "r2",
+    "r3",
+    "r4"
+   ],
+   "excluded_evidence": [],
+   "final_epistemic_state": "Probabilistic Assessment",
+   "reason": "CANON-RES-012: 1 record(s) report result=false: the claim is contradicted; claimed 'Verified Fact' not justified by evidence; capped at 'Probabilistic Assessment'",
+   "registry_digest": "65579301a6f35f5ca8d20c0b5a538934d3c48860e545a3355f571748fbb5d40c",
+   "requirement_ids": [
+    "CANON-NAL-001",
+    "CANON-VAL-002",
+    "CANON-VER-003",
+    "CANON-FRS-005",
+    "CANON-IND-004",
+    "CANON-NSD-007",
+    "CANON-PRV-006",
+    "CANON-RES-012",
+    "CANON-SIG-011"
+   ],
+   "reverse_trace": [
+    {
+     "achieved_state": "Verified Fact",
+     "binding_id": "CANON-NAL-001",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "True",
+     "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+    },
+    {
+     "achieved_state": "Verified Fact",
+     "binding_id": "CANON-NAL-001",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "True",
+     "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+    },
+    {
+     "achieved_state": "Verified Fact",
+     "binding_id": "CANON-NAL-001",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "True",
+     "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+    },
+    {
+     "achieved_state": "Verified Fact",
+     "binding_id": "CANON-NAL-001",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r4",
+     "is_winning_gate": "True",
+     "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+    },
+    {
+     "achieved_state": "Speculative Claim",
+     "binding_id": "CANON-VAL-002",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+    },
+    {
+     "achieved_state": "Speculative Claim",
+     "binding_id": "CANON-VAL-002",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+    },
+    {
+     "achieved_state": "Speculative Claim",
+     "binding_id": "CANON-VAL-002",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+    },
+    {
+     "achieved_state": "Speculative Claim",
+     "binding_id": "CANON-VAL-002",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r4",
+     "is_winning_gate": "False",
+     "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+    },
+    {
+     "achieved_state": "Probabilistic Assessment",
+     "binding_id": "CANON-VER-003",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+    },
+    {
+     "achieved_state": "Probabilistic Assessment",
+     "binding_id": "CANON-VER-003",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+    },
+    {
+     "achieved_state": "Probabilistic Assessment",
+     "binding_id": "CANON-VER-003",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+    },
+    {
+     "achieved_state": "Probabilistic Assessment",
+     "binding_id": "CANON-VER-003",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r4",
+     "is_winning_gate": "False",
+     "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-FRS-005",
+     "canon_reference": "VEDS-00 §4.2",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-FRS-005",
+     "canon_reference": "VEDS-00 §4.2",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-FRS-005",
+     "canon_reference": "VEDS-00 §4.2",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-FRS-005",
+     "canon_reference": "VEDS-00 §4.2",
+     "evidence_id": "r4",
+     "is_winning_gate": "False",
+     "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-IND-004",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-IND-004",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-IND-004",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-IND-004",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r4",
+     "is_winning_gate": "False",
+     "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-NSD-007",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-NSD-007",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-NSD-007",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-NSD-007",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r4",
+     "is_winning_gate": "False",
+     "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-PRV-006",
+     "canon_reference": "VEDS-00 §4.3",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-PRV-006",
+     "canon_reference": "VEDS-00 §4.3",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-PRV-006",
+     "canon_reference": "VEDS-00 §4.3",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-PRV-006",
+     "canon_reference": "VEDS-00 §4.3",
+     "evidence_id": "r4",
+     "is_winning_gate": "False",
+     "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r4",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-SIG-011",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-SIG-011",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-SIG-011",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-SIG-011",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r4",
+     "is_winning_gate": "False",
+     "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+    }
+   ],
+   "status": "DEGRADED",
+   "trust_root_digest": "38bf337eadc5e565c32f26da16ce368fb1f88ada4758cd90ea529d53d14a3c3c"
+  },
+  "name": "result_false_outvoted_still_blocks",
+  "use_registry": true
+ },
+ {
+  "claimed_state": "Verified Fact",
+  "context": {},
+  "evidence": [
+   {
+    "integrity_hash": "h",
+    "key_id": "cca2ba4e22252230",
+    "provenance": "A",
+    "record_id": "r1",
+    "result": true,
+    "signature": "ji4vP6ccqSuPFerMJUMhbj6rLClpESk1LEVzz4jgq+iXIVHjq/CbtEH8CPh5JxA2woajnNw+O5lrOMl12Zh/Bw==",
+    "theta": 0.9,
+    "timestamp": "2026-09-06T12:00:00Z",
+    "verifier_id": "v1"
+   },
+   {
+    "integrity_hash": "h",
+    "key_id": "5360925ba455e21a",
+    "provenance": "B",
+    "record_id": "r2",
+    "result": true,
+    "signature": "0RCavbETnQZO6n5XDnE/FbzPKF2A01/ddzgfxdsoUbWhuDzI2pLjLTw+kx8J24MNtZGAWmRtmZkAcIC02GKPBw==",
+    "theta": 0.9,
+    "timestamp": "2026-09-06T12:00:00Z",
+    "verifier_id": "v2"
+   },
+   {
+    "integrity_hash": "h",
+    "provenance": "C",
+    "record_id": "r3",
+    "result": false,
+    "theta": 0.9,
+    "timestamp": "2026-09-06T12:00:00Z",
+    "verifier_id": "v3"
+   }
+  ],
+  "expected": {
+   "artifact_id": "result_false_unsigned_not_counted",
+   "c_down": true,
+   "c_up": true,
+   "canon_trace": [
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "VEDS-00 §4.2",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1"
+   ],
+   "convergence_metrics": {
+    "CANON-FRS-005": {
+     "constraint_ok": true
+    },
+    "CANON-IND-004": {
+     "constraint_ok": true
+    },
+    "CANON-NAL-001": {
+     "f": 0.0,
+     "h": 1.0,
+     "independent_records": 3
+    },
+    "CANON-NSD-007": {
+     "constraint_ok": true
+    },
+    "CANON-PRV-006": {
+     "constraint_ok": true
+    },
+    "CANON-RES-012": {
+     "constraint_ok": true,
+     "contradicting_records": [],
+     "no_verdict_records": [],
+     "supporting_sources": 2
+    },
+    "CANON-SIG-011": {
+     "admissible_records": 2,
+     "constraint_ok": true,
+     "f": 0.0,
+     "h": 1.0,
+     "independent_sources": 2,
+     "registry": true
+    },
+    "CANON-VAL-002": {
+     "record_count": 3
+    },
+    "CANON-VER-003": {
+     "record_count": 3
+    }
+   },
+   "decision_id": "91734b2aced8ed6b",
+   "evidence_ids": [
+    "r1",
+    "r2",
+    "r3"
+   ],
+   "excluded_evidence": [
+    {
+     "reason": "unsigned",
+     "record_id": "r3"
+    }
+   ],
+   "final_epistemic_state": "Verified Fact",
+   "reason": "All applicable Bindings satisfied",
+   "registry_digest": "65579301a6f35f5ca8d20c0b5a538934d3c48860e545a3355f571748fbb5d40c",
+   "requirement_ids": [
+    "CANON-NAL-001",
+    "CANON-VAL-002",
+    "CANON-VER-003",
+    "CANON-FRS-005",
+    "CANON-IND-004",
+    "CANON-NSD-007",
+    "CANON-PRV-006",
+    "CANON-RES-012",
+    "CANON-SIG-011"
+   ],
+   "reverse_trace": [
+    {
+     "achieved_state": "Verified Fact",
+     "binding_id": "CANON-NAL-001",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "True",
+     "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+    },
+    {
+     "achieved_state": "Verified Fact",
+     "binding_id": "CANON-NAL-001",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "True",
+     "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+    },
+    {
+     "achieved_state": "Verified Fact",
+     "binding_id": "CANON-NAL-001",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "True",
+     "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+    },
+    {
+     "achieved_state": "Speculative Claim",
+     "binding_id": "CANON-VAL-002",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+    },
+    {
+     "achieved_state": "Speculative Claim",
+     "binding_id": "CANON-VAL-002",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+    },
+    {
+     "achieved_state": "Speculative Claim",
+     "binding_id": "CANON-VAL-002",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+    },
+    {
+     "achieved_state": "Probabilistic Assessment",
+     "binding_id": "CANON-VER-003",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+    },
+    {
+     "achieved_state": "Probabilistic Assessment",
+     "binding_id": "CANON-VER-003",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+    },
+    {
+     "achieved_state": "Probabilistic Assessment",
+     "binding_id": "CANON-VER-003",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-FRS-005",
+     "canon_reference": "VEDS-00 §4.2",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-FRS-005",
+     "canon_reference": "VEDS-00 §4.2",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-FRS-005",
+     "canon_reference": "VEDS-00 §4.2",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-IND-004",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-IND-004",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-IND-004",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-NSD-007",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-NSD-007",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-NSD-007",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-PRV-006",
+     "canon_reference": "VEDS-00 §4.3",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-PRV-006",
+     "canon_reference": "VEDS-00 §4.3",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-PRV-006",
+     "canon_reference": "VEDS-00 §4.3",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-SIG-011",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-SIG-011",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-SIG-011",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r3",
+     "is_winning_gate": "False",
+     "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+    }
+   ],
+   "status": "SUCCESS",
+   "trust_root_digest": "38bf337eadc5e565c32f26da16ce368fb1f88ada4758cd90ea529d53d14a3c3c"
+  },
+  "name": "result_false_unsigned_not_counted",
+  "use_registry": true
+ },
+ {
+  "claimed_state": "Verified Fact",
+  "context": {},
+  "evidence": [
+   {
+    "integrity_hash": "h",
+    "key_id": "cca2ba4e22252230",
+    "provenance": "A",
+    "record_id": "r1",
+    "result": true,
+    "signature": "iZ5bLHf4Z9585o/4aGo4Ob9K5qtDUdrd+JlWI/JqK3qYI8y/xA69agZfJZhGMDC1M3X8fbZOWray+XVwYaaKAw==",
+    "theta": 0.9,
+    "timestamp": "2026-09-06T12:00:00Z",
+    "verifier_id": "v1"
+   },
+   {
+    "integrity_hash": "h",
+    "key_id": "5360925ba455e21a",
+    "provenance": "B",
+    "record_id": "r2",
+    "result": false,
+    "signature": "OxwzmlzlRjm/JWVbHrdUuL2eDrMN8AB6knuV313V8ygXlDXhqEC1xSq57nZGZyXo00BPrFhbhv+oT7ZcGK9/BQ==",
+    "theta": 0.9,
+    "timestamp": "2026-09-06T12:00:00Z",
+    "verifier_id": "v2"
+   }
+  ],
+  "expected": {
+   "artifact_id": "result_false_no_registry",
+   "c_down": true,
+   "c_up": true,
+   "canon_trace": [
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "VEDS-00 §4.2",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1"
+   ],
+   "convergence_metrics": {
+    "CANON-FRS-005": {
+     "constraint_ok": true
+    },
+    "CANON-IND-004": {
+     "constraint_ok": true
+    },
+    "CANON-NAL-001": {
+     "f": 0.0,
+     "h": 1.0,
+     "independent_records": 2
+    },
+    "CANON-NSD-007": {
+     "constraint_ok": true
+    },
+    "CANON-PRV-006": {
+     "constraint_ok": true
+    },
+    "CANON-RES-012": {
+     "constraint_ok": false,
+     "contradicting_records": [
+      "r2"
+     ],
+     "no_verdict_records": [],
+     "supporting_sources": 1
+    },
+    "CANON-SIG-011": {
+     "constraint_ok": false,
+     "registry": false
+    },
+    "CANON-VAL-002": {
+     "record_count": 2
+    },
+    "CANON-VER-003": {
+     "record_count": 2
+    }
+   },
+   "decision_id": "774465b139964f39",
+   "evidence_ids": [
+    "r1",
+    "r2"
+   ],
+   "excluded_evidence": [],
+   "final_epistemic_state": "Probabilistic Assessment",
+   "reason": "CANON-RES-012: 1 record(s) report result=false: the claim is contradicted; claimed 'Verified Fact' not justified by evidence; capped at 'Probabilistic Assessment'",
+   "registry_digest": null,
+   "requirement_ids": [
+    "CANON-NAL-001",
+    "CANON-VAL-002",
+    "CANON-VER-003",
+    "CANON-FRS-005",
+    "CANON-IND-004",
+    "CANON-NSD-007",
+    "CANON-PRV-006",
+    "CANON-RES-012",
+    "CANON-SIG-011"
+   ],
+   "reverse_trace": [
+    {
+     "achieved_state": "Verified Fact",
+     "binding_id": "CANON-NAL-001",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "True",
+     "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+    },
+    {
+     "achieved_state": "Verified Fact",
+     "binding_id": "CANON-NAL-001",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "True",
+     "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+    },
+    {
+     "achieved_state": "Speculative Claim",
+     "binding_id": "CANON-VAL-002",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+    },
+    {
+     "achieved_state": "Speculative Claim",
+     "binding_id": "CANON-VAL-002",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+    },
+    {
+     "achieved_state": "Probabilistic Assessment",
+     "binding_id": "CANON-VER-003",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+    },
+    {
+     "achieved_state": "Probabilistic Assessment",
+     "binding_id": "CANON-VER-003",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-FRS-005",
+     "canon_reference": "VEDS-00 §4.2",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-FRS-005",
+     "canon_reference": "VEDS-00 §4.2",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-IND-004",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-IND-004",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-NSD-007",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-NSD-007",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-PRV-006",
+     "canon_reference": "VEDS-00 §4.3",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-PRV-006",
+     "canon_reference": "VEDS-00 §4.3",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-SIG-011",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-SIG-011",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+    }
+   ],
+   "status": "DEGRADED",
+   "trust_root_digest": null
+  },
+  "name": "result_false_no_registry",
+  "use_registry": false
+ },
+ {
+  "claimed_state": "Probabilistic Assessment",
+  "context": {},
+  "evidence": [
+   {
+    "integrity_hash": "h",
+    "key_id": "cca2ba4e22252230",
+    "provenance": "A",
+    "record_id": "r1",
+    "result": true,
+    "signature": "NBf2i/6QZV3VDiSFWMJAUEh2+k1L1U9lDywBbbGOAVKFFiHMOaqt8/WrEqyA4/Y3xUv3dVV9o4oIVKDaxt6lCA==",
+    "theta": 0.9,
+    "timestamp": "2026-09-06T12:00:00Z",
+    "verifier_id": "v1"
+   },
+   {
+    "integrity_hash": "h",
+    "key_id": "5360925ba455e21a",
+    "provenance": "B",
+    "record_id": "r2",
+    "result": false,
+    "signature": "EW1BCpHR9VLn0Jb0p4F71ZDl7dfY/7O8Ail0apopSQMK59fkUUNRkT+MUBNBfW+fr9zU3d1Ndoj8Y+7dlNEUAw==",
+    "theta": 0.9,
+    "timestamp": "2026-09-06T12:00:00Z",
+    "verifier_id": "v2"
+   }
+  ],
+  "expected": {
+   "artifact_id": "result_false_modest_claim",
+   "c_down": true,
+   "c_up": true,
+   "canon_trace": [
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "VEDS-00 §4.2",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1",
+    "VEDS-00 §4.3",
+    "Gravit Canon v1.1",
+    "Gravit Canon v1.1"
+   ],
+   "convergence_metrics": {
+    "CANON-FRS-005": {
+     "constraint_ok": true
+    },
+    "CANON-IND-004": {
+     "constraint_ok": true
+    },
+    "CANON-NAL-001": {
+     "f": 0.0,
+     "h": 1.0,
+     "independent_records": 2
+    },
+    "CANON-NSD-007": {
+     "constraint_ok": true
+    },
+    "CANON-PRV-006": {
+     "constraint_ok": true
+    },
+    "CANON-RES-012": {
+     "constraint_ok": false,
+     "contradicting_records": [
+      "r2"
+     ],
+     "no_verdict_records": [],
+     "supporting_sources": 1
+    },
+    "CANON-SIG-011": {
+     "admissible_records": 2,
+     "constraint_ok": true,
+     "f": 0.0,
+     "h": 1.0,
+     "independent_sources": 2,
+     "registry": true
+    },
+    "CANON-VAL-002": {
+     "record_count": 2
+    },
+    "CANON-VER-003": {
+     "record_count": 2
+    }
+   },
+   "decision_id": "d998dcb2edba4bf9",
+   "evidence_ids": [
+    "r1",
+    "r2"
+   ],
+   "excluded_evidence": [],
+   "final_epistemic_state": "Probabilistic Assessment",
+   "reason": "CANON-RES-012: 1 record(s) report result=false: the claim is contradicted",
+   "registry_digest": "65579301a6f35f5ca8d20c0b5a538934d3c48860e545a3355f571748fbb5d40c",
+   "requirement_ids": [
+    "CANON-NAL-001",
+    "CANON-VAL-002",
+    "CANON-VER-003",
+    "CANON-FRS-005",
+    "CANON-IND-004",
+    "CANON-NSD-007",
+    "CANON-PRV-006",
+    "CANON-RES-012",
+    "CANON-SIG-011"
+   ],
+   "reverse_trace": [
+    {
+     "achieved_state": "Verified Fact",
+     "binding_id": "CANON-NAL-001",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "True",
+     "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+    },
+    {
+     "achieved_state": "Verified Fact",
+     "binding_id": "CANON-NAL-001",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "True",
+     "policy_obligation": "Aggregation of any number of RAW, VALIDATED, or Speculative Claim items does not by itself produce a Verified Fact. Elev..."
+    },
+    {
+     "achieved_state": "Speculative Claim",
+     "binding_id": "CANON-VAL-002",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+    },
+    {
+     "achieved_state": "Speculative Claim",
+     "binding_id": "CANON-VAL-002",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "An artifact that has only passed admissibility checks (provenance, integrity, freshness, interpretability) but has not r..."
+    },
+    {
+     "achieved_state": "Probabilistic Assessment",
+     "binding_id": "CANON-VER-003",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+    },
+    {
+     "achieved_state": "Probabilistic Assessment",
+     "binding_id": "CANON-VER-003",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "A single Record, even with high theta, can justify at most a Probabilistic Assessment. A Verified Fact from a single Rec..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-FRS-005",
+     "canon_reference": "VEDS-00 §4.2",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-FRS-005",
+     "canon_reference": "VEDS-00 §4.2",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "Any epistemic state above RAW requires each supporting Evidence Record to carry a timestamp within the applicable Freshn..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-IND-004",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-IND-004",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "To reach COMMITTED, Records must be independently produced (distinct verifier-id, distinct provenance roots, no shared c..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-NSD-007",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-NSD-007",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "If evidence no longer satisfies the conditions of a previously assigned epistemic state, the system must explicitly tran..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-PRV-006",
+     "canon_reference": "VEDS-00 §4.3",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-PRV-006",
+     "canon_reference": "VEDS-00 §4.3",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "For high-impact decisions (safety, critical infrastructure), provenance must be cryptographically bound and resolvable. ..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-RES-012",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-SIG-011",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r1",
+     "is_winning_gate": "False",
+     "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+    },
+    {
+     "achieved_state": "None",
+     "binding_id": "CANON-SIG-011",
+     "canon_reference": "Gravit Canon v1.1",
+     "evidence_id": "r2",
+     "is_winning_gate": "False",
+     "policy_obligation": "A Verified Fact must converge on Records that are signed by keys listed in the verifier registry, not revoked, and whose..."
+    }
+   ],
+   "status": "DEGRADED",
+   "trust_root_digest": "38bf337eadc5e565c32f26da16ce368fb1f88ada4758cd90ea529d53d14a3c3c"
+  },
+  "name": "result_false_modest_claim",
   "use_registry": true
  }
 ]

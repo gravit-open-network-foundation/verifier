@@ -491,6 +491,39 @@ fn signed_evidence(tentative: Option<Epistemic>, screening: Option<&Screening>) 
     }
 }
 
+/// CANON-RES-012; mirrors ConstraintEvaluator._signed_result.
+fn signed_result(tentative: Option<Epistemic>, evidence: &[Evidence], screening: Option<&Screening>) -> ConstraintResult {
+    if tentative != Some(Epistemic::Fact) {
+        return ConstraintResult::check(true, "");
+    }
+    let counted: Vec<(&Evidence, &str)> = match screening {
+        Some(s) => s.admissible.iter().map(|(e, op)| (*e, *op)).collect(),
+        None => evidence.iter().map(|e| (e, e.verifier_id.as_str())).collect(),
+    };
+    let supporting: Vec<(&Evidence, &str)> = counted.iter().copied().filter(|(e, _)| e.result == Value::Bool(true)).collect();
+    let contradicting: Vec<&str> = counted.iter().filter(|(e, _)| e.result == Value::Bool(false)).map(|(e, _)| e.record_id.as_str()).collect();
+    let no_verdict: Vec<&str> = counted.iter().filter(|(e, _)| !e.result.is_boolean()).map(|(e, _)| e.record_id.as_str()).collect();
+    let records: Vec<&Evidence> = supporting.iter().map(|(e, _)| *e).collect();
+    let operators: Vec<&str> = supporting.iter().map(|(_, op)| *op).collect();
+    let sources = independent_subset(&records, &operators).len();
+    let mut metrics = Map::new();
+    metrics.insert("supporting_sources".into(), json!(sources));
+    metrics.insert("contradicting_records".into(), json!(contradicting));
+    metrics.insert("no_verdict_records".into(), json!(no_verdict));
+    let reason = if !contradicting.is_empty() {
+        format!("{} record(s) report result=false: the claim is contradicted", contradicting.len())
+    } else if !no_verdict.is_empty() && sources < 2 {
+        format!("only {} independent source(s) report result=true ({} record(s) report no verdict)", sources, no_verdict.len())
+    } else {
+        String::new()
+    };
+    ConstraintResult {
+        cap: Some(Epistemic::Probabilistic),
+        metrics,
+        ..ConstraintResult::check(reason.is_empty(), &reason)
+    }
+}
+
 /// Seconds since 1970-01-01 for exactly 'YYYY-MM-DDTHH:MM:SSZ', else None.
 /// Mirrors `parse_utc_timestamp` in kernel.py.
 pub fn parse_utc_timestamp(ts: &str) -> Option<i64> {
@@ -566,6 +599,7 @@ fn constraint_evaluate(
             ConstraintResult::check(ok, "high-impact decision lacks strong provenance binding")
         }
         "CANON-SIG-011" => signed_evidence(tentative, screening),
+        "CANON-RES-012" => signed_result(tentative, evidence, screening),
         "CANON-NSD-007" => ConstraintResult { informative: true, ..pass },
         _ => pass,
     }

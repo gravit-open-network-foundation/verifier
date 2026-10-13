@@ -414,6 +414,9 @@ class ConstraintEvaluator:
         if rid == "CANON-SIG-011":
             return self._signed_evidence(achieved_state, screening)
 
+        if rid == "CANON-RES-012":
+            return self._signed_result(achieved_state, request, screening)
+
         if rid == "CANON-NSD-007":
             # Meta-rule about re-verification over time; not evaluable
             # within a single stateless verify() call. Recorded as
@@ -457,6 +460,43 @@ class ConstraintEvaluator:
             "reason": "" if ok else "signed evidence from independent operators does not converge",
             "metrics": metrics,
         }
+
+
+    @staticmethod
+    def _signed_result(
+        achieved_state: Optional[EpistemicState],
+        request: VerificationRequest,
+        screening: Optional[Tuple[List[Tuple[EvidenceRecord, str]], List[Dict[str, str]]]],
+    ) -> Dict[str, Any]:
+        """CANON-RES-012: a Verified Fact needs 2 independent sources whose
+        records report result=true and no counted record reporting false.
+        Counted records are the admissible ones when a registry is loaded,
+        otherwise all. Too few sources without any false/null record is left
+        to CANON-SIG-011 / CANON-IND-004, so the reason names the real cause. Caps at Probabilistic Assessment, like CANON-SIG-011."""
+        if achieved_state != EpistemicState.VERIFIED_FACT:
+            return {"ok": True, "reason": ""}
+        if screening is not None:
+            counted = [(e, op) for e, op in screening[0]]
+        else:
+            counted = [(e, e.verifier_id) for e in request.evidence]
+        supporting = [(e, op) for e, op in counted if e.result is True]
+        contradicting = [e.record_id for e, _ in counted if e.result is False]
+        no_verdict = [e.record_id for e, _ in counted if e.result is not True and e.result is not False]
+        sources = GEVPEvaluator.independent_subset([e for e, _ in supporting], [op for _, op in supporting])
+        metrics: Dict[str, Any] = {
+            "supporting_sources": len(sources),
+            "contradicting_records": contradicting,
+            "no_verdict_records": no_verdict,
+        }
+        if contradicting:
+            reason = f"{len(contradicting)} record(s) report result=false: the claim is contradicted"
+        elif no_verdict and len(sources) < 2:
+            reason = (f"only {len(sources)} independent source(s) report result=true"
+                      f" ({len(no_verdict)} record(s) report no verdict)")
+        else:
+            reason = ""
+        return {"ok": not reason, "cap": EpistemicState.PROBABILISTIC_ASSESSMENT, "reason": reason,
+                "metrics": metrics}
 
 
 # ---------------------------------------------------------------------------

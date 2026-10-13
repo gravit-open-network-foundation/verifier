@@ -220,7 +220,7 @@
    "success": "no independent effect beyond confirming CANON-NAL-001"
   },
   "kind": "constraint",
-  "notes": "Up to v0.5.0 the kernel ignored `result`: records reporting false or null counted towards a Verified Fact exactly like records reporting true. Reported by an external reviewer (12 Oct 2026) with a reproduction against the SAFR adapter. Caps instead of stepping down, like CANON-SIG-011, so the two do not stack. Only admissible records count when a registry is loaded, so an unsigned or unregistered \"false\" cannot block a decision.\n",
+  "notes": "Up to v0.5.0 the kernel ignored `result`: records reporting false or null counted towards a Verified Fact exactly like records reporting true. Reported and reproduced by Iman Schrock (EMILIA Protocol) (12 Oct 2026) against the SAFR adapter. Caps instead of stepping down, like CANON-SIG-011, so the two do not stack. Only admissible records count when a registry is loaded, so an unsigned or unregistered \"false\" cannot block a decision.\n",
   "policy_obligation": {
    "additional_constraints": [
     "result=false from a counted record blocks Verified Fact",

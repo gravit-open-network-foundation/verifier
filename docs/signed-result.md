@@ -29,7 +29,7 @@ It was a defect: records signed with `result=false` or `null` counted towards a 
 Fact* exactly like `true`, with identical decision ids. The earlier text is kept in the
 history of `CONFORMANCE.md`; the v0.5.0 tag is unchanged.
 
-Reported on 12 October 2026 by an external reviewer (to be named with their consent), with a reproduction against the SAFR v1.1
+Reported and reproduced on 12 October 2026 by Iman Schrock (EMILIA Protocol), against the SAFR v1.1
 reference adapter (`gravit-safr-adapter` at `75bd115`, verifier at `3fc7004`, public test keys,
 no payment executed):
 
@@ -38,6 +38,10 @@ no payment executed):
 | `true` | Auto-Execute, *Verified Fact* | Auto-Execute, *Verified Fact* |
 | `false` | **Auto-Execute**, *Verified Fact* | Escalate, *Probabilistic Assessment* (contradicted) |
 | `null` | **Auto-Execute**, *Verified Fact* | Escalate, *Probabilistic Assessment* (no verdict) |
+
+On 13 October 2026 Iman Schrock checked the fix: all 47 golden vectors pass in Python and Rust,
+and in the adapter scenario `true` permits Auto-Execute while `false` and `null` escalate with
+different decision IDs. No payment was executed.
 
 ## Golden vectors
 

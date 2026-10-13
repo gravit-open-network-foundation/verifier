@@ -1,0 +1,52 @@
+requirement_id: "CANON-RES-012"
+title: "The signed result must support the claim"
+version: "1.0"
+status: "normative"
+kind: "constraint"
+
+canonical_reference:
+  - "Gravit Canon v1.1"
+  - "VEDS-00 §4.6.2"
+  - "docs/signed-result.md"
+
+policy_obligation:
+  description: >
+    The `result` field of an Evidence Record is the producer's verdict on the
+    asserted claim, bound into its signature: true = the producer's check
+    supports the claim, false = the check contradicts it, null = the check
+    gave no verdict. A Verified Fact requires at least 2 independent sources
+    whose records report result=true, and no counted record that reports
+    result=false. Records with result=null support nothing and contradict
+    nothing. Otherwise the state is capped at Probabilistic Assessment, and
+    the record ids of contradicting and verdict-less records are kept in the
+    decision.
+  allowed_epistemic_states: []
+  additional_constraints:
+    - "result=false from a counted record blocks Verified Fact"
+    - "result=null is not support"
+
+verification_condition:
+  required_verification_state: "COMMITTED"
+  required_evidence:
+    - "result in {true, false, null}, covered by the record's signature"
+  other_conditions:
+    - "Counted records: the admissible records when a verifier registry is loaded, otherwise all records"
+    - "At least 2 independent sources with result=true"
+
+decision_outcome:
+  success: "no independent effect beyond confirming CANON-NAL-001"
+  failure_states:
+    - "DEGRADED"
+
+traceability:
+  must_link_to_evidence: true
+  must_link_to_canon: true
+  audit_level: "full"
+
+notes: >
+  Up to v0.5.0 the kernel ignored `result`: records reporting false or null
+  counted towards a Verified Fact exactly like records reporting true.
+  Reported by an external reviewer (12 Oct 2026) with a reproduction against the SAFR
+  adapter. Caps instead of stepping down, like CANON-SIG-011, so the two do
+  not stack. Only admissible records count when a registry is loaded, so an
+  unsigned or unregistered "false" cannot block a decision.

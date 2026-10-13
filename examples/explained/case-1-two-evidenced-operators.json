@@ -11,6 +11,7 @@
    "Gravit Canon v1.1",
    "Gravit Canon v1.1",
    "VEDS-00 §4.3",
+   "Gravit Canon v1.1",
    "Gravit Canon v1.1"
   ],
   "convergence_metrics": {
@@ -31,6 +32,12 @@
    "CANON-PRV-006": {
     "constraint_ok": true
    },
+   "CANON-RES-012": {
+    "constraint_ok": true,
+    "contradicting_records": [],
+    "no_verdict_records": [],
+    "supporting_sources": 2
+   },
    "CANON-SIG-011": {
     "admissible_records": 2,
     "constraint_ok": true,
@@ -46,7 +53,7 @@
     "record_count": 2
    }
   },
-  "decision_id": "092fa0bce1050bcb",
+  "decision_id": "89ddf7975daf36a7",
   "evidence_ids": [
    "r1",
    "r2"
@@ -63,6 +70,7 @@
    "CANON-IND-004",
    "CANON-NSD-007",
    "CANON-PRV-006",
+   "CANON-RES-012",
    "CANON-SIG-011"
   ],
   "reverse_trace": [
@@ -180,6 +188,22 @@
    },
    {
     "achieved_state": "None",
+    "binding_id": "CANON-RES-012",
+    "canon_reference": "Gravit Canon v1.1",
+    "evidence_id": "r1",
+    "is_winning_gate": "False",
+    "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+   },
+   {
+    "achieved_state": "None",
+    "binding_id": "CANON-RES-012",
+    "canon_reference": "Gravit Canon v1.1",
+    "evidence_id": "r2",
+    "is_winning_gate": "False",
+    "policy_obligation": "The `result` field of an Evidence Record is the producer's verdict on the asserted claim, bound into its signature: true..."
+   },
+   {
+    "achieved_state": "None",
     "binding_id": "CANON-SIG-011",
     "canon_reference": "Gravit Canon v1.1",
     "evidence_id": "r1",
@@ -200,7 +224,7 @@
  },
  "explanation": {
   "artifact_id": "case-1-two-evidenced-operators",
-  "decision_id": "092fa0bce1050bcb",
+  "decision_id": "89ddf7975daf36a7",
   "evaluation": {
    "reasons": [],
    "result": "evaluated"
@@ -212,7 +236,7 @@
     "r2"
    ]
   },
-  "explanation_id": "9ebcd1ed0919c7d2",
+  "explanation_id": "6b0b19adc83fa15e",
   "explanation_version": "1",
   "independence": {
    "claim_evaluated": "the admissible records come from 2 distinct registered operator(s): Example Operator A AG, Example Operator B Ltd",
@@ -306,6 +330,12 @@
     "requirement_id": "CANON-PRV-006",
     "revision": "1.0",
     "title": "High-impact decisions require strong provenance"
+   },
+   {
+    "kind": "constraint",
+    "requirement_id": "CANON-RES-012",
+    "revision": "1.0",
+    "title": "The signed result must support the claim"
    },
    {
     "kind": "constraint",

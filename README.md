@@ -145,6 +145,11 @@ the operators involved and, for each, the evidence behind its registry entry or 
 The kernel's decisions and golden vectors are unchanged. Details and a worked example:
 [docs/decision-explanation.md](docs/decision-explanation.md), `examples/explained/`.
 
+## v0.6 additions
+
+- **Fix: the signed `result` is now applied** (`CANON-RES-012`). Up to v0.5.0 the kernel ignored it, so records signed with `result=false` or `null` counted towards a *Verified Fact*. Now `true` = supports, `false` = contradicts (blocks *Verified Fact*), `null` = no verdict (not support); the decision keeps the ids of contradicting and verdict-less records. Reported by an external reviewer with a reproduction. Details: [docs/signed-result.md](docs/signed-result.md).
+- 47 golden vectors (7 new for the signed result). The outcomes and reasons of the 40 earlier vectors are unchanged; their `decision_id`s change because the decision now lists one more rule.
+
 ## v0.5 additions
 
 - The verifier registry must be signed by at least `threshold` root keys of a pinned trust root (`TrustRoot`, `--trust-root`); the trust root itself must require more than half of its keys. Procedure: `docs/root-key-custody.md`; holders: `registry/ROOT_KEYS.md`.

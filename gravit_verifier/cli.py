@@ -34,7 +34,7 @@ def load_artifact(path: Path) -> VerificationRequest:
     evidence = [
         EvidenceRecord(
             record_id=e["record_id"],
-            theta=float(e["theta"]),
+            theta=e["theta"],
             result=e.get("result"),
             verifier_id=e["verifier_id"],
             timestamp=e["timestamp"],

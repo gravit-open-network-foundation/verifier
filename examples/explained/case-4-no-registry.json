@@ -49,7 +49,7 @@
     "record_count": 2
    }
   },
-  "decision_id": "37ce3b146c5dcd7b",
+  "decision_id": "51ebcf241e012f50",
   "evidence_ids": [
    "r1",
    "r2"
@@ -220,7 +220,7 @@
  },
  "explanation": {
   "artifact_id": "case-4-no-registry",
-  "decision_id": "37ce3b146c5dcd7b",
+  "decision_id": "51ebcf241e012f50",
   "evaluation": {
    "reasons": [
     "no verifier registry loaded: independent signed evidence (CANON-SIG-011) cannot be evaluated"
@@ -234,7 +234,7 @@
     "r2"
    ]
   },
-  "explanation_id": "9ce21a1dca060ff5",
+  "explanation_id": "9cce7b3598415617",
   "explanation_version": "1",
   "independence": {
    "claim_evaluated": null,

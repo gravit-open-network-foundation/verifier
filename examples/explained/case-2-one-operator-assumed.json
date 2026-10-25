@@ -44,6 +44,7 @@
     "f": 0.0,
     "h": 1.0,
     "independent_sources": 2,
+    "integrity_hashes": 1,
     "registry": true
    },
    "CANON-VAL-002": {
@@ -53,7 +54,7 @@
     "record_count": 2
    }
   },
-  "decision_id": "080c40d77e524ad8",
+  "decision_id": "e95a81b86b002f9b",
   "evidence_ids": [
    "r1",
    "r2"
@@ -224,7 +225,7 @@
  },
  "explanation": {
   "artifact_id": "case-2-one-operator-assumed",
-  "decision_id": "080c40d77e524ad8",
+  "decision_id": "e95a81b86b002f9b",
   "evaluation": {
    "reasons": [],
    "result": "evaluated"
@@ -236,7 +237,7 @@
     "r2"
    ]
   },
-  "explanation_id": "26da8542e96df5a5",
+  "explanation_id": "50d2d0523687d526",
   "explanation_version": "1",
   "independence": {
    "claim_evaluated": "the admissible records come from 2 distinct registered operator(s): Example Operator A AG, Example Operator C GmbH",

@@ -47,8 +47,8 @@ def test_full_cycle_blocks_aggregation_laundering(kernel_with_all_bindings):
         claimed_state=EpistemicState.VERIFIED_FACT,
         evidence=[
             EvidenceRecord("r1", 0.61, True, "v-01", "2026-09-03T12:00:00Z", "agent-A", "hash1"),
-            EvidenceRecord("r2", 0.58, True, "v-02", "2026-09-03T12:00:30Z", "agent-B", "hash2"),
-            EvidenceRecord("r3", 0.55, True, "v-03", "2026-09-03T12:01:00Z", "agent-C", "hash3"),
+            EvidenceRecord("r2", 0.58, True, "v-02", "2026-09-03T12:00:30Z", "agent-B", "hash1"),
+            EvidenceRecord("r3", 0.55, True, "v-03", "2026-09-03T12:01:00Z", "agent-C", "hash1"),
         ],
     )
     decision = kernel_with_all_bindings.verify(req)
@@ -77,7 +77,7 @@ def test_full_cycle_single_record_max_probabilistic(kernel_with_all_bindings):
 def _two_strong_records():
     return [
         EvidenceRecord("r1", 0.88, True, "v-01", "2026-09-03T12:00:00Z", "agent-A", "hash1"),
-        EvidenceRecord("r2", 0.85, True, "v-02", "2026-09-03T12:00:45Z", "agent-B", "hash2"),
+        EvidenceRecord("r2", 0.85, True, "v-02", "2026-09-03T12:00:45Z", "agent-B", "hash1"),
     ]
 
 
@@ -124,7 +124,7 @@ def test_invented_verifier_ids_do_not_count(signed_kernel, signer):
 
 def test_bad_signature_excludes_record_but_not_artifact(signed_kernel, signer):
     records = _two_strong_records() + [
-        EvidenceRecord("r3", 0.9, True, "v-03", "2026-09-03T12:01:00Z", "agent-C", "hash3")
+        EvidenceRecord("r3", 0.9, True, "v-03", "2026-09-03T12:01:00Z", "agent-C", "hash1")
     ]
     evidence = [signer.sign("partial", e, e.verifier_id) for e in records]
     evidence[2].theta = 0.99  # changed after signing
@@ -145,8 +145,8 @@ def test_full_cycle_no_evidence_is_rejected(kernel_with_all_bindings):
 def test_high_impact_context_demotes_without_provenance(signed_kernel, signer):
     """CANON-PRV-006 only bites when context['high_impact'] is set."""
     evidence = [
-        EvidenceRecord("r1", 0.88, True, "v-01", "2026-09-03T12:00:00Z", "agent-A", ""),
-        EvidenceRecord("r2", 0.85, True, "v-02", "2026-09-03T12:00:45Z", "agent-B", "hash2"),
+        EvidenceRecord("r1", 0.88, True, "v-01", "2026-09-03T12:00:00Z", "", "hash1"),
+        EvidenceRecord("r2", 0.85, True, "v-02", "2026-09-03T12:00:45Z", "agent-B", "hash1"),
     ]
     evidence = [signer.sign("hi", e, e.verifier_id) for e in evidence]
     req_normal = VerificationRequest(

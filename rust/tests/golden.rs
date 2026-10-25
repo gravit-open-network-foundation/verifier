@@ -96,3 +96,17 @@ fn timestamp_parser_matches_python_reference_values() {
         assert_eq!(p(bad), None, "{:?}", bad);
     }
 }
+
+#[test]
+fn jcs_numbers_match_rfc8785() {
+    use gravit_verifier_rs::jcs_number;
+    let cases: [(f64, &str); 14] = [
+        (1e21, "1e+21"), (1e-7, "1e-7"), (1e-6, "0.000001"), (1.2345678901234568e20, "123456789012345680000"),
+        (4.5, "4.5"), (0.002, "0.002"), (2.0 / 3.0, "0.6666666666666666"), (1.0, "1"), (-0.0, "0"),
+        (5e-324, "5e-324"), (1.7976931348623157e308, "1.7976931348623157e+308"), (-1.5e-9, "-1.5e-9"),
+        (100.0, "100"), (123.456, "123.456"),
+    ];
+    for (x, want) in cases {
+        assert_eq!(jcs_number(x), want, "{}", x);
+    }
+}

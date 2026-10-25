@@ -339,6 +339,29 @@ fn screen<'a>(registry: &'a Registry, artifact_id: &str, evidence: &'a [Evidence
     s
 }
 
+/// theta must be a finite JSON number; strings and booleans are never coerced.
+fn theta_is_well_formed(e: &Evidence) -> bool {
+    e.theta_is_number && e.theta.is_finite()
+}
+
+/// The Records every rule counts, and the excluded ones with reasons.
+/// With a registry, only admissible Records count (GEVP Section 6);
+/// without one, every Record with a well-formed theta counts.
+/// Mirrors `counted_evidence` in kernel.py.
+fn counted_evidence(evidence: &[Evidence], screening: Option<&Screening>) -> (Vec<Evidence>, Vec<Value>) {
+    match screening {
+        Some(s) => (s.admissible.iter().map(|(e, _)| (*e).clone()).collect(), s.excluded.clone()),
+        None => (
+            evidence.iter().filter(|e| theta_is_well_formed(e)).cloned().collect(),
+            evidence
+                .iter()
+                .filter(|e| !theta_is_well_formed(e))
+                .map(|e| json!({ "record_id": e.record_id, "reason": "malformed" }))
+                .collect(),
+        ),
+    }
+}
+
 /// GEVP §10.3 over source representatives: (h > 0.7 && f < 0.3, h, f).
 fn convergence(reps: &[&Evidence]) -> (bool, f64, f64) {
     let n = reps.len() as f64;
@@ -477,6 +500,16 @@ fn signed_evidence(tentative: Option<Epistemic>, screening: Option<&Screening>) 
     metrics.insert("registry".into(), json!(true));
     metrics.insert("admissible_records".into(), json!(records.len()));
     metrics.insert("independent_sources".into(), json!(sources.len()));
+    let hashes: std::collections::BTreeSet<&str> = records.iter().map(|e| e.integrity_hash.as_str()).collect();
+    metrics.insert("integrity_hashes".into(), json!(hashes.len()));
+    if hashes.len() > 1 {
+        let reason = format!("counted records refer to different content ({} distinct integrity_hash values)", hashes.len());
+        return ConstraintResult {
+            cap: Some(Epistemic::Probabilistic),
+            metrics,
+            ..ConstraintResult::check(false, &reason)
+        };
+    }
     let mut ok = false;
     if sources.len() >= 2 {
         let (conv, h, f) = convergence(&sources);
@@ -616,6 +649,7 @@ pub fn verify(
     registry: Option<&Registry>,
 ) -> Value {
     let screening = registry.map(|r| screen(r, artifact_id, evidence));
+    let (counted, excluded) = counted_evidence(evidence, screening.as_ref());
     let normative: Vec<&Value> = bindings
         .iter()
         .filter(|b| b["status"].as_str() == Some("normative"))
@@ -626,7 +660,7 @@ pub fn verify(
     let mut gevp_metrics: Vec<(String, Value)> = Vec::new();
     let mut classifications: HashMap<String, Epistemic> = HashMap::new();
     for b in &gates {
-        let (ok, metrics) = gevp_evaluate(b, evidence);
+        let (ok, metrics) = gevp_evaluate(b, &counted);
         gevp_metrics.push((rid(b), metrics));
         if let Some(s) = classify(b, ok) {
             classifications.insert(rid(b), s);
@@ -654,7 +688,7 @@ pub fn verify(
     let mut constraint_results: Vec<(String, ConstraintResult)> = Vec::new();
     for c in &constraints {
         let id = rid(c);
-        let r = constraint_evaluate(&id, evidence, context, tentative, screening.as_ref());
+        let r = constraint_evaluate(&id, &counted, context, tentative, screening.as_ref());
         let mut m = r.metrics.clone();
         m.insert("constraint_ok".into(), json!(r.ok));
         gevp_metrics.push((id.clone(), Value::Object(m)));
@@ -757,7 +791,7 @@ pub fn verify(
         "reason": reason,
         "c_down": achieved.is_some() && status != "REJECTED",
         "c_up": winning.is_some(),
-        "excluded_evidence": screening.map(|s| s.excluded).unwrap_or_default(),
+        "excluded_evidence": excluded,
         "registry_digest": registry.map(|r| r.digest.clone()),
         "trust_root_digest": registry.map(|r| r.trust_root_digest.clone()),
     });
@@ -766,9 +800,60 @@ pub fn verify(
     record
 }
 
-/// First 16 hex chars of SHA3-256 over the canonical JSON of the record
-/// (sorted keys, no whitespace). Mirrors `DecisionRecord.content_id`.
+/// First 16 hex chars of SHA3-256 over the RFC 8785 canonical JSON of the
+/// record. Mirrors `DecisionRecord.content_id`.
 fn decision_id(record_without_id: &Value) -> String {
-    let canonical = serde_json::to_string(record_without_id).expect("JSON value serializes");
+    let canonical = canonical_json(record_without_id);
     Sha3_256::digest(canonical.as_bytes()).iter().take(8).map(|b| format!("{:02x}", b)).collect()
+}
+
+/// JSON Canonicalization Scheme, RFC 8785. Mirrors `canonical_json` in kernel.py.
+pub fn canonical_json(v: &Value) -> String {
+    match v {
+        Value::Null => "null".into(),
+        Value::Bool(b) => b.to_string(),
+        Value::Number(n) => match (n.as_i64(), n.as_u64()) {
+            (Some(i), _) => if i == 0 { "0".into() } else { i.to_string() },
+            (_, Some(u)) => u.to_string(),
+            _ => jcs_number(n.as_f64().expect("finite JSON number")),
+        },
+        Value::String(s) => serde_json::to_string(s).expect("string serializes"),
+        Value::Array(a) => format!("[{}]", a.iter().map(canonical_json).collect::<Vec<_>>().join(",")),
+        Value::Object(m) => {
+            let mut keys: Vec<&String> = m.keys().collect();
+            keys.sort_by(|a, b| a.encode_utf16().cmp(b.encode_utf16()));
+            let body: Vec<String> = keys
+                .iter()
+                .map(|k| format!("{}:{}", serde_json::to_string(k).expect("key serializes"), canonical_json(&m[*k])))
+                .collect();
+            format!("{{{}}}", body.join(","))
+        }
+    }
+}
+
+/// ECMAScript Number::toString (RFC 8785, Section 3.2.2.3).
+pub fn jcs_number(x: f64) -> String {
+    if x == 0.0 {
+        return "0".into();
+    }
+    let sign = if x < 0.0 { "-" } else { "" };
+    // `{:e}` gives the shortest round-trip digits, e.g. "6.666666666666666e-1".
+    let sci = format!("{:e}", x.abs());
+    let (mantissa, exp) = sci.split_once('e').expect("exponent form");
+    let digits: String = mantissa.chars().filter(|c| *c != '.').collect();
+    let digits = digits.trim_end_matches('0');
+    let digits = if digits.is_empty() { "0" } else { digits };
+    let k = digits.len() as i32;
+    let n = exp.parse::<i32>().expect("exponent") + 1; // value = 0.<digits> * 10^n
+    if k <= n && n <= 21 {
+        format!("{}{}{}", sign, digits, "0".repeat((n - k) as usize))
+    } else if 0 < n && n <= 21 {
+        format!("{}{}.{}", sign, &digits[..n as usize], &digits[n as usize..])
+    } else if -6 < n && n <= 0 {
+        format!("{}0.{}{}", sign, "0".repeat((-n) as usize), digits)
+    } else {
+        let e = n - 1;
+        let m = if k == 1 { digits.to_string() } else { format!("{}.{}", &digits[..1], &digits[1..]) };
+        format!("{}{}e{}{}", sign, m, if e > 0 { "+" } else { "-" }, e.abs())
+    }
 }

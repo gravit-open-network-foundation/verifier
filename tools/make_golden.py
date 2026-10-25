@@ -169,6 +169,25 @@ RES_CASES = [
     [ev(1,.9,"v1","A"), ev(2,.9,"v2","B",result=False)], True),
 ]
 
+# v0.7.0, review by Konrad Gruszka: one content per decision, excluded
+# Records never count, theta is never coerced.
+REVIEW_CASES = [
+ ("integrity_hash_mismatch_caps", "Verified Fact", {},
+    [ev(1,.9,"v1","A",h="h1"), ev(2,.9,"v2","B",h="h2")], True),
+ ("excluded_low_theta_does_not_block", "Verified Fact", {},
+    [ev(1,.9,"v1","A"), ev(2,.9,"v2","B"), ev(3,.1,"v3","C",key=None)], True),
+ ("excluded_shared_provenance_does_not_merge", "Verified Fact", {},
+    [ev(1,.9,"v1","A"), ev(2,.9,"v2","B"), ev(3,.9,"v2","A",key=None)], True),
+ ("excluded_stale_record_does_not_demote", "Verified Fact", FRESH,
+    [ev(1,.9,"v1","A"), ev(2,.9,"v2","B"), ev(3,.9,"v3","C",ts="2026-09-01T00:00:00Z",key=None)], True),
+ ("theta_string_malformed", "Verified Fact", {},
+    [ev(1,.9,"v1","A"), ev(2,.9,"v2","B"), ev(3,"0.85","v3","C",sig=DUMMY_SIG)], True),
+ ("theta_string_malformed_no_registry", "Probabilistic Assessment", {},
+    [ev(1,.9,"v1","A",key=None), ev(2,"0.85","v2","B",key=None)], False),
+ ("theta_bool_malformed_no_registry", "Probabilistic Assessment", {},
+    [ev(1,.9,"v1","A",key=None), ev(2,True,"v2","B",key=None)], False),
+]
+
 def build_kernel(registry=None):
     k = VerifierKernel(registry)
     for b in load_bindings_from_dir(ROOT / "bindings"):
@@ -185,7 +204,7 @@ def main():
     registry = VerifierRegistry.from_bytes(reg_bytes, reg_sigs, TrustRoot.from_bytes(root_bytes))
     kernels = {True: build_kernel(registry), False: build_kernel()}
     vectors = []
-    for name, claim, ctx, evidence, use_registry in [(*c, True) for c in CASES] + SIG_CASES + FRESH_CASES + RES_CASES:
+    for name, claim, ctx, evidence, use_registry in [(*c, True) for c in CASES] + SIG_CASES + FRESH_CASES + RES_CASES + REVIEW_CASES:
         evidence = [finish_record(name, dict(e)) for e in evidence]
         req = VerificationRequest(
             artifact_id=name,
@@ -201,7 +220,7 @@ def main():
                             evidence=evidence, expected=d))
     example = dict(artifact_id="agent-knowledge-signed", claimed_state="Verified Fact",
                    evidence=[finish_record("agent-knowledge-signed", ev(1,.87,"v1","agent-A",h="6f1ed002ab5595859014ebf0951522d9")),
-                             finish_record("agent-knowledge-signed", ev(2,.84,"v2","agent-B",h="a3c9e1f07b2d4458c6e9f1a2b3c4d5e6"))])
+                             finish_record("agent-knowledge-signed", ev(2,.84,"v2","agent-B",h="6f1ed002ab5595859014ebf0951522d9"))])
     (ROOT / "examples" / "artifact_signed.json").write_text(json.dumps(example, indent=2) + "\n", encoding="utf-8")
     (out / "vectors.json").write_text(json.dumps(vectors, indent=1, ensure_ascii=False, sort_keys=True), encoding="utf-8")
     (out / "bindings.json").write_text(json.dumps(load_bindings_from_dir(ROOT / "bindings"), indent=1, ensure_ascii=False, sort_keys=True, default=str), encoding="utf-8")

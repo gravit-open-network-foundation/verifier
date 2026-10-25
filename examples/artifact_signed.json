@@ -20,9 +20,9 @@
       "verifier_id": "v2",
       "timestamp": "2026-09-06T12:00:00Z",
       "provenance": "agent-B",
-      "integrity_hash": "a3c9e1f07b2d4458c6e9f1a2b3c4d5e6",
+      "integrity_hash": "6f1ed002ab5595859014ebf0951522d9",
       "key_id": "5360925ba455e21a",
-      "signature": "J6WjeVz4YtSFT9ETopEf/6KHqMS4hZN52ICviXz3LvocqPuh7Dkzd4GfhZtl30RffRL4dqDrjhd34Y3LRtdnBg=="
+      "signature": "otpjbCS4hESPV3FtJduEa/hXNjkRdwei3kBpA5vbx/YU0g2L6d9hyj2mk4Db6KxyWncAGKWRQVqZZMEIESn0CQ=="
     }
   ]
 }

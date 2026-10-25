@@ -135,7 +135,7 @@ print(decision.final_epistemic_state, decision.status)
   `evaluation_time` and `freshness_max_age_seconds` in the context; the
   right maximum age is domain-specific, so there is no built-in default.
 
-## Decision explanations (unreleased)
+## Decision explanations (since v0.7.0)
 
 `gravit-verify artifact.json … --explain` outputs the decision together with an explanation: whether
 the claim was **evaluated** or **not evaluable** (e.g. no registry), the **revision** of every rule
@@ -144,6 +144,16 @@ the operators involved and, for each, the evidence behind its registry entry or 
 "assumed, not evidenced". Two valid signatures are not proof of two independent organisations.
 The kernel's decisions and golden vectors are unchanged. Details and a worked example:
 [docs/decision-explanation.md](docs/decision-explanation.md), `examples/explained/`.
+
+## v0.7 changes (from an external review)
+
+An external reviewer replayed v0.6.0 at commit 41a22510 in Python and Rust and reported four points; all four were confirmed and fixed.
+
+- **One content per decision.** Records counted towards a *Verified Fact* must carry the same `integrity_hash`; otherwise `CANON-SIG-011` caps the state at *Probabilistic Assessment* and says why. Before, Records about different content could reach *Verified Fact* together (GEVP Safety Property 2 assumes one hash). `examples/artifact_signed.json` now uses one hash.
+- **Excluded Records never count.** With a registry, every rule (state gates, independence, freshness, provenance, signed result) counts only the admissible Records, as GEVP Section 6 says. Before, the first convergence check still saw excluded Records, so one unsigned Record could block a *Verified Fact*.
+- **`decision_id` uses RFC 8785 (JCS).** Keys sorted by UTF-16 code units, numbers formatted as ECMAScript does (`1` not `1.0`, `1e-7` not `1e-07`). An independent implementation can now reproduce every id with any JCS library. All ids change.
+- **`theta` is never coerced.** A `theta` that is not a finite JSON number (for example the string `"0.85"` or `true`) makes the Record malformed: excluded with that reason, in Python and Rust alike, with or without a registry. The CLI no longer converts strings to numbers.
+- 54 golden vectors (7 new). Outcomes of the 47 earlier vectors are unchanged except `not_high_impact_missing_hash_ok` (two different hashes, now *Probabilistic Assessment*); 6 signed-evidence vectors keep their outcome with a shorter reason, because the excluded Record no longer reaches the convergence check.
 
 ## v0.6 additions
 

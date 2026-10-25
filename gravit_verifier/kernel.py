@@ -43,8 +43,10 @@ Pipeline:
 
 from __future__ import annotations
 
+import decimal
 import hashlib
 import json
+import math
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
@@ -181,9 +183,72 @@ class DecisionRecord:
 
 
 def canonical_json(value: Any) -> str:
-    """Sorted keys, no whitespace, UTF-8 kept as is. The Rust port produces
-    the same bytes (serde_json, sorted map); see CONFORMANCE.md for limits."""
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    """JSON Canonicalization Scheme, RFC 8785: keys sorted by UTF-16 code
+    units, no whitespace, numbers as ECMAScript formats them, strings with
+    the minimal JSON escapes. The Rust port implements the same rules."""
+    if value is None:
+        return "null"
+    if value is True:
+        return "true"
+    if value is False:
+        return "false"
+    if isinstance(value, (int, float)):
+        return _jcs_number(value)
+    if isinstance(value, str):
+        return json.dumps(value, ensure_ascii=False)
+    if isinstance(value, (list, tuple)):
+        return "[" + ",".join(canonical_json(v) for v in value) + "]"
+    if isinstance(value, dict):
+        keys = sorted(value, key=lambda k: k.encode("utf-16-be"))
+        return "{" + ",".join(json.dumps(k, ensure_ascii=False) + ":" + canonical_json(value[k]) for k in keys) + "}"
+    raise TypeError(f"not JSON: {type(value).__name__}")
+
+
+def _jcs_number(x: Any) -> str:
+    """ECMAScript Number::toString (RFC 8785, Section 3.2.2.3)."""
+    if isinstance(x, float) and not math.isfinite(x):
+        raise ValueError("NaN and Infinity are not JSON")
+    if x == 0:
+        return "0"
+    if isinstance(x, int):
+        if abs(x) > 2**53:
+            raise ValueError("integer outside the IEEE 754 exact range")
+        return str(x)
+    sign = "-" if x < 0 else ""
+    _, digit_tuple, exp = decimal.Decimal(repr(abs(x))).as_tuple()
+    digits = "".join(map(str, digit_tuple)).rstrip("0")
+    exp += len("".join(map(str, digit_tuple))) - len(digits)
+    k = len(digits)
+    n = k + exp  # value = 0.<digits> * 10**n
+    if k <= n <= 21:
+        return sign + digits + "0" * (n - k)
+    if 0 < n <= 21:
+        return sign + digits[:n] + "." + digits[n:]
+    if -6 < n <= 0:
+        return sign + "0." + "0" * (-n) + digits
+    e = n - 1
+    mantissa = digits if k == 1 else digits[0] + "." + digits[1:]
+    return sign + mantissa + "e" + ("+" if e > 0 else "-") + str(abs(e))
+
+
+def theta_is_well_formed(theta: Any) -> bool:
+    """theta must be a finite JSON number; strings and booleans are never coerced."""
+    return not isinstance(theta, bool) and isinstance(theta, (int, float)) and math.isfinite(theta)
+
+
+def counted_evidence(
+    evidence: List["EvidenceRecord"],
+    screening: Optional[Tuple[List[Tuple["EvidenceRecord", str]], List[Dict[str, str]]]],
+) -> Tuple[List["EvidenceRecord"], List[Dict[str, str]]]:
+    """The Records every rule counts, and the excluded ones with reasons.
+    With a registry, only admissible Records count (GEVP Section 6);
+    without one, every Record with a well-formed theta counts."""
+    if screening is not None:
+        return [e for e, _ in screening[0]], screening[1]
+    counted = [e for e in evidence if theta_is_well_formed(e.theta)]
+    excluded = [{"record_id": e.record_id, "reason": "malformed"}
+                for e in evidence if not theta_is_well_formed(e.theta)]
+    return counted, excluded
 
 
 # ---------------------------------------------------------------------------
@@ -396,26 +461,27 @@ class ConstraintEvaluator:
         screening: Optional[Tuple[List[Tuple[EvidenceRecord, str]], List[Dict[str, str]]]] = None,
     ) -> Dict[str, Any]:
         rid = binding["requirement_id"]
+        counted, _ = counted_evidence(request.evidence, screening)
 
         if rid == "CANON-IND-004":
-            independent = GEVPEvaluator.independent_subset(request.evidence)
+            independent = GEVPEvaluator.independent_subset(counted)
             ok = len(independent) >= 2 if achieved_state == EpistemicState.VERIFIED_FACT else True
             return {"ok": ok, "reason": "" if ok else "records not independently produced"}
 
         if rid == "CANON-FRS-005":
-            return freshness_check(request.evidence, request.context)
+            return freshness_check(counted, request.context)
 
         if rid == "CANON-PRV-006":
             if not request.context.get("high_impact"):
                 return {"ok": True, "reason": ""}  # binding not applicable
-            ok = all(e.integrity_hash and e.provenance for e in request.evidence)
+            ok = all(e.integrity_hash and e.provenance for e in counted)
             return {"ok": ok, "reason": "" if ok else "high-impact decision lacks strong provenance binding"}
 
         if rid == "CANON-SIG-011":
             return self._signed_evidence(achieved_state, screening)
 
         if rid == "CANON-RES-012":
-            return self._signed_result(achieved_state, request, screening)
+            return self._signed_result(achieved_state, counted, screening)
 
         if rid == "CANON-NSD-007":
             # Meta-rule about re-verification over time; not evaluable
@@ -451,6 +517,15 @@ class ConstraintEvaluator:
             "admissible_records": len(records),
             "independent_sources": len(sources),
         }
+        hashes = sorted({e.integrity_hash for e in records})
+        metrics["integrity_hashes"] = len(hashes)
+        if len(hashes) > 1:
+            return {
+                "ok": False,
+                "cap": cap,
+                "reason": f"counted records refer to different content ({len(hashes)} distinct integrity_hash values)",
+                "metrics": metrics,
+            }
         ok = False
         if len(sources) >= 2:
             ok, metrics["h"], metrics["f"] = GEVPEvaluator.convergence(sources)
@@ -465,7 +540,7 @@ class ConstraintEvaluator:
     @staticmethod
     def _signed_result(
         achieved_state: Optional[EpistemicState],
-        request: VerificationRequest,
+        counted_records: List[EvidenceRecord],
         screening: Optional[Tuple[List[Tuple[EvidenceRecord, str]], List[Dict[str, str]]]],
     ) -> Dict[str, Any]:
         """CANON-RES-012: a Verified Fact needs 2 independent sources whose
@@ -478,7 +553,7 @@ class ConstraintEvaluator:
         if screening is not None:
             counted = [(e, op) for e, op in screening[0]]
         else:
-            counted = [(e, e.verifier_id) for e in request.evidence]
+            counted = [(e, e.verifier_id) for e in counted_records]
         supporting = [(e, op) for e, op in counted if e.result is True]
         contradicting = [e.record_id for e, _ in counted if e.result is False]
         no_verdict = [e.record_id for e, _ in counted if e.result is not True and e.result is not False]
@@ -652,12 +727,13 @@ class VerifierKernel:
         state_gates = [b for b in bindings if b.get("kind", "state_gate") == BindingKind.STATE_GATE.value]
         constraints = [b for b in bindings if b.get("kind") == BindingKind.CONSTRAINT.value]
 
+        counted, excluded = counted_evidence(request.evidence, screening)
         gevp_results: Dict[str, Dict[str, Any]] = {}
         classifications: Dict[str, Optional[EpistemicState]] = {}
 
         for b in state_gates:
             rid = b["requirement_id"]
-            result = self.gevp.evaluate(b, request.evidence)
+            result = self.gevp.evaluate(b, counted)
             gevp_results[rid] = result
             classifications[rid] = self.veds.classify(b, result)
 
@@ -683,7 +759,7 @@ class VerifierKernel:
 
         return self.composer.compose(
             state_gates, constraints, request, gevp_results, classifications, constraint_results,
-            excluded_evidence=screening[1] if screening else [],
+            excluded_evidence=excluded,
             registry_digest=self.verifier_registry.digest if self.verifier_registry else None,
             trust_root_digest=self.verifier_registry.trust_root_digest if self.verifier_registry else None,
         )

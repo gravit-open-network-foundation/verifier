@@ -7,6 +7,7 @@ Fourth pass (v0.4.0, signed evidence): 2026-10-06, same machine, plus `cryptogra
 Fifth pass (v0.5.0, registry root signatures): 2026-10-06, same machine.
 Seventh pass (v0.7.0, external review fixes): 2026-10-25, macOS, Python 3.9 venv + pytest, stable Rust; 50/50 pytest, 54/54 golden vectors in Python and Rust, RFC 8785 number formatting checked against reference values in both.
 Eighth pass (known-limit vectors): 2026-11-02, macOS, Python 3.9 + pytest, stable Rust; 49 passed + 1 skipped pytest, 56/56 golden vectors in Python and Rust.
+Ninth pass (differential run, coverage vectors): 2026-11-05, Debian 12 server (2 vCPU, 4 GB), Python 3.11.2 with `pip install -e .`, rustc 1.99.1; 50/50 pytest, 56/56 golden vectors in Python and Rust, then 1,000,000 mutated inputs through both kernels with no difference; 4 vectors added for outcome classes the suite never reached (60/60 in Python and Rust, macOS, same day).
 CI (`.github/workflows/ci.yml`) repeats these checks on Python 3.10–3.12 and stable Rust.
 
 ## 1. Verified by execution
@@ -16,23 +17,25 @@ CI (`.github/workflows/ci.yml`) repeats these checks on Python 3.10–3.12 and s
 | 8 Bindings load; 3 `state_gate` + 5 `constraint` | ran loader + tests | pass |
 | Existing test suite, incl. JSON-Schema validation of all Bindings | `pytest` with `jsonschema` installed (second pass) | 34/34 pass (fifth pass) |
 | Freshness Bound policy: boundary age passes, 1 s too old / 1 s in the future / wrong format / impossible date / incomplete policy all demote; leap day handled | 7 golden vectors `fresh_age_equals_bound_passes` … `freshness_policy_incomplete_demotes`; Python parser cross-checked against `datetime` on 200,000 random timestamps (0 mismatches); Rust parser tested on boundary values | as claimed |
-| `decision_id` reproducible and identical in Python and Rust | golden vectors now include `decision_id`; all 56 distinct ids reproduced by both | as claimed |
+| `decision_id` reproducible and identical in Python and Rust | golden vectors now include `decision_id`; all 60 distinct ids reproduced by both | as claimed |
 | Anti-laundering: weak aggregation claiming *Verified Fact* → *Probabilistic Assessment*, `DEGRADED` | CLI on `examples/artifact_weak_aggregation.json` | as claimed |
 | Genuine convergence (2 signed records from independent operators, θ≥0.7) → *Verified Fact*, `SUCCESS` | CLI on `examples/artifact_signed.json --registry tests/golden/registry.json` | as claimed |
 | Same artifact without a registry → *Probabilistic Assessment*, `DEGRADED` | CLI on `examples/artifact_signed.json` | as claimed |
 | Records with no signature, unknown or revoked key, bad signature (tampered θ, replay from another artifact), or malformed θ are excluded with that reason and do not reject the artifact | golden vectors `unsigned_record_excluded` … `one_bad_record_others_converge` | as claimed |
-| Golden vectors: 56 cases incl. threshold boundaries, empty evidence, duplicates, shared verifier/provenance, high-impact, signed evidence, freshness, signed result, one content hash, excluded Records, malformed theta, the provenance-relay known limit | `tools/make_golden.py` → `tools/verify_golden.py` | 56/56 reproduce; regenerating gives byte-identical files |
-| Rust port (`rust/`) reproduces every golden vector | `cd rust && cargo test` (second pass) | builds with `-D warnings`; 56/56 vectors match |
+| Golden vectors: 60 cases incl. every outcome class seen in the differential run (Speculative Claim and VALIDATED, claimed and unclaimed, since 2026-11-05), threshold boundaries, empty evidence, duplicates, shared verifier/provenance, high-impact, signed evidence, freshness, signed result, one content hash, excluded Records, malformed theta, the provenance-relay known limit | `tools/make_golden.py` → `tools/verify_golden.py` | 56/56 reproduce; regenerating gives byte-identical files |
+| Rust port (`rust/`) reproduces every golden vector | `cd rust && cargo test` (second pass) | builds with `-D warnings`; 60/60 vectors match |
 | Rust golden test is not vacuous | changed one `expected` field in a copy of `vectors.json`, reran `cargo test` | fails with `1 vector(s) differ`, as it should |
 | Registry accepted only with ≥ threshold distinct valid root signatures; a changed registry, too few signatures, one key repeated, signatures from unknown keys, and a non-majority threshold are all rejected | pytest `test_registry.py` + Rust `golden.rs` (same rules on both sides); CLI with 2 of 5 signatures exits 2 | as claimed |
 | Rust really verifies signatures | in a copy, undid the θ tampering of `tampered_theta_bad_signature` (signature valid again), reran `cargo test` | fails with `1 vector(s) differ`, as it should |
+| Rust port agrees with Python beyond the golden vectors | `tools/difftest.py` (ninth pass): 100 seeds × 10,000 inputs, each one of the golden vectors with 1 to 4 random mutations (θ incl. 0.7/0.3 and their nearest floats, result, verifier and provenance incl. unknown ones, malformed and impossible timestamps, one changed base64 character in a signature, integrity hash, records duplicated, dropped or reordered, claimed state, context, registry on/off); full DecisionRecords compared as JSON, `decision_id` included | 1,000,000 of 1,000,000 identical; no Python exception, no Rust panic; Python 857.7 s, Rust 304.1 s |
+| Differential run is not vacuous | in a copy, Rust `theta >= 0.7` changed to `theta > 0.7`, 2,000 inputs | 94 different DecisionRecords reported, as it should |
+| `pip install -e .` on Python ≥ 3.10 | ninth pass, Python 3.11.2 on Debian 12 | installs; tests pass |
 
 ## 2. NOT verified
 
-- **Rust port beyond the golden vectors** — conformance means only "reproduces these 56 cases". Inputs outside them are untested; see the known divergence noted in `rust/src/lib.rs`.
+- **Rust port far from the golden vectors** — the golden vectors pin 60 cases, and the differential run found no difference on 1,000,000 mutated inputs. But every mutation starts from a golden vector and keeps field types, uses the fixed Bindings and the test registry, and stays small (a few Records). Other field types, large Record sets and other Bindings are untested; see the known divergence noted in `rust/src/lib.rs`.
 - **Ed25519 edge cases** — Python (OpenSSL via `cryptography`) and Rust (`ed25519-dalek` `verify`) agree on all vectors, but no vector covers adversarial encodings (small-order keys, non-canonical points). They may disagree there.
 - **Sybil resistance in practice** — the registry and trust root in this repository hold test keys only; real root keys are pending the ceremony in `docs/root-key-custody.md`, and `registry/POLICY.md` is a draft.
-- **`pip install -e .` and Python ≥ 3.10** — not run locally (only Python 3.9 available, network unavailable for build deps). CI is the first place this is exercised.
 - **Conformance to `draft-gravit-gevp` / `draft-gravit-verifiable-epistemic-decision`** — *no claim is made.* The Binding texts were not compared against the drafts in this check, so §5.2-style conformance statements cannot be made from this repository.
 
 ## 3. Observed properties of the reference kernel (from the golden vectors)
@@ -46,7 +49,8 @@ These are real behaviours, listed so nobody discovers them later and assumes the
 5. **Claiming less than the evidence supports yields `SUCCESS` with a higher final state** (`claims_lower_than_achieved`: claim *Speculative Claim*, result *Verified Fact*). Whether that is desired is a policy question.
 6. **`decision_id` is content-addressed** (since v0.5.0): the first 16 hex chars of SHA3-256 over the RFC 8785 (JCS) canonical JSON of all other fields, `artifact_id` included (since v0.7.0; before, sorted-key JSON without a full specification). Identical inputs give the identical record on any machine; Python and Rust agree on all 56 golden vectors. Both implement JCS number formatting themselves (`_jcs_number`, `jcs_number`) and are checked against the same reference values; the earlier float divergence below 1e-4 is gone.
 7. **`CANON-NSD-007` is informative only** (stateless kernel; no re-verification over time).
-8. **CLI exit codes** (since v0.5.0): `0` = `SUCCESS`, `3` = `DEGRADED`, `1` = `REJECTED`, `2` = usage or input error. Before v0.5.0 `DEGRADED` also exited `0`.
+8. **Without a claim, a demoted result is still `SUCCESS`** (`coverage_speculative_unclaimed_no_timestamp`, `coverage_validated_unclaimed`): `status` compares the result with the claim, so with no claim there is nothing to fall short of. The demotion shows in `final_epistemic_state` and `reason`.
+9. **CLI exit codes** (since v0.5.0): `0` = `SUCCESS`, `3` = `DEGRADED`, `1` = `REJECTED`, `2` = usage or input error. Before v0.5.0 `DEGRADED` also exited `0`.
 
 ## 4. What this repository is, and is not
 

@@ -198,6 +198,20 @@ KNOWN_LIMIT_CASES = [
     [ev(1,.9,"v1","A"), ev(2,.9,"v2","B")], True),
 ]
 
+# Outcome classes the cases above never reached (found by tools/difftest.py,
+# 5 Nov 2026): Speculative Claim and VALIDATED, claimed and unclaimed. Without
+# a registry; the record is still signed, the signature is simply not used.
+COVERAGE_CASES = [
+ ("coverage_speculative_unclaimed_no_timestamp", None, {},
+    [ev(1,.9,"v1","A",ts="")], False),
+ ("coverage_speculative_claimed_probabilistic", "Probabilistic Assessment", {},
+    [ev(1,.9,"v1","A",ts="")], False),
+ ("coverage_validated_two_demotions", "Verified Fact", {"high_impact": True},
+    [ev(1,.9,"v1","A",h="",ts="")], False),
+ ("coverage_validated_unclaimed", None, {"high_impact": True},
+    [ev(1,.9,"v1","A",h="",ts="")], False),
+]
+
 def build_kernel(registry=None):
     k = VerifierKernel(registry)
     for b in load_bindings_from_dir(ROOT / "bindings"):
@@ -214,7 +228,7 @@ def main():
     registry = VerifierRegistry.from_bytes(reg_bytes, reg_sigs, TrustRoot.from_bytes(root_bytes))
     kernels = {True: build_kernel(registry), False: build_kernel()}
     vectors = []
-    for name, claim, ctx, evidence, use_registry in [(*c, True) for c in CASES] + SIG_CASES + FRESH_CASES + RES_CASES + REVIEW_CASES + KNOWN_LIMIT_CASES:
+    for name, claim, ctx, evidence, use_registry in [(*c, True) for c in CASES] + SIG_CASES + FRESH_CASES + RES_CASES + REVIEW_CASES + KNOWN_LIMIT_CASES + COVERAGE_CASES:
         evidence = [finish_record(name, dict(e)) for e in evidence]
         req = VerificationRequest(
             artifact_id=name,

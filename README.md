@@ -81,6 +81,17 @@ pip install pytest jsonschema   # for the schema-validation test
 pytest -v
 ```
 
+### Differential run: Python against Rust
+
+`tools/difftest.py` takes the golden vectors, applies 1 to 4 random mutations to each case, runs every case through the Python kernel and the Rust port and compares the full DecisionRecords, `decision_id` included. Deterministic for a given seed.
+
+```bash
+(cd rust && cargo build --release --example replay)
+python tools/difftest.py . 10000 1001 /tmp/difftest   # repo, cases, seed, output dir
+```
+
+On 5 Nov 2026, seeds 1001 to 1100 (1,000,000 cases) gave 1,000,000 identical records; details and limits in `CONFORMANCE.md`.
+
 ## CLI
 
 ```bash
@@ -147,7 +158,7 @@ The kernel's decisions and golden vectors are unchanged. Details and a worked ex
 
 ## Known limit: relayed provenance
 
-Two golden vectors (56 in total) record a limit reported by James He on 30 Oct 2026. `provenance` is self-reported: an operator that relays another operator's evidence under its own provenance creates an apparent second root. Declared, the relay counts as one root (`relay_declared_one_root`); undeclared, it reaches *Verified Fact* (`relay_undeclared_known_limit`). The protocol cannot detect this; the kernel is unchanged and the vector keeps the limit visible. See GEVP Security Considerations (draft -12).
+Two golden vectors (60 in total) record a limit reported by James He on 30 Oct 2026. `provenance` is self-reported: an operator that relays another operator's evidence under its own provenance creates an apparent second root. Declared, the relay counts as one root (`relay_declared_one_root`); undeclared, it reaches *Verified Fact* (`relay_undeclared_known_limit`). The protocol cannot detect this; the kernel is unchanged and the vector keeps the limit visible. See GEVP Security Considerations (draft -12).
 
 ## v0.7 changes (from an external review)
 
